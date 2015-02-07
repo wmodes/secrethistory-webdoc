@@ -1,0 +1,10 @@
+*.jpg
+*.mp3
+*.mp4
+*.ogg
+*.ovg
+*.ogv
+*.webm
+killme*
+~*
+*.swp
