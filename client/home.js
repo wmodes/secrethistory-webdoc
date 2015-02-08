@@ -88,7 +88,7 @@ Meteor.startup(function () {
 
     // Fullscreen background image
     $(function() {
-        $('#content1').backstretch('/images/sharp-path10-shantboat-windows.JPG');
+        $('#content1').backstretch('/images/p10-st-shantyboat-windows.jpg');
     });
 
     // Place image
@@ -133,11 +133,11 @@ Meteor.startup(function () {
         BV.init();
         BV.show([
             { type: "video/mp4",  
-                src: "background/p00-sunny-window-loop.mp4"},
+                src: "/video/p00-sunny-window-loop.mp4"},
             { type: "video/webm", 
-                src: "background/p00-sunny-window-loop.webm"},
+                src: "/video/p00-sunny-window-loop.webm"},
             { type: "video/ogg",  
-                src: "background/p00-sunny-window-loop.ogv"}
+                src: "/video/p00-sunny-window-loop.ogv"}
         ]);
         BV.getPlayer().pause();
     });
@@ -173,7 +173,7 @@ Meteor.startup(function () {
 
     // Fullscreen background image
     $(function() {
-        $('#content3').backstretch('/images/sharp-path10-shantboat-library.JPG');
+        $('#content3').backstretch('/images/p10-st-shantyboat-library.jpg');
     });
 
     // Section 4
@@ -191,7 +191,7 @@ Meteor.startup(function () {
 
     // Fullscreen background image
     $(function() {
-        $('#content4').backstretch('/images/sharp-path10-shantboat-table.JPG');
+        $('#content4').backstretch('/images/p10-st-shantyboat-table.jpg');
     });
 
     // Background audio player
@@ -311,7 +311,7 @@ Meteor.startup(function () {
 
     // Fullscreen background image
     $(function() {
-        $('#content5').backstretch('/images/sharp-path10-shantboat-galley.JPG');
+        $('#content5').backstretch('/images/p10-st-shantyboat-galley.jpg');
     });
 
 });
