@@ -16,3 +16,6 @@ mrt:modernizr-meteor
 mrt:jquery-imagesloaded
 mrt:jquery-ui
 yong:meteor-videojs
+mrt:alpaca
+mrt:alpaca-bootstrap
+mrt:bootstrap-3
