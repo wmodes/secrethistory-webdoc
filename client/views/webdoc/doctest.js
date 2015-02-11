@@ -9,6 +9,9 @@ Template.doctest.rendered = function(){
     Meteor.startup(function () {
     //$(document).ready(function(){
 
+        // Remove scrollbar
+        $("body").css("overflow-y", "hidden");
+
         var winWidth;
         var winHeight;
         var winUnit;
@@ -22,7 +25,7 @@ Template.doctest.rendered = function(){
 
         // Table-based horizontal scrolling
         $(function(){
-            $("#wrap-outer").wrapInner("<table cellspacing='30'><tr>");
+            $("#inner-wrapper").wrapInner("<table cellspacing='30'><tr>");
             $(".section").wrap("<td>");
         });
 

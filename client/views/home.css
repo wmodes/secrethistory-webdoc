@@ -1,33 +1,8 @@
 /* CSS declarations go here */
-/* CSS declarations go here */
 body {
-  font-family: sans-serif;
-
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  padding: 0;
-  margin: 0;
-
-  font-size: 14px;
 }
 
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  min-height: 100%;
-  background: white;
-}
-
-header {
-  /*background: #d2edf4;
-  background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);*/
-  border: solid 1px #000;
-  padding: 20px 15px 15px 15px;
-  position: relative;
+canvas {
 }
 
 #login-buttons {
@@ -108,8 +83,6 @@ header .hide-completed {
 .toggle-private {
   margin-left: 5px;
 }
-
-
 
 @media (max-width: 600px) {
   li {

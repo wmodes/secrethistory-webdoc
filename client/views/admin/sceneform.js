@@ -1,4 +1,5 @@
-Meteor.startup(function () {
+
+Template.sceneform.rendered = function(){
 
     $("#form1").alpaca({
         "schema": 
@@ -395,4 +396,4 @@ Meteor.startup(function () {
 
     });
 
-});
+};
