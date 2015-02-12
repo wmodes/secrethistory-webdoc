@@ -1,6 +1,6 @@
 # SecretHistory
 
-_An Anthro-Historical Artist’s Journey Through the History of a River
+*An Anthro-Historical Artist’s Journey Through the History of a River*
 
 ### Introduction
 
@@ -12,7 +12,7 @@ This is the source for the ongoing development of the interactive web documentar
 
 ### Installation
 
-Without the video, image, and audio assets and data collections, the code won't do you a lot of good.
+Without the video, image, and audio assets and data collections, the code won't do you a lot of good, but perhaps the code will be useful to you.
 
 ### Technology
 
