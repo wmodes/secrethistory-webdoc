@@ -1,8 +1,4 @@
 
-Template.sceneform.rendered = function(){
-
-    $("#form1").alpaca({
-
         "schema": {
             "id": "secrethistory/scene",
             "type": "object",
@@ -390,27 +386,3 @@ Template.sceneform.rendered = function(){
             }
         },
 
-        // alpaca options
-        "options": {
-          "renderForm":true,
-          "form":{
-            "attributes":{
-              "action":"#",
-              "method":"post"
-            },
-            "buttons":{
-              "submit":{
-                "click": function() {
-                  //if (this.isValid(true)) {
-                      //var value = this.getValue();
-                      //alert(JSON.stringify(value, null, "  "));
-                  //}
-                }
-              }
-            }
-          },
-        },
-        "view" : "VIEW_BOOTSTRAP_EDIT_LIST"
-    });
-
-};
