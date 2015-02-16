@@ -19,3 +19,4 @@ yong:meteor-videojs
 mrt:bootstrap-3
 iron:router
 aldeed:autoform
+aldeed:collection2
