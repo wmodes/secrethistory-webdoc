@@ -117,7 +117,7 @@ Template.doctest.rendered = function(){
           .addTo(controller)
           .addIndicators({suffix: '2a'});
 
-        // Fullscreen background video
+        // Fullscreen background video (loop)
         var BV = new $.BigVideo();
         $(function() {
             isTouch = Modernizr.touch;
@@ -145,7 +145,7 @@ Template.doctest.rendered = function(){
             BV.getPlayer().pause();
         });
 
-        // Trigger background video start and end
+        // Trigger background video start and end (loop default)
         var scene = new ScrollScene({
             offset: -winUnit/2,
             triggerElement: "#content2",
