@@ -1,33 +1,71 @@
 
 Template.sceneform.rendered = function(){
 
-Books = new Mongo.Collection("books");
-Books.attachSchema(new SimpleSchema({
-  title: {
-    type: String,
-    label: "Title",
-    max: 200
-  },
-  author: {
-    type: String,
-    label: "Author"
-  },
-  copies: {
-    type: Number,
-    label: "Number of copies",
-    min: 0
-  },
-  lastCheckedOut: {
-    type: Date,
-    label: "Last date this book was checked out",
-    optional: true
-  },
-  summary: {
-    type: String,
-    label: "Brief summary",
-    optional: true,
-    max: 1000
-  }
-}));
+            //$(document).ready(function() {
+
+                $("#form1").alpaca({
+
+                    "data": {
+                        "name": "Diego Maradona",
+                        "feedback": "Very impressive.",
+                        "ranking": "excellent"
+                    },
+                    "schema": {
+                        "title":"User Feedback",
+                        "description":"What do you think about Alpaca?",
+                        "type":"object",
+                        "properties": {
+                            "name": {
+                                "type":"string",
+                                "title":"Name",
+                                "required":true
+                            },
+                            "feedback": {
+                                "type":"string",
+                                "title":"Feedback"
+                            },
+                            "ranking": {
+                                "type":"string",
+                                "title":"Ranking",
+                                "enum":['excellent','ok','so so'],
+                                "required":true
+                            }
+                        }
+                    },
+                    "options": {
+                        "form":{
+                            "attributes":{
+                                "action":"http://httpbin.org/post",
+                                "method":"post"
+                            },
+                            "buttons":{
+                                "submit":{}
+                            }
+                        },
+                        "helper": "Tell us what you think about Alpaca!",
+                        "fields": {
+                            "name": {
+                                "size": 20,
+                                "helper": "Please enter your name."
+                            },
+                            "feedback" : {
+                                "type": "textarea",
+                                "name": "your_feedback",
+                                "rows": 5,
+                                "cols": 40,
+                                "helper": "Please enter your feedback."
+                            },
+                            "ranking": {
+                                "type": "select",
+                                "helper": "Select your ranking.",
+                                "optionLabels": ["Awesome!",
+                                    "It's Ok",
+                                    "Hmm..."]
+                            }
+                        }
+                    },
+                    "view" : "bootstrap-edit"
+                });
+            //});
 
 };
