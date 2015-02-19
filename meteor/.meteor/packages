@@ -20,3 +20,6 @@ mrt:bootstrap-3
 iron:router
 aldeed:autoform
 aldeed:collection2
+meteor-jsonform
+underscore
+andruschka:jquery-ui-sortable
