@@ -1,7 +1,7 @@
 
-Template.sceneform.created = function(){
+Template.chapterform.created = function(){
 
-    SceneCollection.attachSchema(new SimpleSchema({ 
+    ChapterCollection.attachSchema(new SimpleSchema({ 
         title: {
             type: String,
             label: "Title",
