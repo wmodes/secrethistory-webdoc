@@ -11,4 +11,4 @@ killme*
 ~*
 *.swp
 .demeteorized
-meteor/packages
+meteor/packages/*
