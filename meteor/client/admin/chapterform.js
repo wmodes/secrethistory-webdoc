@@ -2,7 +2,7 @@
 Template.chapterform.rendered = function(){
 
   // set global default options
-  JSONEditor.defaults.options.theme = 'bootstrap3';
+  //JSONEditor.defaults.options.theme = 'bootstrap3';
 
   // initialize
   var element = document.getElementById('#chapterform');
