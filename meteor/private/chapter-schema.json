@@ -1,11 +1,30 @@
 {
-    "schema": {
+    "schema": 
+
+    {
         "id": "chapter",
         "type": "object",
         "title": "Chapter",
         "description": "This is an individual chapter",
         "name": "chapter",
         "properties": {
+            "pathNumber": {
+                "id": "pathNumber",
+                "type": "integer",
+                "minimum": 0,
+                "title": "Path Number",
+                "description": "Unique path id number",
+                "name": "path Number",
+                "default": 0
+            },
+            "pathName": {
+                "id": "pathName",
+                "type": "string",
+                "minLength": 0,
+                "title": "Path Name",
+                "description": "Name for this path",
+                "name": "path Name"
+            },
             "chapterNumber": {
                 "id": "chapterNumber",
                 "type": "integer",
@@ -86,28 +105,6 @@
                                         "name": "shot Number",
                                         "default": 0
                                     },
-                                    "shotName": {
-                                        "id": "shotName",
-                                        "type": "string",
-                                        "minLength": 0,
-                                        "title": "Shot Name",
-                                        "description": "Unique shot name",
-                                        "name": "shot Name",
-                                        "default": ""
-                                    },
-                                    "shotType": {
-                                        "id": "shotType",
-                                        "type": "string",
-                                        "minLength": 0,
-                                        "title": "Shot Type",
-                                        "description": "What type of visual element is this? [still, video, html]",
-                                        "enum": [
-                                            "",
-                                            "still",
-                                            "video"
-                                        ],
-                                        "name": "shot Type"
-                                    },
                                     "shotContent": {
                                         "id": "shotContent",
                                         "type": "string",
@@ -116,6 +113,47 @@
                                         "description": "Filename of shot",
                                         "name": "Shot Content"
                                     },
+                                    "shotType": {
+                                        "id": "shotType",
+                                        "type": "string",
+                                        "minLength": 0,
+                                        "title": "Shot Type",
+                                        "description": "What type of visual element is this? [still, video]",
+                                        "enum": [
+                                            "still",
+                                            "video"
+                                        ],
+                                        "name": "shot Type"
+                                    },
+                                    "videoLoop": {
+                                        "id": "videoLoop",
+                                        "type": "string",
+                                        "minLength": 0,
+                                        "title": "Loop (Video Only)",
+                                        "description": "Loop or played once?",
+                                        "name": "Video Loop",
+                                        "enum": [
+                                            "once",
+                                            "loop"
+                                        ]
+                                    },
+                                    "startTrigger": {
+                                        "id": "startTrigger",
+                                        "type": "number",
+                                        "title": "Start Trigger (Video Only)",
+                                        "description": "Relative to start of shot (winUnits. 0=start, 0.5=half. Can be negative)",
+                                        "name": "start Trigger",
+                                        "default": 0
+                                    },
+                                    "duration": {
+                                        "id": "duration",
+                                        "type": "number",
+                                        "title": "Duration (Video Only)",
+                                        "description": "Duration of shot (winUnits. 0.5=half, 2=two screens)",
+                                        "name": "Duration",
+                                        "minimum": 0,
+                                        "default": 1
+                                    },
                                     "transitionType": {
                                         "id": "transitionType",
                                         "type": "string",
@@ -123,11 +161,10 @@
                                         "title": "Transition Type",
                                         "description": "What type of transition is this? [cut, fade, flare, push, wipe, cut, pan, split, focus, animate",
                                         "enum": [
-                                            "",
+                                            "push",
                                             "cut",
                                             "fade",
                                             "flare",
-                                            "push",
                                             "wipe",
                                             "cut",
                                             "pan",
@@ -151,31 +188,23 @@
                                             "description": "An individual audio element for this chapter.",
                                             "name": "0",
                                             "properties": {
-                                                "elementName": {
-                                                    "id": "elementName",
+                                                "audioContent": {
+                                                    "id": "audioContent",
                                                     "type": "string",
-                                                    "title": "Element Name",
-                                                    "description": "Unique name of this audio file",
-                                                    "name": "element Name"
-                                                },
-                                                "content": {
-                                                    "id": "content",
-                                                    "type": "string",
-                                                    "title": "Content",
+                                                    "title": "Audio Content",
                                                     "description": "Filename of audio file",
-                                                    "name": "content"
+                                                    "name": "audio Content"
                                                 },
-                                                "elementType": {
-                                                    "id": "elementType",
+                                                "audioType": {
+                                                    "id": "audioType",
                                                     "type": "string",
                                                     "minLength": 0,
-                                                    "title": "Element Type",
+                                                    "title": "Audio Type",
                                                     "description": "Loop or played once?",
-                                                    "name": "element Type",
+                                                    "name": "audio Type",
                                                     "enum": [
-                                                        "",
-                                                        "loop",
-                                                        "once"
+                                                        "once",
+                                                        "loop"
                                                     ]
                                                 },
                                                 "startTrigger": {
@@ -183,15 +212,17 @@
                                                     "type": "number",
                                                     "title": "Start Trigger",
                                                     "description": "Relative to start of shot (winUnits. 0=start, 0.5=half. Can be negative)",
-                                                    "name": "start Trigger"
+                                                    "name": "start Trigger",
+                                                    "default": 0
                                                 },
                                                 "duration": {
                                                     "id": "duration",
                                                     "type": "number",
-                                                    "title": "End Trigger",
+                                                    "title": "Duration",
                                                     "description": "Duration of shot (winUnits. 0.5=half, 2=two screens)",
-                                                    "name": "end Trigger",
-                                                    "minimum": 0
+                                                    "name": "Duration",
+                                                    "minimum": 0,
+                                                    "default": 1
                                                 },
                                                 "volume": {
                                                     "id": "volume",
@@ -203,7 +234,14 @@
                                                     "name": "start Volume",
                                                     "default": 1
                                                 }
-                                            }
+                                            },
+                                            "required": [
+                                                "audioContent",
+                                                "audioType",
+                                                "startTrigger",
+                                                "duration",
+                                                "volume"
+                                            ]
                                         }
                                     },
                                     "visualElements": {
@@ -220,35 +258,41 @@
                                             "description": "An individual visual element that makes up the shot",
                                             "name": "0",
                                             "properties": {
-                                                "elementName": {
-                                                    "id": "elementName",
+                                                "visualContent": {
+                                                    "id": "visualContent",
                                                     "type": "string",
                                                     "minLength": 0,
-                                                    "title": "Element Name",
-                                                    "description": "Unique name for this element",
-                                                    "name": "element Name"
-                                                },
-                                                "elementContent": {
-                                                    "id": "elementContent",
-                                                    "type": "string",
-                                                    "minLength": 0,
-                                                    "title": "Element Content",
+                                                    "title": "Visual Content",
                                                     "description": "Filename or HTML",
-                                                    "name": "element Content"
+                                                    "name": "visual Content"
                                                 },
-                                                "elementType": {
-                                                    "id": "elementType",
+                                                "visualType": {
+                                                    "id": "visualType",
                                                     "type": "string",
                                                     "minLength": 0,
-                                                    "title": "Element Type",
-                                                    "description": "What type of visual element is this? [still, video, html]",
+                                                    "title": "Visual Type",
+                                                    "description": "What type of visual element is this? [still, html]",
                                                     "enum": [
-                                                        "",
                                                         "still",
-                                                        "video",
                                                         "html"
                                                     ],
                                                     "name": "element Type"
+                                                },
+                                                "zIndex": {
+                                                    "id": "zIndex",
+                                                    "type": "number",
+                                                    "title": "Z-Index",
+                                                    "description": "Depth level - pos numbers move forward, neg move back",
+                                                    "name": "Z-Index",
+                                                    "default": 0
+                                                },
+                                                "cssBase": {
+                                                    "id": "cssBase",
+                                                    "type": "string",
+                                                    "title": "css Base",
+                                                    "description": "Base css of element (for position, size, scale, opacity, etc.)",
+                                                    "name": "css Base",
+                                                    "default": ""
                                                 },
                                                 "transitions": {
                                                     "id": "transitions",
@@ -271,11 +315,10 @@
                                                                 "title": "Transition Type",
                                                                 "description": "What type of transition is this?",
                                                                 "enum": [
-                                                                    "",
+                                                                    "push",
                                                                     "cut",
                                                                     "fade",
                                                                     "flare",
-                                                                    "push",
                                                                     "wipe",
                                                                     "cut",
                                                                     "pan",
@@ -290,112 +333,74 @@
                                                                 "type": "number",
                                                                 "title": "Start Trigger",
                                                                 "description": "Relative to start of shot (winUnits. 0=start, 0.5=half. Can be negative)",
-                                                                "name": "start Trigger"
+                                                                "name": "start Trigger",
+                                                                "default": 0
                                                             },
                                                             "duration": {
                                                                 "id": "duration",
                                                                 "type": "number",
-                                                                "title": "End Trigger",
+                                                                "title": "Duration",
                                                                 "description": "Duration of transition (winUnits. 0.5=half, 2=two screens)",
-                                                                "name": "end Trigger",
-                                                                "minimum": 0
+                                                                "name": "Duration",
+                                                                "minimum": 0,
+                                                                "default": 1
                                                             },
-                                                            "startPosition": {
-                                                                "id": "startPosition",
+                                                            "cssStart": {
+                                                                "id": "cssStart",
                                                                 "type": "string",
-                                                                "minLength": 0,
-                                                                "title": "Start Position",
-                                                                "description": "Screen position at start of transition.",
-                                                                "name": "start Position",
-                                                                "default": "center"
+                                                                "title": "css Start",
+                                                                "description": "Start css of element (for position, size, scale, opacity, etc.)",
+                                                                "name": "css Start",
+                                                                "default": ""
                                                             },
-                                                            "endPosition": {
-                                                                "id": "endPosition",
+                                                            "cssEnd": {
+                                                                "id": "cssEnd",
                                                                 "type": "string",
-                                                                "minLength": 0,
-                                                                "title": "End Position",
-                                                                "description": "Screen position at end of transition.",
-                                                                "name": "end Position",
-                                                                "default": "center"
-                                                            },
-                                                            "startScale": {
-                                                                "id": "startScale",
-                                                                "type": "number",
-                                                                "maximum": 2,
-                                                                "minimum": 0,
-                                                                "title": "Start Scale",
-                                                                "description": "Scale as a fraction of native element size [0-2] (leave empty to disable this setting)",
-                                                                "name": "start Scale"
-                                                            },
-                                                            "endScale": {
-                                                                "id": "endScale",
-                                                                "type": "number",
-                                                                "maximum": 2,
-                                                                "minimum": 0,
-                                                                "title": "End Scale",
-                                                                "description": "Scale as a fraction of native element size [0-2] (leave empty to disable this setting)",
-                                                                "name": "end Scale"
-                                                            },
-                                                            "startWidth": {
-                                                                "id": "startWidth",
-                                                                "type": "number",
-                                                                "minimum": 0,
-                                                                "title": "Start Width",
-                                                                "description": "Width as a fraction of winUnits (leave empty to disable this setting)",
-                                                                "name": "start Width"
-                                                            },
-                                                            "startHeight": {
-                                                                "id": "startHeight",
-                                                                "type": "number",
-                                                                "minimum": 0,
-                                                                "title": "Start Height",
-                                                                "description": "Height as a fraction of winUnits (leave empty to disable this setting)",
-                                                                "name": "start Height"
-                                                            },
-                                                            "endWidth": {
-                                                                "id": "endWidth",
-                                                                "type": "number",
-                                                                "minimum": 0,
-                                                                "title": "End Width",
-                                                                "description": "Width as a fraction of winUnits (leave empty to disable this setting)",
-                                                                "name": "end Width"
-                                                            },
-                                                            "endHeight": {
-                                                                "id": "endHeight",
-                                                                "type": "number",
-                                                                "minimum": 0,
-                                                                "title": "End Height",
-                                                                "description": "Height as a fraction of winUnits (leave empty to disable this setting)",
-                                                                "name": "end Height"
-                                                            },
-                                                            "sticky": {
-                                                                "id": "sticky",
-                                                                "type": "boolean",
-                                                                "title": "Sticky",
-                                                                "description": "Pin element after this transition? (For 1st transition, Yes; for last transition, No)",
-                                                                "name": "sticky",
-                                                                "default": true
-                                                            },
-                                                            "release": {
-                                                                "id": "release",
-                                                                "type": "boolean",
-                                                                "title": "Release",
-                                                                "description": "Release element after this transition? (For 1st transition, No; for last transition, Yes)",
-                                                                "name": "release",
-                                                                "default": false
+                                                                "title": "css End",
+                                                                "description": "End css of element (for position, size, scale, opacity, etc.)",
+                                                                "name": "css End",
+                                                                "default": ""
                                                             }
-                                                        }
+
+                                                        },
+                                                        "required": [
+                                                            "transitionType",
+                                                            "startTrigger",
+                                                            "duration"
+                                                        ]
                                                     }
-                                                }
+                                                },
+                                                "required": [
+                                                    "visualContent",
+                                                    "visualType",
+                                                    "zIndex"
+                                                ]
                                             }
                                         }
                                     }
-                                }
+                                },
+                                "required": [
+                                    "shotNumber",
+                                    "shotContent",
+                                    "shotType",
+                                    "transitionType"
+                                ]
                             }
                         }
-                    }
+                    },
+                    "required": [
+                        "sceneNumber",
+                        "sceneName"
+                    ]
                 }
             }
-        }
+        },
+        "required": [
+            "pathNumber",
+            "pathName",
+            "chapterNumber",
+            "chapterName"
+        ]
     }
+
 }
