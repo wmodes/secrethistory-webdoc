@@ -370,7 +370,7 @@ Template.chapterform.rendered = function(){
                                 "description": "End css of element (for position, size, scale, opacity, etc.)",
                                 "name": "css End",
                               }
-                            }
+                            },
                             "required": [
                               "transitionType",
                               "startTrigger",
