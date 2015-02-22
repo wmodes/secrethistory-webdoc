@@ -1,8 +1,6 @@
-/* CSS declarations go here */
-/* It might be better to define this for body, and then force the body to a class in js */
+
 #doc-canvas {
-  width: 10000vw;
-  height: 100vw;
+  width: 100vw;
 
   position: absolute;
   top: 0;
@@ -19,6 +17,58 @@
   font-family: sans-serif;
   font-size: 14px;
 }
+
+#doc-canvas, #outer-wrapper, #inner-wrapper, #table-wrapper {
+  height: 100vh;
+}
+
+.shot, .content {
+    padding: 1px 1px 1px 1px;
+}
+.shot {
+    border: 1px dashed #cc6600;
+}
+.content {
+    border: 1px dashed #0099CC;
+}
+
+.full {
+  height: 100vh;
+  width: 100vw;
+}
+
+.doc tr {
+    vertical-align: top;
+}
+
+.doc .shot {
+    width: 100%;
+    float: left;
+    display: inline;
+}
+
+.doc .content {
+    color: black;
+    font-size: 14px;
+}
+
+/* big video */
+.doc #big-video-wrap {
+    position: relative !important;
+}
+
+/* audio player */
+.doc .audio {
+    width: 1px !important;
+    height: 1px !important;
+}
+.doc .offstage {
+    position: absolute;
+    top: -2000px;
+    visibility: hidden;
+}
+
+/* Scrollbar styling */
 
 ::-webkit-scrollbar {  
     width:8px;
@@ -38,47 +88,16 @@
     -webkit-border-radius:4px;
 }
 
-.testdoc tr {
-    vertical-align: top;
-}
-
-.testdoc .section {
-    width: 100%;
-    float: left;
-    display: inline;
-}
-
-.testdoc .content {
-    color: white;
-    font-size: 14px;
-}
-
-/* big video */
-.testdoc #big-video-wrap {
-    position: relative !important;
-}
-
-/* audio player */
-.testdoc .audio {
-    width: 1px !important;
-    height: 1px !important;
-}
-.testdoc .offstage {
-    position: absolute;
-    top: -2000px;
-    visibility: hidden;
-}
-
 /* ScrollMagic */
 
-.testdoc .ScrollSceneIndicators {
+.doc .ScrollSceneIndicators {
     z-index: 5 !important;
 }
 
 
 /* Stuff Specific to these test pages */
 
-.testdoc .shot {
+.doc .shot {
   top: 0;
   bottom: 0;
   left: 0;
@@ -95,18 +114,18 @@
   margin: 0;
 }
 
-.testdoc #section1 {
+.doc #section1 {
     background: #9a6642;
 }
-.testdoc #section2 {
+.doc #section2 {
     background: #734c31;
 }
-.testdoc #section3 {
+.doc #section3 {
     background: #ff0000;
 }
-.testdoc #section4 {
+.doc #section4 {
     background: #6e6e6e;
 }
-.testdoc #section5 {
+.doc #section5 {
     background: #6599bd;
 }
