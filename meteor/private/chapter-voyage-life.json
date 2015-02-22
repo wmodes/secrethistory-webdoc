@@ -14,14 +14,14 @@
           "shotType": "video",
           "sticky": true,
           "videoLoop": "loop",
-          "startTrigger": 0,
-          "duration": 1.5,
+          "startTrigger": -1,
+          "duration": 2,
           "transitionType": "push",
           "audioElements": [
             {
               "audioContent": "p10c20s10n05-wes-we-had-all-the-comforts.mp3",
               "audioType": "once",
-              "startTrigger": 0.5,
+              "startTrigger": 0,
               "duration": 8,
               "volume": 1
             },
@@ -42,7 +42,7 @@
               "transitions": [
                 {
                   "transitionType": "animate",
-                  "startTrigger": 0.5,
+                  "startTrigger": 0,
                   "duration": 1,
                   "cssStart": "left: 0.1vw; \nbottom: 0.1vh; \nopacity: 1;",
                   "cssEnd": "left: 0.1vw; \nbottom: -0.1vh; \nopacity: 0.25;"
@@ -178,29 +178,29 @@
             {
               "audioContent": "p10c20s20n05-bob-wills-stay-a-little-longer.mp3",
               "audioType": "loop",
-              "startTrigger": -2.5,
+              "startTrigger": -3,
               "duration": 4.5,
               "volume": 0.5
             },
             {
               "audioContent": "p10c20s20n05-radio-band-tuning.mp3",
               "audioType": "loop",
-              "startTrigger": -2.4,
+              "startTrigger": -2.9,
               "duration": 0.1,
               "volume": 0.5
             },
             {
               "audioContent": "p10c20s20n05-radio-band-tuning.mp3",
               "audioType": "loop",
-              "startTrigger": 2,
+              "startTrigger": 1.5,
               "duration": 0.1,
               "volume": 0.5
             },
             {
               "audioContent": "p10c20s20n05-wes-music-was-important.mp3",
               "audioType": "once",
-              "startTrigger": 0.5,
-              "duration": 1.5,
+              "startTrigger": 0,
+              "duration": 2,
               "volume": 1
             }
           ],
@@ -237,7 +237,7 @@
             {
               "audioContent": "p10c20s30n05-wes-we-had-safety-equipment.mp3",
               "audioType": "once",
-              "startTrigger": 0.5,
+              "startTrigger": 0,
               "duration": 5,
               "volume": 1
             }
@@ -340,14 +340,14 @@
           "shotType": "video",
           "sticky": true,
           "videoLoop": "loop",
-          "startTrigger": -1,
+          "startTrigger": -1.5,
           "duration": 2.5,
           "transitionType": "push",
           "audioElements": [
             {
               "audioContent": "p10c20s40n05-wes-we-ate-pretty-well.mp3",
               "audioType": "once",
-              "startTrigger": 0.5,
+              "startTrigger": 0,
               "duration": 2.5,
               "volume": 1
             }
@@ -402,15 +402,15 @@
           "shotType": "video",
           "sticky": true,
           "videoLoop": "loop",
-          "startTrigger": -0.5,
-          "duration": 1.5,
+          "startTrigger": -1,
+          "duration": 2,
           "transitionType": "push",
           "audioElements": [
             {
               "audioContent": "p10c20s50n05-daniella-wayfaring-stranger.mp3",
               "audioType": "loop",
-              "startTrigger": -0.5,
-              "duration": 1.5,
+              "startTrigger": -1,
+              "duration": 2,
               "volume": 1
             }
           ],

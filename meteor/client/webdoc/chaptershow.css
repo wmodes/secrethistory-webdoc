@@ -20,8 +20,10 @@
 
 #doc-canvas, #outer-wrapper, #inner-wrapper, #table-wrapper {
   height: 100vh;
+  background-color: black;
 }
 
+/* testing borders
 .shot, .content {
     padding: 1px 1px 1px 1px;
 }
@@ -31,6 +33,7 @@
 .content {
     border: 1px dashed #0099CC;
 }
+*/
 
 .full {
   height: 100vh;
@@ -48,7 +51,7 @@
 }
 
 .doc .content {
-    color: black;
+    color: white;
     font-size: 14px;
 }
 
@@ -73,23 +76,67 @@
 
 /* Scrollbar styling */
 
-#doc-canvas ::-webkit-scrollbar {  
-    width:8px;
-    height:8px;
-    -webkit-border-radius: 4px;
-}
-
-#doc-canvas ::-webkit-scrollbar-track,
-::-webkit-scrollbar-track-piece {
-    background-color:transparent;
-}
-
-#doc-canvas ::-webkit-scrollbar-thumb {  
-    background-color: rgba(053, 057, 071, 0.3);
+body ::-webkit-scrollbar,
+.fancyscroll ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
-    -webkit-border-radius:4px;
+    background-color: #333;
 }
+html ::-webkit-scrollbar-button:start:decrement,
+html ::-webkit-scrollbar-button:end:increment,
+.fancyscroll ::-webkit-scrollbar-button:start:decrement,
+.fancyscroll ::-webkit-scrollbar-button:end:increment {
+    display:block;
+    height:0;
+    background-color: transparent;
+}
+html ::-webkit-scrollbar-track-piece,
+.fancyscroll ::-webkit-scrollbar-track-piece {
+    -webkit-border-radius: 0;
+    -webkit-border-bottom-right-radius: 2px;
+    -webkit-border-bottom-left-radius: 2px;
+    background-color: transparent;
+}
+html ::-webkit-scrollbar-thumb:vertical,
+.fancyscroll ::-webkit-scrollbar-thumb:vertical { 
+    height: 10px;
+    background-color: #666;
+    -webkit-border-radius: 2px;
+}
+html ::-webkit-scrollbar-thumb:horizontal,
+.fancyscroll ::-webkit-scrollbar-thumb:horizontal {
+    /* width: 10px; */
+    background-color: #666;
+    -webkit-border-radius: 2px;
+}
+
+
+/*
+body.fancyscroll ::-webkit-scrollbar 
+{  
+    width: 10px;
+    height: 10px;
+    -webkit-border-radius: 4px;
+    z-index: 100;
+}
+
+body.fancyscroll ::-webkit-scrollbar-track,
+body.fancyscroll ::-webkit-scrollbar-track-piece 
+{
+    background-color: black;
+    z-index: 100;
+}
+
+body.fancyscroll ::-webkit-scrollbar-thumb 
+{  
+    //background-color: rgba(053, 057, 071, 0.3);
+    background-color: green;
+    width: 20px;
+    height: 8px;
+    -webkit-border-radius:4px;
+    z-index: 105;
+}
+*/
 
 /* ScrollMagic */
 

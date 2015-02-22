@@ -48,6 +48,11 @@ Template.chaptershow.rendered = function(){
 
     // Remove scrollbar
     $("body").css("overflow-y", "hidden");
+    $("body").css("overflow-x", "scroll");
+    //$('#'+docCanvasID).css("overflow-y", "hidden");
+    //$('#'+docCanvasID).css("overflow-x", "scroll");
+    $("html").addClass("fancyscroll");
+    $("body").addClass("fancyscroll");
 
     //Scroll page horizonally with mouse wheel
     $(function() {
@@ -247,9 +252,11 @@ Template.chaptershow.rendered = function(){
             triggerHook: 0,
             triggerElement: '#'+myContentID,
             // TODO: Use thisShot.startTrigger when it is adjusted correctly
-            offset: -vw,
+            //offset: -vw,
+            offset: thisShot.startTrigger * vw,
             // TODO: Use thisShot.duration when it is adjusted correctly
-            duration: vw * 2,
+            //duration: vw * 2,
+            duration: thisShot.duration * vw
             //pushFollowers: false,
         })
             .on("start end", function (e) {
