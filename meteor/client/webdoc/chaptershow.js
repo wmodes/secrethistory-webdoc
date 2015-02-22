@@ -58,6 +58,12 @@ Template.chaptershow.rendered = function(){
             event.preventDefault();
         });
     });
+    
+    // Initialize ScrollMagic Controller
+    controller = new ScrollMagic({
+        triggerHook: "onCenter",
+        vertical: false,
+    });
 
     // dynamic page sizing
     // TODO: Move into separate file?
@@ -73,22 +79,6 @@ Template.chaptershow.rendered = function(){
         winWidth = $(window).width();
         winHeight = $(window).height();
         winUnit = winWidth;
-    }
-
-    jQuery.fn.centerVert = function () {
-        this.css("position","absolute");
-        this.css("top", Math.max(0, (($(window).height() 
-            - $(this).outerHeight()) / 2) 
-            + $(window).scrollTop()) + "px");
-        return this;
-    }
-
-    jQuery.fn.centerHorz = function () {
-        this.css("position","absolute");
-        this.css("left", Math.max(0, (($(window).width() 
-            - $(this).outerWidth()) / 2) 
-            + $(window).scrollLeft()) + "px");
-        return this;
     }
 
 
@@ -136,90 +126,133 @@ Template.chaptershow.rendered = function(){
         }
         for (ishot = 0; ishot < shots.length; ishot++) { 
 
-            // HTML FRAMEWORK
-
             var thisShot = shots[ishot];
             var shotNumber = thisShot.shotNumber;
-            var IDnum = sceneNumber.toString()
+            var myIDnum = sceneNumber.toString()
                 +"-"+shotNumber.toString();
+            var myShotID = "shot-"+myIDnum;
+            var myContentID = "content-"+myIDnum;
 
+            // HTML FRAMEWORK
             // create the shot div
-            var myShotID = "shot-"+IDnum;
             var myShotWrapper=shotWrapper.replace("%id", myShotID);
             $('#'+innerWrapperID).append(myShotWrapper);
-
             // create the content div
-            var myContentID = "content-"+IDnum;
             var myContentWrapper=contentWrapper.replace("%id", myContentID);
             $('#'+myShotID).append(myContentWrapper);
-
             // set up for a really long horizontal table
             $('#'+myShotID).wrap(tdWrapper);
 
             // SIZING
+            var myWidth = setSizing(thisShot);
 
-            // TODO: Add db fields: advanced > height, width, and sticky length
-            // for now, we will assume that each shot fills the viewport
-            var contentHeight = "100vh"
-            var contentWidth = "100vw"
-            $('#'+myContentID).height(contentHeight);
-            $('#'+myContentID).width(contentWidth);
-            // if not sticky, shot and content are the same size
-            // if sticky, shot is longer than content
-            var shotHeight = "100vh"
-            $('#'+myShotID).height(shotHeight);
-            if (! thisShot.sticky) {
-                var myWidth = 100;
-            } else {
-                var myWidth = 100 * stickyLength;
+            // PINING
+            if (thisShot.sticky) {
+                pinShot(controller, thisShot, myWidth, myShotID, myIDnum);
             }
-            var shotWidth = myWidth.toString()+"vw"
-            $('#'+myShotID).width(shotWidth);
-            // Add width to total and resize entire doc-canvas
-            totalLength += myWidth;
-            $('#'+docCanvasID).width(totalLength.toString()+"vw");
 
             // CONTENT
 
             // just for kicks, we throw in a little content
-            var myContent = "<h1>Shot "+IDnum+"</h1>"
+            var myContent = "<h1>Shot "+myIDnum+"</h1>"
                 + "<p>Content: "+thisShot.shotContent+"</p>"
                 + "<p>Type: "+thisShot.shotType+"</p>"
                 + "<p>Sticky: "+thisShot.sticky+"</p>";
             $('#'+myContentID).append(myContent);
 
             if (thisShot.shotType == "still") {
-            // Fullscreen background images
-                $('#'+myContentID).backstretch(imageDir+thisShot.shotContent);
-                $('#'+myContentID).css("color", "white")
+                fullscreenImage(thisShot, myContentID);
             } else if (thisShot.shotType == "video") {
-
-                //var myBigVideo = new $.BigVideo();
-                var myVideoBase = thisShot.shotContent.replace(vidDefault, "");
-                // defaults are set above
-                myVideoSettings = $.extend({}, bigVideoDefaults, {
-                    container: $('#'+myContentID),
-                    doLoop: thisShot.videoLoop,
-                    id: "bigvideo-"+IDnum
-                });
-                var myBigVideo = new $.BigVideo(myVideoSettings);
-                myBigVideo.init();
-                console.log("Loading video: "+videoDir+myVideoBase+".mp4");
-                myBigVideo.show([
-                    { type: "video/mp4",  
-                        src: videoDir+myVideoBase+".mp4"},
-                    //{ type: "video/webm", 
-                        //src: videoDir+myVideoBase+".webm"},
-                    //{ type: "video/ogg",  
-                        //src: videoDir+myVideoBase+".ogv"}
-                ]);
-                myBigVideo.getPlayer().pause();
-
+                fullscreenVideo(thisShot, myContentID, myIDnum);
             }
-
-
         }
     }
 
+    function setSizing(thisShot) {
+        // TODO: Add db fields: advanced > height, width, and sticky length
+        // for now, we will assume that each shot fills the viewport
+        var contentHeight = "100vh"
+        var contentWidth = "100vw"
+        $('#'+myContentID).height(contentHeight);
+        $('#'+myContentID).width(contentWidth);
+        // if not sticky, shot and content are the same size
+        // if sticky, shot is longer than content
+        var shotHeight = "100vh"
+        $('#'+myShotID).height(shotHeight);
+        if (! thisShot.sticky) {
+            var myWidth = 100;
+        } else {
+            var myWidth = 100 * stickyLength;
+        }
+        var shotWidth = myWidth.toString()+"vw"
+        $('#'+myShotID).width(shotWidth);
+        // Add width to total and resize entire doc-canvas
+        totalLength += myWidth;
+        $('#'+docCanvasID).width(totalLength.toString()+"vw");
+        return(myWidth);
+    }
+
+    function pinShot(controller, myShot, myWidth, myShotID, myIDnum) {
+        // Pin section
+        // For the first section, we pin it shortly
+        var myScrollScene = new ScrollScene({
+            //TODO: Make this half the width (from db), not hardcoded
+            offset: winUnit/2,
+            //offset: "50vw",
+            triggerElement: '#'+myShotID,
+            //First shot needs to be pinned differently
+            //duration: winUnit,
+            //duration: myWidth.toString()+"vw",
+            duration: winUnit*(stickyLength-1),
+            //pushFollowers: false,
+        })
+            .setPin('#'+myShotID)
+            .addTo(controller)
+            .addIndicators({suffix: myIDnum});
+    }
+
+    function fullscreenImage(thisShot, myContentID) {
+        $('#'+myContentID).backstretch(imageDir+thisShot.shotContent);
+        //TODO:Next line is just a test
+        $('#'+myContentID).css("color", "white")
+    }
+
+    function fullscreenVideo(thisShot, myContentID, myIDnum) {
+        var myVideoBase = thisShot.shotContent.replace(vidDefault, "");
+        // defaults are set above
+        myVideoSettings = $.extend({}, bigVideoDefaults, {
+            container: $('#'+myContentID),
+            doLoop: thisShot.videoLoop,
+            id: "bigvideo-"+myIDnum
+        });
+        var myBigVideo = new $.BigVideo(myVideoSettings);
+        myBigVideo.init();
+        console.log("Loading video: "+videoDir+myVideoBase+".mp4");
+        myBigVideo.show([
+            { type: "video/mp4",  
+                src: videoDir+myVideoBase+".mp4"},
+            //{ type: "video/webm", 
+                //src: videoDir+myVideoBase+".webm"},
+            //{ type: "video/ogg",  
+                //src: videoDir+myVideoBase+".ogv"}
+        ]);
+        myBigVideo.getPlayer().pause();
+    }
+
+    jQuery.fn.centerVert = function () {
+        this.css("position","absolute");
+        this.css("top", Math.max(0, (($(window).height() 
+            - $(this).outerHeight()) / 2) 
+            + $(window).scrollTop()) + "px");
+        return this;
+    }
+
+    jQuery.fn.centerHorz = function () {
+        this.css("position","absolute");
+        this.css("left", Math.max(0, (($(window).width() 
+            - $(this).outerWidth()) / 2) 
+            + $(window).scrollLeft()) + "px");
+        return this;
+    }
 
 };
