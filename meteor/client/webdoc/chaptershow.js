@@ -23,9 +23,19 @@ shotWrapper = "<div id='%id' class='shot full'>";
 contentWrapper = "<div id='%id' class='content full'>";
 
 // file locations
-imageDir = "image/";
-videoDir = "video/";
-audioDir = "audio/";
+imageDir = "/images/";
+videoDir = "/video/";
+audioDir = "/audio/";
+
+// Some plugin defaults
+bigVideoDefaults = {
+    useFlashForFirefox:false,
+    forceAutoplay:false,
+    controls:false,
+    shrinkable:false,
+}
+vidDefault = ".mp4";
+videoHandles = {};
 
 Template.chaptershow.rendered = function(){
 
@@ -178,10 +188,33 @@ Template.chaptershow.rendered = function(){
                 + "<p>Sticky: "+thisShot.sticky+"</p>";
             $('#'+myContentID).append(myContent);
 
+            if (thisShot.shotType == "still") {
             // Fullscreen background images
-            if (thisShot.shotType == "image") {
                 $('#'+myContentID).backstretch(imageDir+thisShot.shotContent);
-                $('#'+myContentID).css({color: "white"})
+                $('#'+myContentID).css("color", "white")
+            } else if (thisShot.shotType == "video") {
+
+                //var myBigVideo = new $.BigVideo();
+                var myVideoBase = thisShot.shotContent.replace(vidDefault, "");
+                // defaults are set above
+                myVideoSettings = $.extend({}, bigVideoDefaults, {
+                    container: $('#'+myContentID),
+                    doLoop: thisShot.videoLoop,
+                    id: "bigvideo-"+IDnum
+                });
+                var myBigVideo = new $.BigVideo(myVideoSettings);
+                myBigVideo.init();
+                console.log("Loading video: "+videoDir+myVideoBase+".mp4");
+                myBigVideo.show([
+                    { type: "video/mp4",  
+                        src: videoDir+myVideoBase+".mp4"},
+                    //{ type: "video/webm", 
+                        //src: videoDir+myVideoBase+".webm"},
+                    //{ type: "video/ogg",  
+                        //src: videoDir+myVideoBase+".ogv"}
+                ]);
+                myBigVideo.getPlayer().pause();
+
             }
 
 
