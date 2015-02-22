@@ -10,6 +10,7 @@
 // TODO: Is there a better place to put these?
 debug = true;
 stickyLength = 0.5;
+mouseSpeed = 30;
 
 // ids and html for jquery insertions
 docCanvasID = "doc-canvas";
@@ -49,7 +50,6 @@ Template.chaptershow.rendered = function(){
     $("body").css("overflow-y", "hidden");
 
     //Scroll page horizonally with mouse wheel
-    mouseSpeed = 30;
     $(function() {
         $("body").mousewheel(function(event, delta) {
             this.scrollLeft -= (delta * mouseSpeed);
@@ -241,6 +241,27 @@ Template.chaptershow.rendered = function(){
                 //src: videoDir+myVideoBase+".ogv"}
         ]);
         myBigVideo.getPlayer().pause();
+
+        // Trigger background video start and end (loop default)
+        var myScrollScene = new ScrollScene({
+            triggerHook: 0,
+            triggerElement: '#'+myContentID,
+            // TODO: Use thisShot.startTrigger when it is adjusted correctly
+            offset: -vw,
+            // TODO: Use thisShot.duration when it is adjusted correctly
+            duration: vw * 2,
+            //pushFollowers: false,
+        })
+            .on("start end", function (e) {
+                myBigVideo.getPlayer().play()
+            })
+            .on("enter leave", function (e) {
+                myBigVideo.getPlayer().pause()
+            })
+            .addTo(controller);
+        if (debug) {
+            myScrollScene.addIndicators({suffix: myIDnum});
+        }
     }
 
     jQuery.fn.centerVert = function () {
