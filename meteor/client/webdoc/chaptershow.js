@@ -9,7 +9,7 @@
 // Useful constants 
 // TODO: Is there a better place to put these?
 debug = true;
-stickyLength = 2;
+stickyLength = 0.5;
 
 // ids and html for jquery insertions
 docCanvasID = "doc-canvas";
@@ -177,14 +177,20 @@ Template.chaptershow.rendered = function(){
         // if not sticky, shot and content are the same size
         // if sticky, shot is longer than content
         $('#'+myShotID).height(vh.toString()+vUnit);
+        // this is unnecessary since scrollMagic magically takes care of this
         if (! thisShot.sticky) {
             var myWidth = vw;
         } else {
-            var myWidth = vw * (stickyLength-1);
+            //var myWidth = vw * stickyLength;
+            var myWidth = vw;
         }
-        $('#'+myShotID).width(myWidth.toString()+vUnit);
+        //$('#'+myShotID).width(myWidth.toString()+vUnit);
+        $('#'+myShotID).width(vw.toString()+vUnit);
         // Add width to total and resize entire doc-canvas
-        totalLength += myWidth;
+        // Note: While ScrollMagic takes care of adding duration/stickyLength
+        // to the shot div, we need to add the stickyLength to the total
+        // doc-canvas or it will be too short and act weird
+        totalLength += myWidth * (stickyLength+1);
         $('#'+docCanvasID).width(totalLength.toString()+vUnit);
         return(myWidth);
     }
