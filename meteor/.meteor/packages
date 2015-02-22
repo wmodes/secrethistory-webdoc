@@ -15,7 +15,6 @@ mrt:gsap
 mrt:modernizr-meteor
 mrt:jquery-imagesloaded
 mrt:jquery-ui
-yong:meteor-videojs
 mrt:bootstrap-3
 iron:router
 aldeed:autoform
@@ -25,3 +24,4 @@ underscore
 andruschka:jquery-ui-sortable
 fortawesome:fontawesome
 cunneen:json-editor
+yong:meteor-videojs

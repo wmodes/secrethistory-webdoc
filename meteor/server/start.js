@@ -1,3 +1,7 @@
 Meteor.startup(function() {
-    console.log(JSON.parse(Assets.getText('test.json')));
+
+    //chapterFile = "chapter-voyage-life.json"
+    //Meteor.chapterData = JSON.parse(Assets.getText(chapterFile));
+    //console.log(Meteor.chapterData);
+
 });
