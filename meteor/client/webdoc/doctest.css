@@ -1,6 +1,6 @@
 /* CSS declarations go here */
 /* It might be better to define this for body, and then force the body to a class in js */
-#doc-canvas {
+#testdoc-canvas {
   width: 10000vw;
   height: 100vw;
 

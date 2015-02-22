@@ -35,16 +35,15 @@ bigVideoDefaults = {
     shrinkable:false,
 }
 vidDefault = ".mp4";
-videoHandles = {};
 
 Template.chaptershow.rendered = function(){
 
     // Some helpful things to keep track of
-    totalLength = 100;  // in vw's
-    shotLengths = {};
-    var winWidth;
-    var winHeight;
-    var winUnit;
+    var totalLength = 0;
+    var shotLengths = {};
+    var vw = 0;          // width of viewport
+    var vh = 0;          // height of viewport
+    var vUnit = "";
 
     // Remove scrollbar
     $("body").css("overflow-y", "hidden");
@@ -76,9 +75,9 @@ Template.chaptershow.rendered = function(){
 
     // Determining size of screen for fullscreen functions
     function setScreenSizes () {
-        winWidth = $(window).width();
-        winHeight = $(window).height();
-        winUnit = winWidth;
+        vw = $(window).width();
+        vh = $(window).height();
+        vUnit = "px";
     }
 
 
@@ -171,24 +170,22 @@ Template.chaptershow.rendered = function(){
     function setSizing(thisShot) {
         // TODO: Add db fields: advanced > height, width, and sticky length
         // for now, we will assume that each shot fills the viewport
-        var contentHeight = "100vh"
-        var contentWidth = "100vw"
-        $('#'+myContentID).height(contentHeight);
-        $('#'+myContentID).width(contentWidth);
+        //var contentHeight = "100vh"
+        //var contentWidth = "100vw"
+        $('#'+myContentID).width(vw.toString()+vUnit);
+        $('#'+myContentID).height(vh.toString()+vUnit);
         // if not sticky, shot and content are the same size
         // if sticky, shot is longer than content
-        var shotHeight = "100vh"
-        $('#'+myShotID).height(shotHeight);
+        $('#'+myShotID).height(vh.toString()+vUnit);
         if (! thisShot.sticky) {
-            var myWidth = 100;
+            var myWidth = vw;
         } else {
-            var myWidth = 100 * stickyLength;
+            var myWidth = vw * (stickyLength-1);
         }
-        var shotWidth = myWidth.toString()+"vw"
-        $('#'+myShotID).width(shotWidth);
+        $('#'+myShotID).width(myWidth.toString()+vUnit);
         // Add width to total and resize entire doc-canvas
         totalLength += myWidth;
-        $('#'+docCanvasID).width(totalLength.toString()+"vw");
+        $('#'+docCanvasID).width(totalLength.toString()+vUnit);
         return(myWidth);
     }
 
@@ -196,19 +193,20 @@ Template.chaptershow.rendered = function(){
         // Pin section
         // For the first section, we pin it shortly
         var myScrollScene = new ScrollScene({
-            //TODO: Make this half the width (from db), not hardcoded
-            offset: winUnit/2,
-            //offset: "50vw",
+            triggerHook: 0,
+            offset: 0,
             triggerElement: '#'+myShotID,
             //First shot needs to be pinned differently
-            //duration: winUnit,
+            //duration: vw,
             //duration: myWidth.toString()+"vw",
-            duration: winUnit*(stickyLength-1),
+            duration: vw * stickyLength,
             //pushFollowers: false,
         })
             .setPin('#'+myShotID)
-            .addTo(controller)
-            .addIndicators({suffix: myIDnum});
+            .addTo(controller);
+        if (debug) {
+            myScrollScene.addIndicators({suffix: myIDnum});
+        }
     }
 
     function fullscreenImage(thisShot, myContentID) {
