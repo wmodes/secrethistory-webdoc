@@ -65,7 +65,7 @@
 /* hidey menu */
 #menuburger {
     position: fixed;
-    top: 15vh;
+    top: 100px;
     left: -40px;
     width: 50px;
     height: 50px;
@@ -86,6 +86,31 @@
     border: 0px;
 }
 #menuburger:hover {
+    left: 0;
+}
+#mapburger {
+    position: fixed;
+    top: 200px;
+    left: -40px;
+    width: 50px;
+    height: 50px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    border-radius-topright: 5px;
+    border-radius-bottomright: 5px;
+    border: solid 1px #444;
+    padding: 0 0 0 0;
+    background-color: black;
+}
+#mapburger img {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 0px;
+}
+#mapburger:hover {
     left: 0;
 }
 
