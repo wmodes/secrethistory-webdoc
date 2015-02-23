@@ -10,5 +10,6 @@
 killme*
 ~*
 *.swp
-.demeteorized
+*.demeteorized
+*.demeteorized/*
 meteor/packages/*

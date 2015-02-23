@@ -55,6 +55,12 @@
     font-size: 14px;
 }
 
+/* spinner */
+.spinner {
+    top: 50vh;
+    left: 50vw;
+}
+
 /* big video */
 .doc #big-video-wrap {
     position: relative !important;

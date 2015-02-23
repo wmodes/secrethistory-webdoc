@@ -2,6 +2,12 @@
 <div id="doc-canvas" class="doc canvas">
 <div id="outer-wrapper">
 
+    {{#if isReady}}
+        {{ renderChapter }}
+    {{else}}
+        {{> spinner }}
+    {{/if}}
+
 </div>
 </div>
 </template>
