@@ -8,7 +8,7 @@ if(Meteor.isClient){
         Session.set('dataReady', false); 
     }); 
 
-    Meteor.subscribe('ChapterCollection', function(){
+    Meteor.subscribe('ChapterCollection', function onReady(){
         // Set the reactive session as true to indicate that the data 
         // have been loaded
         Session.set('dataReady', true); 

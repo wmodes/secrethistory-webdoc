@@ -35,17 +35,18 @@
 }
 */
 
-.full {
+.doc .full {
   height: 100vh;
   width: 100vw;
 }
 
 .doc tr {
     vertical-align: top;
+    width: 100vw;
 }
 
 .doc .shot {
-    width: 100%;
+    width: 100vw;
     float: left;
     display: inline;
 }
@@ -60,6 +61,34 @@
     top: 50vh;
     left: 50vw;
 }
+
+/* hidey menu */
+#menuburger {
+    position: fixed;
+    top: 15vh;
+    left: -40px;
+    width: 50px;
+    height: 50px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    border-radius-topright: 5px;
+    border-radius-bottomright: 5px;
+    border: solid 1px #444;
+    padding: 0 0 0 0;
+    background-color: black;
+}
+#menuburger img {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 0px;
+}
+#menuburger:hover {
+    left: 0;
+}
+
 
 /* big video */
 .doc #big-video-wrap {

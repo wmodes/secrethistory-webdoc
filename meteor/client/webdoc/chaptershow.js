@@ -44,6 +44,8 @@ Template.chaptershow.helpers({
 
     renderChapter: function () {
 
+        //TODO: Move setup stuff to approp function
+
         // Some helpful things to keep track of
         var totalLength = 0;
         var shotLengths = {};
@@ -84,6 +86,7 @@ Template.chaptershow.helpers({
         });
 
         // Determining size of screen for fullscreen functions
+        //TODO: Make this a callback that resizes everything
         function setScreenSizes () {
             vw = $(window).width();
             vh = $(window).height();
