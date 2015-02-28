@@ -1,0 +1,156 @@
+
+/* overall formating */
+
+#admin-canvas #outer-wrapper {
+    margin: 20px 20px 40px 20px;
+}
+
+#admin-canvas #inner-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 640px;
+  padding: 20px 20px 40px 20px;
+}
+
+#admin-canvas #chapter-form {
+    border: 1px solid #ccc;
+    padding: 10px 10px 50px 10px;
+    background-color: #fdfdfd;
+}
+
+/* font manipulations */
+
+#admin-canvas h1 {
+    font-size: 32px;
+}
+
+#admin-canvas h3 {
+    font-size: 20px;
+}
+
+/* wacky every other border coloring */
+
+#chapter-form .well {
+    border: 1px solid black;
+}
+
+#chapter-form .well .well {
+    border: 1px solid #ddd;
+}
+
+#chapter-form .well .well .well {
+    border: 1px solid black;
+}
+
+#chapter-form .well .well .well .well {
+    border: 1px solid #ddd;
+}
+
+#chapter-form .well .well .well .well .well {
+    border: 1px solid black;
+}
+
+#chapter-form .well .well .well .well .well .well {
+    border: 1px solid #ddd;
+}
+
+#chapter-form .well .well .well .well .well .well .well {
+    border: 1px solid black;
+}
+
+#chapter-form .well .well .well .well .well .well .well .well {
+    border: 1px solid #ddd;
+}
+
+#chapter-form .well .well .well .well .well .well .well .well .well {
+    border: 1px solid black;
+}
+
+/* Nixing a few default buttons */
+
+.json-form button[title="Add Property"] {
+    display: none;
+}
+
+.json-form .well button[title="Edit JSON"] {
+    display: none;
+}
+
+/* our buttons */
+
+.json-form button.our-button {
+    float: right;
+    margin: 0 5px 0 5px;
+}
+
+/* our input fields */
+
+.json-form .our-search-field {
+    float: left;
+    margin-right: 5px;
+    width: 125px;
+}
+
+.json-form .our-search-button-field {
+    float: left;
+    margin-right: 5px;
+    width: 140px;
+}
+
+.json-form .our-search-field input {
+}
+
+.json-form .error,
+.modal-body .error {
+    color:  #aa0000;
+    font-weight: bold;
+}
+
+.json-form .info {
+    color:  black;
+    font-weight: normal;
+    font-size: 90%;
+}
+
+/* button and field formatting */
+
+.json-form .our-row {
+}
+
+.json-form .our-search-row {
+    overflow: auto;
+}
+
+.json-form .our-row-seperator {
+    clear: both;
+}
+
+/* form formatting hacks */
+
+div [data-schemapath='root.pathNumber'] {
+    width: 160px;
+    float: left;
+    padding-right: 10px;
+}
+
+div [data-schemapath='root.chapterNumber'] {
+    width: 160px;
+    float: left;
+    padding-right: 10px;
+}
+
+div [data-schemapath='root.pathName'] {
+    width: 380px;
+    float: left;
+}
+
+div [data-schemapath='root.chapterName'] {
+    width: 380px;
+    float: left;
+}
+
+div [data-schemapath='root.ambientAudio'] {
+    clear: both;
+}
+
+

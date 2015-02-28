@@ -3,6 +3,10 @@
   "pathName": "Voyage of the Doty",
   "chapterNumber": 20,
   "chapterName": "Life on the Shantyboat",
+  "ambientAudio": {
+    "audioContent": "p10c20s10n05-small-waves-lapping.mp3",
+    "volume": 1
+  },
   "scenes": [
     {
       "sceneNumber": 10,
@@ -13,53 +17,35 @@
           "shotContent": "p10c20s10n05-shantyboat-sunny-window-loop.mp4",
           "shotType": "video",
           "sticky": true,
-          "videoLoop": "loop",
-          "startTrigger": -1,
-          "duration": 2,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "loop",
+            "startTrigger": -1,
+            "duration": 2
+          },
           "audioElements": [
             {
               "audioContent": "p10c20s10n05-wes-we-had-all-the-comforts.mp3",
               "audioType": "once",
               "startTrigger": 0,
               "duration": 8,
-              "volume": 1
-            },
-            {
-              "audioContent": "p10c20s10n05-small-waves-lapping.mp3",
-              "audioType": "loop",
-              "startTrigger": 0,
-              "duration": 30,
-              "volume": 1
+              "volume": 1,
+              "fadeIn": true
             }
           ],
-          "visualElements": [
-            {
-              "visualContent": "p10c20s10n05-life-on-the-shantyboat-title.jpg",
-              "visualType": "still",
-              "zIndex": 1,
-              "cssBase": "position: absolute;",
-              "transitions": [
-                {
-                  "transitionType": "animate",
-                  "startTrigger": 0,
-                  "duration": 1,
-                  "cssStart": "left: 0.1vw; \nbottom: 0.1vh; \nopacity: 1;",
-                  "cssEnd": "left: 0.1vw; \nbottom: -0.1vh; \nopacity: 0.25;"
-                }
-              ]
-            }
-          ]
+          "visualElements": []
         },
         {
           "shotNumber": 15,
           "shotContent": "p10c20s10n15-shantyboat-from-above-w-hazel.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -68,10 +54,12 @@
           "shotContent": "p10c20s10n20-doty-windows.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -80,10 +68,12 @@
           "shotContent": "p10c20s10n25-doty-galley.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -92,10 +82,12 @@
           "shotContent": "p10c20s10n30-doty-worktable.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -104,10 +96,12 @@
           "shotContent": "p10c20s10n35-doty-loft.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -116,10 +110,12 @@
           "shotContent": "p10c20s10n40-doty-fern.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -128,10 +124,12 @@
           "shotContent": "p10c20s10n45-doty-library.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -140,10 +138,12 @@
           "shotContent": "p10c20s10n50-doty-head.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -152,10 +152,12 @@
           "shotContent": "p10c20s10n60-doty-under-bridge.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         }
@@ -170,38 +172,44 @@
           "shotContent": "p10c20s20n05-closeup-of-radio.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [
             {
               "audioContent": "p10c20s20n05-bob-wills-stay-a-little-longer.mp3",
               "audioType": "loop",
               "startTrigger": -3,
               "duration": 4.5,
-              "volume": 0.5
+              "volume": 0.5,
+              "fadeIn": true
             },
             {
               "audioContent": "p10c20s20n05-radio-band-tuning.mp3",
               "audioType": "loop",
               "startTrigger": -2.9,
               "duration": 0.1,
-              "volume": 0.5
+              "volume": 0.5,
+              "fadeIn": true
             },
             {
               "audioContent": "p10c20s20n05-radio-band-tuning.mp3",
               "audioType": "loop",
               "startTrigger": 1.5,
               "duration": 0.1,
-              "volume": 0.5
+              "volume": 0.5,
+              "fadeIn": true
             },
             {
               "audioContent": "p10c20s20n05-wes-music-was-important.mp3",
               "audioType": "once",
               "startTrigger": 0,
               "duration": 2,
-              "volume": 1
+              "volume": 1,
+              "fadeIn": true
             }
           ],
           "visualElements": []
@@ -211,10 +219,12 @@
           "shotContent": "p10c20s20n10-closeup-of-banjo.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         }
@@ -229,17 +239,20 @@
           "shotContent": "p10c20s30n05-usgs-maps.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [
             {
               "audioContent": "p10c20s30n05-wes-we-had-safety-equipment.mp3",
               "audioType": "once",
               "startTrigger": 0,
               "duration": 5,
-              "volume": 1
+              "volume": 1,
+              "fadeIn": true
             }
           ],
           "visualElements": []
@@ -249,10 +262,12 @@
           "shotContent": "p10c20s30n10-life-vests.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -261,10 +276,12 @@
           "shotContent": "p10c20s30n15-life-ring.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -273,10 +290,12 @@
           "shotContent": "p10c20s30n20-marine-radio.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -285,10 +304,12 @@
           "shotContent": "p10c20s30n25-anchors.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -297,10 +318,12 @@
           "shotContent": "p10c20s30n27-tippy-the-canoe.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -309,10 +332,12 @@
           "shotContent": "p10c20s30n30-mr-johnson-in-place.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -321,10 +346,12 @@
           "shotContent": "p10c20s30n35-mr-johnson-disassembled.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         }
@@ -339,17 +366,20 @@
           "shotContent": "p10c20s40n05-bacon-frying.mp4",
           "shotType": "video",
           "sticky": true,
-          "videoLoop": "loop",
-          "startTrigger": -1.5,
-          "duration": 2.5,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "loop",
+            "startTrigger": -1.5,
+            "duration": 2.5
+          },
           "audioElements": [
             {
               "audioContent": "p10c20s40n05-wes-we-ate-pretty-well.mp3",
               "audioType": "once",
               "startTrigger": 0,
               "duration": 2.5,
-              "volume": 1
+              "volume": 1,
+              "fadeIn": true
             }
           ],
           "visualElements": []
@@ -359,10 +389,12 @@
           "shotContent": "p10c20s40n12-pancakes.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -371,10 +403,12 @@
           "shotContent": "p10c20s40n15-liquor-bottles.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         },
@@ -383,10 +417,12 @@
           "shotContent": "p10c20s40n20-white-russians.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         }
@@ -401,17 +437,20 @@
           "shotContent": "p10c20s50n05-daniella-playing-banjo-loop.mp4",
           "shotType": "video",
           "sticky": true,
-          "videoLoop": "loop",
-          "startTrigger": -1,
-          "duration": 2,
           "transitionType": "push",
+          "videoOptions": {
+            "videoLoop": "loop",
+            "startTrigger": -1,
+            "duration": 2
+          },
           "audioElements": [
             {
               "audioContent": "p10c20s50n05-daniella-wayfaring-stranger.mp3",
               "audioType": "loop",
               "startTrigger": -1,
               "duration": 2,
-              "volume": 1
+              "volume": 1,
+              "fadeIn": true
             }
           ],
           "visualElements": []
@@ -421,10 +460,12 @@
           "shotContent": "p10c20s50n10-daniella-playing-banjo.jpg",
           "shotType": "still",
           "sticky": true,
-          "videoLoop": "once",
-          "startTrigger": 0,
-          "duration": 1,
           "transitionType": "fade",
+          "videoOptions": {
+            "videoLoop": "once",
+            "startTrigger": 0,
+            "duration": 1
+          },
           "audioElements": [],
           "visualElements": []
         }

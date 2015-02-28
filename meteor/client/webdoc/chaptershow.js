@@ -15,13 +15,24 @@ mouseSpeed = 30;
 // ids and html for jquery insertions
 docCanvasID = "doc-canvas";
 outerWrapperID = "outer-wrapper";
-innerWrapperID = "inner-wrapper";
-tableWrapperID = "table-wrapper";
+
 innerWrapper = "<div id='inner-wrapper'>";
+innerWrapperID = "inner-wrapper";
+
 tableWrapper = "<table id='table-wrapper'><tr>";
+tableWrapperID = "table-wrapper";
+
 tdWrapper = "<td class='td-wrap'>";
+tdWrapperClass = "td-wrap";
+
 shotWrapper = "<div id='%id' class='shot full'>";
 contentWrapper = "<div id='%id' class='content full'>";
+ambientWrapper = "<div id='ambient-wrapper' class='audio offstage'>";
+
+titleWrapper = "<div id='title-wrapper' class='chapter-title'>";
+titleBox = "<div id='title-box' class='chapter-title-box'>";
+titleWrapperID = "title-wrapper";
+titleBoxID = "title-box";
 
 // file locations
 imageDir = "/images/";
@@ -111,16 +122,16 @@ Template.chaptershow.helpers({
         // Prepare the canvas
         $('#'+outerWrapperID).wrapInner(innerWrapper);
         $('#'+outerWrapperID).wrapInner(tableWrapper);
+        $('#'+outerWrapperID).before(ambientWrapper);
+
+        // Start ambient audio
+        setAmbientAudio();
 
         //for each scene, and
         //  for each shot
         //    create a canvas
-        // each canvas should look something like:
-        // <div id="shot-10-05" class="shot">
-        // <div id="content1" class="content">
-        // </div>
-        // </div>
         var scenes = chapter.scenes;
+        var firstContent;
         if (debug) {
             console.log("There are "+scenes.length+" scenes.");
         };
@@ -142,6 +153,9 @@ Template.chaptershow.helpers({
                     +"-"+shotNumber.toString();
                 var myShotID = "shot-"+myIDnum;
                 var myContentID = "content-"+myIDnum;
+                if (! firstContent) {
+                    firstContent = myContentID
+                }
 
                 // HTML FRAMEWORK
                 // create the shot div
@@ -176,6 +190,53 @@ Template.chaptershow.helpers({
                     fullscreenVideo(thisShot, myContentID, myIDnum);
                 }
             }
+        }
+
+        // Add title
+        setTitle();
+
+
+        function setTitle() {
+            $('#'+firstContent).append(titleWrapper);
+            $('#'+titleWrapperID).append(titleBox);
+            $('#'+titleBoxID).html(chapter.chapterName);
+            $('#'+titleBoxID).fitText(0.7);
+            var myScrollScene = new ScrollMagic.Scene({
+                triggerElement: '#'+titleBoxID,
+                triggerHook: 0,
+                offset: -1000,
+                duration: 100,
+            })
+                .setTween('#'+titleBoxID, {opacity: 0})
+                .addIndicators({name: "title"})
+                .addTo(controller);
+        }
+
+        function setAmbientAudio() {
+            // Background audio player
+            var source = audioDir+chapter.ambientAudio.audioContent;
+            var volume = chapter.ambientAudio.volume;
+            $('#ambient-wrapper').append(
+                "<video id='audioplayer-ambient'></video>");
+            var audioPlayer0 = new MediaElementPlayer('#audioplayer-ambient', {
+                type: 'audio/mp3',
+                loop: true,
+                success: function (mediaElement, domObject) {
+                    mediaElement.setSrc(source);
+                    mediaElement.load();
+                }
+            });
+            audioPlayer0.setVolume(volume);
+            audioPlayer0.play();
+
+            // Trigger background audio start and end
+            // TODO: Make ambientAudio button
+                //.on("start end", function (e) {
+                    //audioPlayer1.play();
+                //})
+                //.on("enter leave", function (e) {
+                    //audioPlayer1.pause();
+                //})
         }
 
         function setSizing(thisShot) {

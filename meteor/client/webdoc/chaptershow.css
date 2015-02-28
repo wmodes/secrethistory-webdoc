@@ -18,7 +18,10 @@
   font-size: 14px;
 }
 
-#doc-canvas, #outer-wrapper, #inner-wrapper, #table-wrapper {
+#doc-canvas, 
+#doc-canvas #outer-wrapper, 
+#doc-canvas #inner-wrapper, 
+#doc-canvas #table-wrapper {
   height: 100vh;
   background-color: black;
 }
@@ -35,38 +38,40 @@
 }
 */
 
-.doc .full {
+.webdoc .full {
   height: 100vh;
   width: 100vw;
 }
 
-.doc tr {
+.webdoc tr {
     vertical-align: top;
     width: 100vw;
 }
 
-.doc .shot {
+.webdoc .shot {
     width: 100vw;
     float: left;
     display: inline;
 }
 
-.doc .content {
+.webdoc .content {
     color: white;
     font-size: 14px;
 }
 
 /* spinner */
+
 .spinner {
     top: 50vh;
     left: 50vw;
 }
 
-/* hidey menu */
+/* hidey menus */
+
 #menuburger {
     position: fixed;
     top: 100px;
-    left: -40px;
+    left: -42px;
     width: 50px;
     height: 50px;
     -moz-border-radius-topright: 5px;
@@ -91,7 +96,7 @@
 #mapburger {
     position: fixed;
     top: 200px;
-    left: -40px;
+    left: -42px;
     width: 50px;
     height: 50px;
     -moz-border-radius-topright: 5px;
@@ -116,7 +121,8 @@
 
 
 /* big video */
-.doc #big-video-wrap {
+
+.webdoc #big-video-wrap {
     position: relative !important;
 }
 .vjs-tech {
@@ -124,14 +130,34 @@
 }
 
 /* audio player */
-.doc .audio {
+
+.webdoc .audio {
     width: 1px !important;
     height: 1px !important;
 }
-.doc .offstage {
+.webdoc .offstage {
     position: absolute;
     top: -2000px;
     visibility: hidden;
+}
+
+.webdoc #title-wrapper {
+    display: table;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    width: 60vw;
+    height: 50vh;
+    z-index: 100;
+}
+
+.webdoc #title-box {
+    display: table-cell;
+    vertical-align: bottom;
+    font-family: "Helvetica LT Black", "Helvetica Neue LT Black", "Arial Black";
+    color: white;
+    opacity: 0.80;
+    line-height: 0.95em;
 }
 
 /* Scrollbar styling */
@@ -207,7 +233,7 @@ body.fancyscroll ::-webkit-scrollbar-thumb
 
 /* Stuff Specific to these test pages */
 
-.doc .shot {
+.webdoc .shot {
   top: 0;
   bottom: 0;
   left: 0;
@@ -224,18 +250,81 @@ body.fancyscroll ::-webkit-scrollbar-thumb
   margin: 0;
 }
 
-.doc #section1 {
+.webdoc #section1 {
     background: #9a6642;
 }
-.doc #section2 {
+.webdoc #section2 {
     background: #734c31;
 }
-.doc #section3 {
+.webdoc #section3 {
     background: #ff0000;
 }
-.doc #section4 {
+.webdoc #section4 {
     background: #6e6e6e;
 }
-.doc #section5 {
+.webdoc #section5 {
     background: #6599bd;
 }
+
+/* Navigation Menu */
+
+@media screen and (min-width: 2400) {
+	#navmenu .modal-dialog  {
+        width: 1920px;
+        height: 1264px;
+    }
+    #navmenu #navwindow {
+        height: 1264px;
+    }
+}
+
+#navmenu .modal-dialog {
+    width: 80vw;
+    height: 90vh;
+    top: 5vh;
+    color: #4f4404;
+}
+
+#navmenu h1, #navmenu h2, #navmenu h3, 
+#navmenu h4, #navmenu h5 {
+    color: #4f4404;
+}
+
+#navmenu .modal-header {
+    border-bottom: 1px solid #4f4404;
+}
+
+#navmenu .modal-content {
+    background: url("/images/navmapbackground.jpg") no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #4f4404;
+    height: 80vh;
+}
+
+#navmenu .modal-footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    border-top: 1px solid #4f4404;
+}
+
+#navmenu .closex {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#navmenu .closex a {
+    color: #4f4404;
+    background-color: #f6e4bf;
+    border: solid 1px #4f4404;
+    float: right;
+}
+
+#navmenu .closebutton a {
+    color: #4f4404;
+    background-color: #f6e4bf;
+    border: solid 1px #4f4404;
+}
+
