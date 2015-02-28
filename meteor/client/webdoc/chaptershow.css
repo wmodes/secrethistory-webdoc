@@ -24,8 +24,14 @@
     display: table;
 }
 
-#doc-canvas .shot-wrap {
+#doc-canvas .table-wrap {
     display: table-cell;
+}
+
+#doc-canvas .shot-wrap {
+}
+
+#doc-canvas .content {
 }
 
 #doc-canvas, 

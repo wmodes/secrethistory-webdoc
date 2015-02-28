@@ -19,10 +19,13 @@ outerWrapperID = "outer-wrapper";
 innerWrapper = "<div id='inner-wrapper'>";
 innerWrapperID = "inner-wrapper";
 
-shotWrapper = "<div id='%id' class='shot-wrap shot full'>";
+tableWrapper = "<div id='table-%id' class='table-wrap'>";
+tableWrapperClass = "table-wrap";
+
+shotWrapper = "<div id='shot-%id' class='shot-wrap shot full'>";
 shotWrapperClass = "shot-wrap";
 
-contentWrapper = "<div id='%id' class='content full'>";
+contentWrapper = "<div id='content-%id' class='content full'>";
 ambientWrapper = "<div id='ambient-wrapper' class='audio offstage'>";
 
 titleWrapper = "<div id='title-wrapper' class='chapter-title'>";
@@ -146,19 +149,25 @@ Template.chaptershow.helpers({
                 var shotNumber = thisShot.shotNumber;
                 var myIDnum = sceneNumber.toString()
                     +"-"+shotNumber.toString();
+
+                // HTML FRAMEWORK
+                // create the div that serves as a table cell
+                var myTableID = "table-"+myIDnum;
+                var myTableWrapper=tableWrapper.replace("%id", myIDnum);
+                $('#'+innerWrapperID).append(myTableWrapper);
+                // create the shot div
                 var myShotID = "shot-"+myIDnum;
+                var myShotWrapper=shotWrapper.replace("%id", myIDnum);
+                $('#'+myTableID).append(myShotWrapper);
+                // create the content div
                 var myContentID = "content-"+myIDnum;
+                var myContentWrapper=contentWrapper.replace("%id", myIDnum);
+                $('#'+myShotID).append(myContentWrapper);
+                
+                // save a record of the first content div
                 if (! firstContent) {
                     firstContent = myContentID
                 }
-
-                // HTML FRAMEWORK
-                // create the shot div
-                var myShotWrapper=shotWrapper.replace("%id", myShotID);
-                $('#'+innerWrapperID).append(myShotWrapper);
-                // create the content div
-                var myContentWrapper=contentWrapper.replace("%id", myContentID);
-                $('#'+myShotID).append(myContentWrapper);
 
                 // SIZING
                 var myWidth = setSizing(thisShot);
@@ -266,14 +275,14 @@ Template.chaptershow.helpers({
             var myScrollScene = new ScrollScene({
                 triggerHook: 0,
                 offset: 0,
-                triggerElement: '#'+myContentID,
+                triggerElement: '#'+myShotID,
                 //First shot needs to be pinned differently
                 //duration: vw,
                 //duration: myWidth.toString()+"vw",
                 duration: vw * stickyLength,
-                //pushFollowers: false,
+                //pushFollowers: true
             })
-                .setPin('#'+myContentID)
+                .setPin('#'+myShotID)
                 .addTo(controller);
             if (debug) {
                 myScrollScene.addIndicators({suffix: myIDnum});
