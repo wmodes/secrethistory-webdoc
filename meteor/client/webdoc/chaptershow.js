@@ -330,7 +330,7 @@ Template.chaptershow.helpers({
             $('#'+titleWrapperID).append(titleBox);
             $('#'+titleBoxID).html(chapter.chapterName);
             $('#'+titleBoxID).fitText(0.7);
-            var myTween = TweenMax.to($('#'+titleWrapperID), 0.75, {opacity: 0, bottom: -vh/3});
+            var myTween = TweenMax.to($('#'+titleWrapperID), 1, {opacity: -0.5, bottom: -vh/3});
             var myScrollScene = new ScrollScene({
                 triggerElement: '#'+triggerID,
                 triggerHook: 0,
@@ -340,13 +340,12 @@ Template.chaptershow.helpers({
             })
                 .setTween(myTween)
                 .addTo(controller)
-                .addIndicators({suffix: "title", indent: 50})
-                .loglevel(3)
         }
 
         function setScrollText(controller, triggerID, contentID) {
             $('#'+contentID).append(scrollieBox);
             $('#'+scrollieBoxID).html("<img src='"+scrollieImage+"' />");
+            //TODO: instead make this a more efficient css animation w class toggle
             var myTween = TweenMax.to($('#'+scrollieBoxID), 0.25, {opacity: 0});
             var myScrollScene = new ScrollScene({
                 triggerElement: '#'+triggerID,
@@ -357,8 +356,6 @@ Template.chaptershow.helpers({
             })
                 .setTween(myTween)
                 .addTo(controller)
-                .addIndicators({suffix: "scrolltext", indent: 50})
-                .loglevel(3)
         }
 
         // RANDOM HELPERS
