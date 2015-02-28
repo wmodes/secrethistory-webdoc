@@ -296,11 +296,15 @@ Template.chaptershow.helpers({
         }
 
         function fullscreenVideo(thisShot, myContentID, myIDnum) {
-            var myVideoBase = thisShot.shotContent.replace(vidDefault, "");
+            var myContent = thisShot.shotContent;
+            var myTrigger = thisShot.videoOptions.startTrigger;
+            var myDuration = thisShot.videoOptions.duration;
+            var myLoop = thisShot.videoOptions.videoLoop;
+            var myVideoBase = myContent.replace(vidDefault, "");
             // defaults are set above
             myVideoSettings = $.extend({}, bigVideoDefaults, {
                 container: $('#'+myContentID),
-                doLoop: thisShot.videoLoop,
+                doLoop: myLoop,
                 id: "bigvideo-"+myIDnum
             });
             var myBigVideo = new $.BigVideo(myVideoSettings);
@@ -317,15 +321,18 @@ Template.chaptershow.helpers({
             myBigVideo.getPlayer().pause();
 
             // Trigger background video start and end (loop default)
+            console.log(thisShot);
+            console.log("video: "+myContent+" startTrigger: "
+                +myTrigger+" duration: "
+                +myDuration);
             var myScrollScene = new ScrollScene({
                 triggerHook: 0,
                 triggerElement: '#'+myContentID,
-                // TODO: Use thisShot.startTrigger when it is adjusted correctly
-                //offset: -vw,
-                offset: thisShot.startTrigger * vw,
-                // TODO: Use thisShot.duration when it is adjusted correctly
+                // Use thisShot.startTrigger
+                offset: myTrigger * vw,
+                // Use thisShot.duration 
                 //duration: vw * 2,
-                duration: thisShot.duration * vw
+                duration: myDuration * vw
                 //pushFollowers: false,
             })
                 .on("start end", function (e) {
