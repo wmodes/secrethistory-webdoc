@@ -178,6 +178,13 @@
     line-height: 0.95em;
 }
 
+#scroll-box {
+    position: absolute;
+    right: 100px;
+    bottom: 10px;
+    z-index: 10;
+}
+
 /* Scrollbar styling */
 
 body ::-webkit-scrollbar,

@@ -33,10 +33,14 @@ titleBox = "<div id='title-box' class='chapter-title-box'>";
 titleWrapperID = "title-wrapper";
 titleBoxID = "title-box";
 
+scrollieBox = "<div id='scroll-box' class='chapter-scroll-box'>";
+scrollieBoxID = "scroll-box";
+
 // file locations
 imageDir = "/images/";
 videoDir = "/video/";
 audioDir = "/audio/";
+scrollieImage = "/images/scrolldown.png";
 
 // Some plugin defaults
 bigVideoDefaults = {
@@ -82,7 +86,6 @@ Template.chaptershow.helpers({
         
         // Initialize ScrollMagic Controller
         scrollControl = new ScrollMagic({
-            triggerHook: "onCenter",
             vertical: false,
         });
 
@@ -164,6 +167,7 @@ Template.chaptershow.helpers({
                 if (! titleDone) {
                     var titleDone = true;
                     setTitle(scrollControl, myShotID, myContentID);
+                    setScrollText(scrollControl, myShotID, myContentID);
                 }
 
                 // SIZING
@@ -326,17 +330,34 @@ Template.chaptershow.helpers({
             $('#'+titleWrapperID).append(titleBox);
             $('#'+titleBoxID).html(chapter.chapterName);
             $('#'+titleBoxID).fitText(0.7);
-            var myScrollScene = new ScrollMagic.Scene({
+            var myTween = TweenMax.to($('#'+titleWrapperID), 0.75, {opacity: 0, bottom: -vh/3});
+            var myScrollScene = new ScrollScene({
                 triggerElement: '#'+triggerID,
                 triggerHook: 0,
                 offset: 0,
                 duration: vw * stickyLength,
                 tweenChanges: true
             })
-                //.setTween(TweenMax.to('#'+titleBoxID), 1, {opacity: 0, bottom: -vh/2})
-                .setTween('#'+titleBoxID, {opacity: 0, bottom: -vh/2})
+                .setTween(myTween)
                 .addTo(controller)
                 .addIndicators({suffix: "title", indent: 50})
+                .loglevel(3)
+        }
+
+        function setScrollText(controller, triggerID, contentID) {
+            $('#'+contentID).append(scrollieBox);
+            $('#'+scrollieBoxID).html("<img src='"+scrollieImage+"' />");
+            var myTween = TweenMax.to($('#'+scrollieBoxID), 0.25, {opacity: 0});
+            var myScrollScene = new ScrollScene({
+                triggerElement: '#'+triggerID,
+                triggerHook: 0,
+                offset: 0,
+                duration: vw * stickyLength / 2,
+                tweenChanges: true
+            })
+                .setTween(myTween)
+                .addTo(controller)
+                .addIndicators({suffix: "scrolltext", indent: 50})
                 .loglevel(3)
         }
 
