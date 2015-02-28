@@ -19,13 +19,9 @@ outerWrapperID = "outer-wrapper";
 innerWrapper = "<div id='inner-wrapper'>";
 innerWrapperID = "inner-wrapper";
 
-tableWrapper = "<table id='table-wrapper'><tr>";
-tableWrapperID = "table-wrapper";
+shotWrapper = "<div id='%id' class='shot-wrap shot full'>";
+shotWrapperClass = "shot-wrap";
 
-tdWrapper = "<td class='td-wrap'>";
-tdWrapperClass = "td-wrap";
-
-shotWrapper = "<div id='%id' class='shot full'>";
 contentWrapper = "<div id='%id' class='content full'>";
 ambientWrapper = "<div id='ambient-wrapper' class='audio offstage'>";
 
@@ -121,8 +117,7 @@ Template.chaptershow.helpers({
 
         // Prepare the canvas
         $('#'+outerWrapperID).wrapInner(innerWrapper);
-        $('#'+outerWrapperID).wrapInner(tableWrapper);
-        $('#'+outerWrapperID).before(ambientWrapper);
+        $('#'+innerWrapperID).before(ambientWrapper);
 
         // Start ambient audio
         setAmbientAudio();
@@ -164,8 +159,6 @@ Template.chaptershow.helpers({
                 // create the content div
                 var myContentWrapper=contentWrapper.replace("%id", myContentID);
                 $('#'+myShotID).append(myContentWrapper);
-                // set up for a really long horizontal table
-                $('#'+myShotID).wrap(tdWrapper);
 
                 // SIZING
                 var myWidth = setSizing(thisShot);
@@ -273,14 +266,14 @@ Template.chaptershow.helpers({
             var myScrollScene = new ScrollScene({
                 triggerHook: 0,
                 offset: 0,
-                triggerElement: '#'+myShotID,
+                triggerElement: '#'+myContentID,
                 //First shot needs to be pinned differently
                 //duration: vw,
                 //duration: myWidth.toString()+"vw",
                 duration: vw * stickyLength,
                 //pushFollowers: false,
             })
-                .setPin('#'+myShotID)
+                .setPin('#'+myContentID)
                 .addTo(controller);
             if (debug) {
                 myScrollScene.addIndicators({suffix: myIDnum});

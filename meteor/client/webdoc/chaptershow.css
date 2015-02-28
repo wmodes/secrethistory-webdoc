@@ -1,4 +1,6 @@
 
+/* Basic div structure */
+
 #doc-canvas {
   width: 100vw;
 
@@ -16,6 +18,14 @@
 
   font-family: sans-serif;
   font-size: 14px;
+}
+
+#doc-canvas #inner-wrapper {
+    display: table;
+}
+
+#doc-canvas .shot-wrap {
+    display: table-cell;
 }
 
 #doc-canvas, 
