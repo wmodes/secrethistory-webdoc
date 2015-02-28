@@ -166,10 +166,10 @@
     bottom: 10px;
     width: 60vw;
     height: 50vh;
-    z-index: 100;
+    z-index: 10;
 }
 
-.webdoc #title-box {
+#title-box {
     display: table-cell;
     vertical-align: bottom;
     font-family: "Helvetica LT Black", "Helvetica Neue LT Black", "Arial Black";
@@ -241,13 +241,6 @@ body.fancyscroll ::-webkit-scrollbar-thumb
     z-index: 105;
 }
 */
-
-/* ScrollMagic */
-
-.ScrollSceneIndicators {
-    z-index: 5 !important;
-}
-
 
 /* Stuff Specific to these test pages */
 
@@ -346,3 +339,17 @@ body.fancyscroll ::-webkit-scrollbar-thumb
     border: solid 1px #4f4404;
 }
 
+/* Scrollmagic */
+
+.ScrollSceneIndicators {
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 500 !important;
+}
+
+.ScrollSceneIndicators div.hook,
+.ScrollSceneIndicators div.start,
+.ScrollSceneIndicators div.end,
+{
+    z-index: 500 !important;
+}

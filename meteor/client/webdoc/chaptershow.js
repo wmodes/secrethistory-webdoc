@@ -81,7 +81,7 @@ Template.chaptershow.helpers({
         });
         
         // Initialize ScrollMagic Controller
-        controller = new ScrollMagic({
+        scrollControl = new ScrollMagic({
             triggerHook: "onCenter",
             vertical: false,
         });
@@ -107,10 +107,6 @@ Template.chaptershow.helpers({
 
         // get a chapter from the database
         chapter = ChapterCollection.findOne();
-        if (debug) {
-            console.log("chapter: ");
-            console.log(chapter);
-        }
         //alert(JSON.stringify(chapterArray, null, 2));
         if (debug) {
         console.log("We are rendering the following chapter:\n\tp"
@@ -164,9 +160,10 @@ Template.chaptershow.helpers({
                 var myContentWrapper=contentWrapper.replace("%id", myIDnum);
                 $('#'+myShotID).append(myContentWrapper);
                 
-                // save a record of the first content div
-                if (! firstContent) {
-                    firstContent = myContentID
+                // Add title to first content div
+                if (! titleDone) {
+                    var titleDone = true;
+                    setTitle(scrollControl, myShotID, myContentID);
                 }
 
                 // SIZING
@@ -174,7 +171,7 @@ Template.chaptershow.helpers({
 
                 // PINING
                 if (thisShot.sticky) {
-                    pinShot(controller, thisShot, myWidth, myShotID, myIDnum);
+                    pinShot(scrollControl, thisShot, myWidth, myShotID, myIDnum);
                 }
 
                 // CONTENT
@@ -189,57 +186,11 @@ Template.chaptershow.helpers({
                 if (thisShot.shotType == "still") {
                     fullscreenImage(thisShot, myContentID);
                 } else if (thisShot.shotType == "video") {
-                    fullscreenVideo(thisShot, myContentID, myIDnum);
+                    fullscreenVideo(scrollControl, thisShot, myContentID, myIDnum);
                 }
             }
         }
 
-        // Add title
-        setTitle();
-
-
-        function setTitle() {
-            $('#'+firstContent).append(titleWrapper);
-            $('#'+titleWrapperID).append(titleBox);
-            $('#'+titleBoxID).html(chapter.chapterName);
-            $('#'+titleBoxID).fitText(0.7);
-            var myScrollScene = new ScrollMagic.Scene({
-                triggerElement: '#'+titleBoxID,
-                triggerHook: 0,
-                offset: -1000,
-                duration: 100,
-            })
-                .setTween('#'+titleBoxID, {opacity: 0})
-                .addIndicators({name: "title"})
-                .addTo(controller);
-        }
-
-        function setAmbientAudio() {
-            // Background audio player
-            var source = audioDir+chapter.ambientAudio.audioContent;
-            var volume = chapter.ambientAudio.volume;
-            $('#ambient-wrapper').append(
-                "<video id='audioplayer-ambient'></video>");
-            var audioPlayer0 = new MediaElementPlayer('#audioplayer-ambient', {
-                type: 'audio/mp3',
-                loop: true,
-                success: function (mediaElement, domObject) {
-                    mediaElement.setSrc(source);
-                    mediaElement.load();
-                }
-            });
-            audioPlayer0.setVolume(volume);
-            audioPlayer0.play();
-
-            // Trigger background audio start and end
-            // TODO: Make ambientAudio button
-                //.on("start end", function (e) {
-                    //audioPlayer1.play();
-                //})
-                //.on("enter leave", function (e) {
-                    //audioPlayer1.pause();
-                //})
-        }
 
         function setSizing(thisShot) {
             // TODO: Add db fields: advanced > height, width, and sticky length
@@ -295,7 +246,7 @@ Template.chaptershow.helpers({
             $('#'+myContentID).css("color", "white")
         }
 
-        function fullscreenVideo(thisShot, myContentID, myIDnum) {
+        function fullscreenVideo(controller, thisShot, myContentID, myIDnum) {
             var myContent = thisShot.shotContent;
             var myTrigger = thisShot.videoOptions.startTrigger;
             var myDuration = thisShot.videoOptions.duration;
@@ -321,10 +272,6 @@ Template.chaptershow.helpers({
             myBigVideo.getPlayer().pause();
 
             // Trigger background video start and end (loop default)
-            console.log(thisShot);
-            console.log("video: "+myContent+" startTrigger: "
-                +myTrigger+" duration: "
-                +myDuration);
             var myScrollScene = new ScrollScene({
                 triggerHook: 0,
                 triggerElement: '#'+myContentID,
@@ -346,6 +293,54 @@ Template.chaptershow.helpers({
                 myScrollScene.addIndicators({suffix: myIDnum});
             }
         }
+
+        function setAmbientAudio() {
+            // Background audio player
+            var source = audioDir+chapter.ambientAudio.audioContent;
+            var volume = chapter.ambientAudio.volume;
+            $('#ambient-wrapper').append(
+                "<video id='audioplayer-ambient'></video>");
+            var audioPlayer0 = new MediaElementPlayer('#audioplayer-ambient', {
+                type: 'audio/mp3',
+                loop: true,
+                success: function (mediaElement, domObject) {
+                    mediaElement.setSrc(source);
+                    mediaElement.load();
+                }
+            });
+            audioPlayer0.setVolume(volume);
+            audioPlayer0.play();
+
+            // Trigger background audio start and end
+            // TODO: Make ambientAudio button
+                //.on("start end", function (e) {
+                    //audioPlayer1.play();
+                //})
+                //.on("enter leave", function (e) {
+                    //audioPlayer1.pause();
+                //})
+        }
+
+        function setTitle(controller, triggerID, contentID) {
+            $('#'+contentID).append(titleWrapper);
+            $('#'+titleWrapperID).append(titleBox);
+            $('#'+titleBoxID).html(chapter.chapterName);
+            $('#'+titleBoxID).fitText(0.7);
+            var myScrollScene = new ScrollMagic.Scene({
+                triggerElement: '#'+triggerID,
+                triggerHook: 0,
+                offset: 0,
+                duration: vw * stickyLength,
+                tweenChanges: true
+            })
+                //.setTween(TweenMax.to('#'+titleBoxID), 1, {opacity: 0, bottom: -vh/2})
+                .setTween('#'+titleBoxID, {opacity: 0, bottom: -vh/2})
+                .addTo(controller)
+                .addIndicators({suffix: "title", indent: 50})
+                .loglevel(3)
+        }
+
+        // RANDOM HELPERS
 
         jQuery.fn.centerVert = function () {
             this.css("position","absolute");
