@@ -183,6 +183,13 @@
     right: 100px;
     bottom: 10px;
     z-index: 10;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+}
+
+.scroll-box-fade {
+    opacity: 0;
 }
 
 /* Scrollbar styling */

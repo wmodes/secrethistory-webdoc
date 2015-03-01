@@ -33,14 +33,14 @@ titleBox = "<div id='title-box' class='chapter-title-box'>";
 titleWrapperID = "title-wrapper";
 titleBoxID = "title-box";
 
-scrollieBox = "<div id='scroll-box' class='chapter-scroll-box'>";
-scrollieBoxID = "scroll-box";
+scrollBox = "<div id='scroll-box' class='chapter-scroll-box'>";
+scrollBoxID = "scroll-box";
 
 // file locations
 imageDir = "/images/";
 videoDir = "/video/";
 audioDir = "/audio/";
-scrollieImage = "/images/scrolldown.png";
+scrollImage = "/images/scrolldown.png";
 
 // Some plugin defaults
 bigVideoDefaults = {
@@ -343,19 +343,22 @@ Template.chaptershow.helpers({
         }
 
         function setScrollText(controller, triggerID, contentID) {
-            $('#'+contentID).append(scrollieBox);
-            $('#'+scrollieBoxID).html("<img src='"+scrollieImage+"' />");
+            $('#'+contentID).append(scrollBox);
+            $('#'+scrollBoxID).html("<img src='"+scrollImage+"' />");
+            //$('#'+scrollBoxID).addClass("fade");
             //TODO: instead make this a more efficient css animation w class toggle
-            var myTween = TweenMax.to($('#'+scrollieBoxID), 0.25, {opacity: 0});
             var myScrollScene = new ScrollScene({
                 triggerElement: '#'+triggerID,
                 triggerHook: 0,
-                offset: 0,
-                duration: vw * stickyLength / 2,
-                tweenChanges: true
+                offset: -1,
+                duration: 10
             })
-                .setTween(myTween)
+                .on("leave end",function(){
+                    $('#'+scrollBoxID).addClass("scroll-box-fade");
+                })
                 .addTo(controller)
+                .addIndicators({suffix: "scrollBox", indent: 20});
+                myScrollScene
         }
 
         // RANDOM HELPERS
