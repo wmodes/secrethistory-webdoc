@@ -1,10 +1,66 @@
 // Secret History of American River People
 // Chapter Renderer
 
-// Copyright (c) 2015 Wes Modes (http://modes.io)
-// This content is released under the GNU General Public License, 
-// version 3 (GPL-3.0). More info at 
-// http://opensource.org/licenses/GPL-3.0
+// Version 0.1
+
+/*
+* Copyright (c) 2015 Wes Modes (http://modes.io)
+* This content is released under the GNU General Public License, 
+* version 3 (GPL-3.0). More info at 
+* http://opensource.org/licenses/GPL-3.0
+* TODO: Relase under MIT
+*/
+
+/*
+* Dependencies:
+* 
+* jQuery JavaScript Library v1.11.2 - all around awesome indispensible Swiss 
+*       army knife for JavaScript + Web
+*       (c) 2005, 2014 jQuery Foundation, Inc. and other contributors 
+*       MIT License (http://jquery.org/license)
+* Meteor v1.0.3.1 - a fullstack NodeJS framework. We used demeteorizer to allow it 
+*       to run outside of its meteor context and deploy to vanilla PAAS server
+*       (c) 2015 Meteor Group (http://meteor.com) MIT License
+* Scrollmagic.js v1.3.0 - this is the latest scrollmagic packaged for meteor.
+*       I was unsuccessful installing ScrollMagic 2.0.0 as client/lib js files.
+*       Be aware that 2.0.0 has modified instantiation and updated features.
+*       It would be good to upgrade when possible.
+*       (c) 2015 Jan Paepke MIT License
+* GreenSock Animation Platform v0.10.5 - used for animation and tweening
+*       (c) 2008-2014, GreenSock. All rights reserved. 
+*       License at http://www.greensock.com/terms_of_use.html "You may use the 
+*       code at no charge in commercial or non-commercial apps, web sites, games, 
+*       components, and other software as long as end users are not charged a fee
+*       of any kind to use your product or gain access to any part of it."
+* BigVideo.js  - for background video. Loaded as client/libjs file, modified to 
+*       handle muliple instances. ScrollMagic is used to trigger video on and off
+*       as it gets within range of the viewport
+*       (c) 2012 John Polacek (https://github.com/dfcb/BigVideo.js) MIT License
+* Video.js v4.10.2 - Video player used by BigVideo
+*       (c) 2014 Brightcove, Inc. Apache License, Version 2.0
+*       (https://github.com/videojs/video.js/blob/master/LICENSE)
+* MediaElement.js v2.16.3 - for background audio player. Loaded as client/libjs file. The
+*       player is in an 'offstage' DOM object so it is not visible. ScrollMagic is
+*       used to trigger video according to design of chapter.
+*       (c) 2010-2014, John Dyer (http://j.hn) MIT License
+* FitText.js 1.2 - expands text to fit container used for titles.
+*       (c) 2011, Dave Rupert (http://daverupert.com) 
+*       License: WTFPL http://sam.zoy.org/wtfpl/
+* Backstretch v2.0.4 - for full width background images. 
+*       (c) 2013 Scott Robbin (http://srobbin.com/jquery-plugins/) MIT License
+* Bootstrap.js v3.1.0 - HTML, CSS, and JavaScript framework for developing responsive, 
+*       mobile web projects
+*       (c) 2011-2014 Twitter, Inc. MIT License 
+*       (https://github.com/twbs/bootstrap/blob/master/LICENSE) 
+* Bootbox.js v4.3.0 - for interactive simple modals
+*       (C) 2011-2015 by Nick Payne <nick@kurai.co.uk> MIT License
+*       MIT License
+* JSON Editor v0.5.12 - JSON Schema -> HTML Editor
+*       (c) 2014 Jeremy Dorn (https://github.com/jdorn/json-editor/) MIT License
+* Mousewheel.js v3.0.6 - to allow trapping vertical mouse wheel movements
+*       (c) 2011 Brandon Aaron (http://brandonaaron.net) MIT License
+*/
+
 
 // Useful constants 
 // TODO: Is there a better place to put these?
@@ -16,31 +72,38 @@ mouseSpeed = 30;
 docCanvasID = "doc-canvas";
 outerWrapperID = "outer-wrapper";
 
-innerWrapper = "<div id='inner-wrapper'>";
+innerWrapperDiv = "<div id='inner-wrapper'>";
 innerWrapperID = "inner-wrapper";
 
-tableWrapper = "<div id='table-%id' class='table-wrap'>";
+tableWrapperDiv = "<div id='table-%id' class='table-wrap'>";
 tableWrapperClass = "table-wrap";
 
-shotWrapper = "<div id='shot-%id' class='shot-wrap shot full'>";
+shotWrapperDiv = "<div id='shot-%id' class='shot-wrap shot full'>";
 shotWrapperClass = "shot-wrap";
 
-contentWrapper = "<div id='content-%id' class='content full'>";
-ambientWrapper = "<div id='ambient-wrapper' class='audio offstage'>";
+contentWrapperDiv = "<div id='content-%id' class='content full'>";
+ambientWrapperDiv = "<div id='ambient-wrapper' class='audio offstage'>";
 
-titleWrapper = "<div id='title-wrapper' class='chapter-title'>";
-titleBox = "<div id='title-box' class='chapter-title-box'>";
+titleWrapperDiv = "<div id='title-wrapper' class='chapter-title'>";
+titleBoxDiv = "<div id='title-box' class='chapter-title-box'>";
 titleWrapperID = "title-wrapper";
 titleBoxID = "title-box";
 
-scrollBox = "<div id='scroll-box' class='chapter-scroll-box'>";
+scrollBoxDiv = "<div id='scroll-box' class='chapter-scroll-box'>";
 scrollBoxID = "scroll-box";
+
+audioWrapperDiv = "<div class='audio offstage'><video id='audio-%id'></video></div>";
 
 // file locations
 imageDir = "/images/";
 videoDir = "/video/";
 audioDir = "/audio/";
 scrollImage = "/images/scrolldown.png";
+spacerImage = "/images/spacer.png";
+
+$('img').error(function(){
+    $(this).attr('src', spacerImage);
+});
 
 // Some plugin defaults
 bigVideoDefaults = {
@@ -112,14 +175,16 @@ Template.chaptershow.helpers({
         chapter = ChapterCollection.findOne();
         //alert(JSON.stringify(chapterArray, null, 2));
         if (debug) {
-        console.log("We are rendering the following chapter:\n\tp"
-            +chapter.pathNumber+" "+chapter.pathName+"\n\t\tc"
-            +chapter.chapterNumber+" "+chapter.chapterName);
+            console.log("We are rendering the following chapter:\n\tp"
+                +chapter.pathNumber+" "+chapter.pathName+"\n\t\tc"
+                +chapter.chapterNumber+" "+chapter.chapterName);
+            console.log("Here it is:");
+            console.log(chapter);
         }
 
         // Prepare the canvas
-        $('#'+outerWrapperID).wrapInner(innerWrapper);
-        $('#'+innerWrapperID).before(ambientWrapper);
+        $('#'+outerWrapperID).wrapInner(innerWrapperDiv);
+        $('#'+innerWrapperID).before(ambientWrapperDiv);
 
         // Start ambient audio
         setAmbientAudio();
@@ -146,57 +211,81 @@ Template.chaptershow.helpers({
 
                 var thisShot = shots[ishot];
                 var shotNumber = thisShot.shotNumber;
-                var myIDnum = sceneNumber.toString()
+                var IDnum = sceneNumber.toString()
                     +"-"+shotNumber.toString();
 
                 // HTML FRAMEWORK
+                //
                 // create the div that serves as a table cell
-                var myTableID = "table-"+myIDnum;
-                var myTableWrapper=tableWrapper.replace("%id", myIDnum);
-                $('#'+innerWrapperID).append(myTableWrapper);
+                var tableID = "table-"+IDnum;
+                var tableWrapper=tableWrapperDiv.replace("%id", IDnum);
+                $('#'+innerWrapperID).append(tableWrapper);
                 // create the shot div
-                var myShotID = "shot-"+myIDnum;
-                var myShotWrapper=shotWrapper.replace("%id", myIDnum);
-                $('#'+myTableID).append(myShotWrapper);
+                var shotID = "shot-"+IDnum;
+                var shotWrapper=shotWrapperDiv.replace("%id", IDnum);
+                $('#'+tableID).append(shotWrapper);
                 // create the content div
-                var myContentID = "content-"+myIDnum;
-                var myContentWrapper=contentWrapper.replace("%id", myIDnum);
-                $('#'+myShotID).append(myContentWrapper);
+                var contentID = "content-"+IDnum;
+                var contentWrapper=contentWrapperDiv.replace("%id", IDnum);
+                $('#'+shotID).append(contentWrapper);
                 
                 // Add title to first content div
                 if (! titleDone) {
                     var titleDone = true;
-                    setTitle(scrollControl, myShotID, myContentID);
-                    setScrollText(scrollControl, myShotID, myContentID);
+                    setTitle(scrollControl, shotID, contentID);
+                    setScrollText(scrollControl, shotID, contentID);
                 }
 
                 // SIZING
-                var myWidth = setSizing(thisShot);
+                //
+                var width = setSizing(thisShot, shotID, contentID);
 
                 // PINING
+                //
                 if (thisShot.sticky) {
-                    pinShot(scrollControl, thisShot, myWidth, myShotID, myIDnum);
+                    pinShot(scrollControl, thisShot, width, shotID, IDnum);
                 }
 
                 // CONTENT
-
+                //
                 // just for kicks, we throw in a little content
-                var myContent = "<h1>Shot "+myIDnum+"</h1>"
+                var content = "<h1>Shot "+IDnum+"</h1>"
                     + "<p>Content: "+thisShot.shotContent+"</p>"
                     + "<p>Type: "+thisShot.shotType+"</p>"
                     + "<p>Sticky: "+thisShot.sticky+"</p>";
-                $('#'+myContentID).append(myContent);
+                $('#'+contentID).append(content);
 
+                // Background for this shot, stills or video
                 if (thisShot.shotType == "still") {
-                    fullscreenImage(thisShot, myContentID);
+                    setFullscreenImage(thisShot, contentID);
                 } else if (thisShot.shotType == "video") {
-                    fullscreenVideo(scrollControl, thisShot, myContentID, myIDnum);
+                    setFullscreenVideo(scrollControl, thisShot, contentID, IDnum);
+                }
+
+                // AUDIO ELEMENTS
+                //
+                var audioElements = thisShot.audioElements;
+                if (debug) {
+                    console.log(">>There are "+audioElements.length+" audio elements.");
+                };
+                for (iaudio = 0; iaudio < audioElements.length; iaudio++) { 
+                    var thisAudio = audioElements[iaudio];
+                    if (thisAudio.audioContent) {
+                        var audioIDnum = IDnum+"-"+iaudio;
+                        var audioID = "audio-"+audioIDnum;
+                        // create the audio div
+                        var audioWrapper = audioWrapperDiv.replace("%id", audioIDnum);
+                        $('#'+contentID).append(audioWrapper);
+                        // set up audio elment
+                        setAudioElement(scrollControl, thisAudio, audioID, shotID);
+                    }
                 }
             }
         }
 
 
-        function setSizing(thisShot) {
+        //TODO: pass myContentID to this func
+        function setSizing(thisShot, myShotID, myContentID) {
             // TODO: Add db fields: advanced > height, width, and sticky length
             // for now, we will assume that each shot fills the viewport
             //var contentHeight = "100vh"
@@ -224,6 +313,8 @@ Template.chaptershow.helpers({
             return(myWidth);
         }
 
+        // CREATE SCROLL TRIGGERS
+
         function pinShot(controller, myShot, myWidth, myShotID, myIDnum) {
             // Pin section
             // For the first section, we pin it shortly
@@ -244,15 +335,17 @@ Template.chaptershow.helpers({
             }
         }
 
-        function fullscreenImage(thisShot, myContentID) {
+        // CREATE IMAGE AND VIDEO
+
+        function setFullscreenImage(thisShot, myContentID) {
             $('#'+myContentID).backstretch(imageDir+thisShot.shotContent);
             //TODO:Next line is just a test
             $('#'+myContentID).css("color", "white")
         }
 
-        function fullscreenVideo(controller, thisShot, myContentID, myIDnum) {
+        function setFullscreenVideo(controller, thisShot, myContentID, myIDnum) {
             var myContent = thisShot.shotContent;
-            var myTrigger = thisShot.videoOptions.startTrigger;
+            var myOffset = thisShot.videoOptions.startTrigger;
             var myDuration = thisShot.videoOptions.duration;
             var myLoop = thisShot.videoOptions.videoLoop;
             var myVideoBase = myContent.replace(vidDefault, "");
@@ -274,13 +367,12 @@ Template.chaptershow.helpers({
                     //src: videoDir+myVideoBase+".ogv"}
             ]);
             myBigVideo.getPlayer().pause();
-
             // Trigger background video start and end (loop default)
             var myScrollScene = new ScrollScene({
                 triggerHook: 0,
                 triggerElement: '#'+myContentID,
                 // Use thisShot.startTrigger
-                offset: myTrigger * vw,
+                offset: myOffset * vw,
                 // Use thisShot.duration 
                 //duration: vw * 2,
                 duration: myDuration * vw
@@ -298,23 +390,24 @@ Template.chaptershow.helpers({
             }
         }
 
+        // CREATE AUDIO ELEMENTS
+
         function setAmbientAudio() {
             // Background audio player
-            var source = audioDir+chapter.ambientAudio.audioContent;
-            var volume = chapter.ambientAudio.volume;
+            var mySource = audioDir+chapter.ambientAudio.audioContent;
+            var myVolume = chapter.ambientAudio.volume;
             $('#ambient-wrapper').append(
                 "<video id='audioplayer-ambient'></video>");
-            var audioPlayer0 = new MediaElementPlayer('#audioplayer-ambient', {
+            var myAudioPlayer = new MediaElementPlayer('#audioplayer-ambient', {
                 type: 'audio/mp3',
                 loop: true,
                 success: function (mediaElement, domObject) {
-                    mediaElement.setSrc(source);
+                    mediaElement.setSrc(mySource);
                     mediaElement.load();
                 }
             });
-            audioPlayer0.setVolume(volume);
-            audioPlayer0.play();
-
+            myAudioPlayer.setVolume(myVolume);
+            myAudioPlayer.play();
             // Trigger background audio start and end
             // TODO: Make ambientAudio button
                 //.on("start end", function (e) {
@@ -325,14 +418,64 @@ Template.chaptershow.helpers({
                 //})
         }
 
-        function setTitle(controller, triggerID, contentID) {
-            $('#'+contentID).append(titleWrapper);
-            $('#'+titleWrapperID).append(titleBox);
+        function setAudioElement(scrollControl, myAudio, myContentID, myTriggerID) {
+            var mySource = audioDir+myAudio.audioContent;
+            if (myAudio.audioType = "loop") {
+                var myLoop = true;
+            } else {
+                var myLoop = false;
+            }
+            var myOffset = myAudio.startTrigger;
+            var myDuration = myAudio.duration;
+            var myVolume = myAudio.volume;
+            var myFadein = myAudio.fadeIn;
+            if (debug) {
+                console.log("trigger:"+myTriggerID
+                    +" offset:"+myOffset+" duration:"+myDuration
+                    +" volume:"+myVolume+" fade:"+myFadein+" loop:"+myLoop
+                    +" source:"+mySource);
+            }
+            var myAudioPlayer = new MediaElementPlayer('#'+myContentID, {
+                type: 'audio/mp3',
+                loop: myLoop,
+                success: function (mediaElement, domObject) {
+                    mediaElement.setSrc(mySource);
+                    mediaElement.load();
+                }
+            });
+            myAudioPlayer.setVolume(myVolume);
+            myAudioPlayer.play();
+            // TODO: Implement fade-in/out
+            // Trigger background audio start and end
+            indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
+            new ScrollScene({
+                triggerHook: 0,
+                triggerElement: '#'+myTriggerID,
+                offset: vw * myOffset,
+                duration: vw * myDuration,
+            })
+                .on("start end", function (e) {
+                    myAudioPlayer.play();
+                    console.log(myContentID+": Playing "+mySource+"     Hear it?");
+                })
+                .on("enter leave", function (e) {
+                    myAudioPlayer.pause();
+                    console.log(myContentID+": No longer playing "+mySource);
+                })
+                .addTo(scrollControl)
+                .addIndicators({suffix: myContentID, indent: 60 * indent});
+        }
+
+        // CREATE TITLES
+
+        function setTitle(controller, myTriggerID, myContentID) {
+            $('#'+myContentID).append(titleWrapperDiv);
+            $('#'+titleWrapperID).append(titleBoxDiv);
             $('#'+titleBoxID).html(chapter.chapterName);
             $('#'+titleBoxID).fitText(0.7);
             var myTween = TweenMax.to($('#'+titleWrapperID), 1, {opacity: -0.5, bottom: -vh/3});
             var myScrollScene = new ScrollScene({
-                triggerElement: '#'+triggerID,
+                triggerElement: '#'+myTriggerID,
                 triggerHook: 0,
                 offset: 0,
                 duration: vw * stickyLength,
@@ -342,13 +485,13 @@ Template.chaptershow.helpers({
                 .addTo(controller)
         }
 
-        function setScrollText(controller, triggerID, contentID) {
-            $('#'+contentID).append(scrollBox);
+        function setScrollText(controller, myTriggerID, myContentID) {
+            $('#'+myContentID).append(scrollBoxDiv);
             $('#'+scrollBoxID).html("<img src='"+scrollImage+"' />");
             //$('#'+scrollBoxID).addClass("fade");
             //TODO: instead make this a more efficient css animation w class toggle
             var myScrollScene = new ScrollScene({
-                triggerElement: '#'+triggerID,
+                triggerElement: '#'+myTriggerID,
                 triggerHook: 0,
                 offset: -1,
                 duration: 10
@@ -357,7 +500,7 @@ Template.chaptershow.helpers({
                     $('#'+scrollBoxID).addClass("scroll-box-fade");
                 })
                 .addTo(controller)
-                .addIndicators({suffix: "scrollBox", indent: 20});
+                //.addIndicators({suffix: "scrollBox", indent: 20});
                 myScrollScene
         }
 
