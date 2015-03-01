@@ -3,6 +3,12 @@ debug = 1;
 
 Template.chapterform.rendered = function(){
 
+    console.log("playing howl");
+    var sound = new Howl({
+        src: ['/audio/p10c20s20n05-bob-wills-stay-a-little-longer.mp3']
+    });
+    sound.play();
+
     // Initialize the editor with a JSON schema
     jsonEditor = new JSONEditor(document.getElementById('editor_holder'),{
         "theme": "bootstrap3",

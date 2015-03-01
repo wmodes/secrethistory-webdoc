@@ -39,9 +39,9 @@
 * Video.js v4.10.2 - Video player used by BigVideo
 *       (c) 2014 Brightcove, Inc. Apache License, Version 2.0
 *       (https://github.com/videojs/video.js/blob/master/LICENSE)
-* MediaElement.js v2.16.3 - for background audio player. Loaded as client/libjs file. The
-*       player is in an 'offstage' DOM object so it is not visible. ScrollMagic is
-*       used to trigger video according to design of chapter.
+* Howler.js 2.0.0 - for background audio player. Loaded as client/libjs file. The
+*       player is in an javascript only library so it is not visible. ScrollMagic is
+*       used to trigger audio according to design of chapter.
 *       (c) 2010-2014, John Dyer (http://j.hn) MIT License
 * FitText.js 1.2 - expands text to fit container used for titles.
 *       (c) 2011, Dave Rupert (http://daverupert.com) 
@@ -396,26 +396,15 @@ Template.chaptershow.helpers({
             // Background audio player
             var mySource = audioDir+chapter.ambientAudio.audioContent;
             var myVolume = chapter.ambientAudio.volume;
-            $('#ambient-wrapper').append(
-                "<video id='audioplayer-ambient'></video>");
-            var myAudioPlayer = new MediaElementPlayer('#audioplayer-ambient', {
-                type: 'audio/mp3',
+            // we are using howler.js for audio
+            var mySound = new Howl({
+                src: [mySource],
+                preload: true,
+                autoplay: true,
                 loop: true,
-                success: function (mediaElement, domObject) {
-                    mediaElement.setSrc(mySource);
-                    mediaElement.load();
-                }
-            });
-            myAudioPlayer.setVolume(myVolume);
-            myAudioPlayer.play();
-            // Trigger background audio start and end
+                volume: myVolume
+            }).play();
             // TODO: Make ambientAudio button
-                //.on("start end", function (e) {
-                    //audioPlayer1.play();
-                //})
-                //.on("enter leave", function (e) {
-                    //audioPlayer1.pause();
-                //})
         }
 
         function setAudioElement(scrollControl, myAudio, myContentID, myTriggerID) {
@@ -435,16 +424,14 @@ Template.chaptershow.helpers({
                     +" volume:"+myVolume+" fade:"+myFadein+" loop:"+myLoop
                     +" source:"+mySource);
             }
-            var myAudioPlayer = new MediaElementPlayer('#'+myContentID, {
-                type: 'audio/mp3',
+
+            var mySound = new Howl({
+                src: [mySource],
+                preload: true,
+                autoplay: false,
                 loop: myLoop,
-                success: function (mediaElement, domObject) {
-                    mediaElement.setSrc(mySource);
-                    mediaElement.load();
-                }
+                volume: myVolume
             });
-            myAudioPlayer.setVolume(myVolume);
-            myAudioPlayer.play();
             // TODO: Implement fade-in/out
             // Trigger background audio start and end
             indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
@@ -455,11 +442,11 @@ Template.chaptershow.helpers({
                 duration: vw * myDuration,
             })
                 .on("start end", function (e) {
-                    myAudioPlayer.play();
+                    mySound.play();
                     console.log(myContentID+": Playing "+mySource+"     Hear it?");
                 })
                 .on("enter leave", function (e) {
-                    myAudioPlayer.pause();
+                    mySound.pause();
                     console.log(myContentID+": No longer playing "+mySource);
                 })
                 .addTo(scrollControl)
