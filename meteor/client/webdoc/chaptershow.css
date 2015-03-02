@@ -80,6 +80,13 @@
     font-size: 14px;
 }
 
+/* Typography */
+
+.webdoc h1, .webdoc h2, .webdoc h3, .webdoc h4, .webdoc h5 {
+    font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
+    color: white;
+}
+
 /* spinner */
 
 .spinner {

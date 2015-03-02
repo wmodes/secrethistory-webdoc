@@ -5,7 +5,7 @@
   "chapterName": "Life on the Shantyboat",
   "ambientAudio": {
     "audioContent": "p10c20s10n05-small-waves-lapping.mp3",
-    "volume": 1
+    "volume": 0.5
   },
   "scenes": [
     {
@@ -25,10 +25,10 @@
           },
           "audioElements": [
             {
-              "audioContent": "p10c20s10n05-wes-we-had-all-the-comforts.mp3",
+              "audioContent": "",
               "audioType": "once",
               "startTrigger": 0,
-              "duration": 8,
+              "duration": 1,
               "volume": 1,
               "fadeIn": true
             }
@@ -46,7 +46,16 @@
             "startTrigger": 0,
             "duration": 1
           },
-          "audioElements": [],
+          "audioElements": [
+            {
+              "audioContent": "p10c20s10n05-wes-we-had-all-the-comforts.mp3",
+              "audioType": "once",
+              "startTrigger": 0,
+              "duration": 7,
+              "volume": 1,
+              "fadeIn": true
+            }
+          ],
           "visualElements": []
         },
         {
@@ -151,7 +160,7 @@
           "shotNumber": 60,
           "shotContent": "p10c20s10n60-doty-under-bridge.jpg",
           "shotType": "still",
-          "sticky": true,
+          "sticky": false,
           "transitionType": "push",
           "videoOptions": {
             "videoLoop": "once",
@@ -159,7 +168,32 @@
             "duration": 1
           },
           "audioElements": [],
-          "visualElements": []
+          "visualElements": [
+            {
+              "visualContent": "p10c20s10n60-doty-under-bridge-2.png",
+              "visualType": "still",
+              "fullscreen": true,
+              "zIndex": 5,
+              "cssBase": "position: absolute;\ntop: 0;\nleft: 0;",
+              "transitions": [
+                {
+                  "transitionType": "animate",
+                  "startTrigger": -0.25,
+                  "duration": 1,
+                  "cssStart": "left:0;",
+                  "cssEnd": "left:-100vw;"
+                }
+              ]
+            },
+            {
+              "visualContent": "<h1>The Shantyboat Doty</h1>",
+              "visualType": "html",
+              "fullscreen": false,
+              "zIndex": 3,
+              "cssBase": "position: absolute;\ntop: 5vh;\nleft: 20vw;\nwidth: 30vw;",
+              "transitions": []
+            }
+          ]
         }
       ]
     },
@@ -182,24 +216,24 @@
             {
               "audioContent": "p10c20s20n05-bob-wills-stay-a-little-longer.mp3",
               "audioType": "loop",
-              "startTrigger": -3,
-              "duration": 4.5,
+              "startTrigger": -1,
+              "duration": 3.5,
               "volume": 0.5,
               "fadeIn": true
             },
             {
               "audioContent": "p10c20s20n05-radio-band-tuning.mp3",
               "audioType": "loop",
-              "startTrigger": -2.9,
-              "duration": 0.1,
+              "startTrigger": -1.05,
+              "duration": 0.05,
               "volume": 0.5,
               "fadeIn": true
             },
             {
               "audioContent": "p10c20s20n05-radio-band-tuning.mp3",
               "audioType": "loop",
-              "startTrigger": 1.5,
-              "duration": 0.1,
+              "startTrigger": 2.5,
+              "duration": 0.05,
               "volume": 0.5,
               "fadeIn": true
             },
@@ -369,8 +403,8 @@
           "transitionType": "push",
           "videoOptions": {
             "videoLoop": "loop",
-            "startTrigger": -1.5,
-            "duration": 2.5
+            "startTrigger": -1,
+            "duration": 2
           },
           "audioElements": [
             {

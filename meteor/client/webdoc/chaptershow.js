@@ -64,7 +64,8 @@
 
 // Useful constants 
 // TODO: Is there a better place to put these?
-//debug = true;
+//
+debug = false;
 stickyLength = 0.33;
 mouseSpeed = 30;
 
@@ -384,7 +385,9 @@ Template.chaptershow.helpers({
             });
             var myBigVideo = new $.BigVideo(myVideoSettings);
             myBigVideo.init();
-            console.log("Loading video: "+videoDir+myVideoBase+".mp4");
+            if (debug) {
+                console.log("Loading video: "+videoDir+myVideoBase+".mp4");
+            }
             myBigVideo.show([
                 { type: "video/mp4",  
                     src: videoDir+myVideoBase+".mp4"},
@@ -469,11 +472,15 @@ Template.chaptershow.helpers({
             })
                 .on("start end", function (e) {
                     mySound.play();
-                    console.log(myContentID+": Playing "+mySource+"     Hear it?");
+                    if (debug) {
+                        console.log(myContentID+": Playing "+mySource+"     Hear it?");
+                    }
                 })
                 .on("enter leave", function (e) {
                     mySound.pause();
-                    console.log(myContentID+": No longer playing "+mySource);
+                    if (debug) {
+                        console.log(myContentID+": No longer playing "+mySource);
+                    }
                 })
                 .addTo(scrollControl);
             if (debug) {
@@ -520,7 +527,6 @@ Template.chaptershow.helpers({
             };
             for (itrans = 0; itrans < transitions.length; itrans++) { 
                 var thisTrans = transitions[itrans];
-                console.log(thisTrans);
                 // we only do this if we have something to do
                 if (thisTrans.cssEnd) {
                     // set up visual elment
