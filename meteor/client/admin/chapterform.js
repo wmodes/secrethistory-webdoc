@@ -1,13 +1,16 @@
 debug = 1;
 
+changedFlag = false;
 
 Template.chapterform.rendered = function(){
 
+    /* entertainment!
     console.log("playing howl");
     var sound = new Howl({
         src: ['/audio/p10c20s20n05-bob-wills-stay-a-little-longer.mp3']
     });
     sound.play();
+    */
 
     // Initialize the editor with a JSON schema
     jsonEditor = new JSONEditor(document.getElementById('editor_holder'),{
@@ -531,6 +534,18 @@ Template.chapterform.rendered = function(){
 
     // Watch fields
 
+    //TODO: Add confirmation before closing window
+
+    //TODO: Flag changedFlag if any field is changed to prevent search from destroying data    
+    // This won't cover fields that are currently not showing i.e. collapsed fields
+    // but it is better than nothing
+    $("#editor_holder .form-control").change(function(){
+        changedFlag = true;
+        if (debug) {
+            console.log("changed!")
+        }
+    });
+
     $("div[data-schemaid='pathNumber'] input").change(function(){
         var pathNum = parseInt($(this).val());
         var chapterNum = parseInt($("div[data-schemaid='chapterNumber'] input").val());
@@ -567,6 +582,19 @@ Template.chapterform.rendered = function(){
         });
     }
 
+    function confirmBonk(){
+        //TODO: Make this a confirmation instead
+        bootbox.alert({
+          title: "Bonk Prevented",
+          message:
+              "<span class='error'>"+
+              "<h3>Your data has been changed</h3><br>"+
+              "This search would bonk your changed data, so we didn't do it."+
+              "</span>"
+        });
+        return false;
+    }
+
     // if we select shot type video, uncollapse video options
     $("div[data-schemaid='shotType'] select").change(function(){
     //$("div[data-schemaid='shotType'] div select").on("change", function(){
@@ -590,6 +618,9 @@ Template.chapterform.rendered = function(){
     // Search Button
     //
     $(".search-button").click(function() {
+        if (changedFlag && !confirmBonk()) {
+            return false;
+        }
         // Get the value from the editor
         pathNum = parseInt($("#path-num").val());
         chapterNum = parseInt($("#chapter-num").val());
@@ -622,10 +653,35 @@ Template.chapterform.rendered = function(){
         }
     });
 
+    // New Button
+    //
+    $(".new-button").click(function() {
+        if (changedFlag && !confirmBonk()) {
+            return false;
+        }
+        // Reset to all dafaults - but how?
+        jsonEditor.setValue();
+        // make the pathNum and chapterNum not readonly
+        unprotectIndexNumbers();
+        // remove saved id
+        Session.set('current_id', null);
+        // clear search fields
+        $("#path-num").val(null)
+        $("#chapter-num").val(null)
+        $("#search-results").html("<span class='info'>New chapter. Save frequently.</span>");
+        $("div [data-schemapath='root.pathNumber'] input").focus();
+    });
+
     function protectIndexNumbers() {
         // make fields readonly
         $("div [data-schemapath='root.pathNumber'] input").attr("readonly", true);
         $("div [data-schemapath='root.chapterNumber'] input").attr("readonly", true);
+    }
+
+    function unprotectIndexNumbers() {
+        // make fields not readonly
+        $("div [data-schemapath='root.pathNumber'] input").attr("readonly", false);
+        $("div [data-schemapath='root.chapterNumber'] input").attr("readonly", false);
     }
 
     // Submit Button
@@ -672,6 +728,7 @@ Template.chapterform.rendered = function(){
                     myChapter.chapterNumber, myChapter.chapterName);
                 return;
             } else {
+                // SAVE
                 // insert document in collection and save returned id
                 myid = ChapterCollection.insert(myChapter);
                 Session.set('current_id', myid);
@@ -679,6 +736,7 @@ Template.chapterform.rendered = function(){
                 protectIndexNumbers();
             }
         }
+        changedFlag = false;
         bootbox.alert({
             title: "Saved",
             message:

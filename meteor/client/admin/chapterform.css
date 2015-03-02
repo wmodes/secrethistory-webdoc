@@ -79,7 +79,7 @@
 
 .json-form button.our-button {
     float: right;
-    margin: 0 5px 0 5px;
+    margin-right: 5px;
 }
 
 /* our input fields */
@@ -93,7 +93,6 @@
 .json-form .our-search-button-field {
     float: left;
     margin-right: 5px;
-    width: 140px;
 }
 
 .json-form .our-search-field input {
@@ -113,11 +112,15 @@
 
 /* button and field formatting */
 
-.json-form .our-row {
+.json-form .our-search-row {
+    display: table;
+    overflow: auto;
 }
 
-.json-form .our-search-row {
-    overflow: auto;
+.json-form .our-search-field,
+.json-form .our-search-button-field {
+    display: table-cell;
+    align: bottom;
 }
 
 .json-form .our-row-seperator {
