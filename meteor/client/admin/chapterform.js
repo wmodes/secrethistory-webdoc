@@ -394,7 +394,7 @@ Template.chapterform.rendered = function(){
                                   "expand_height": true
                                 },
                                 "title": "css Base",
-                                "description": "Base css of element (for position, size, scale, opacity, etc.)",
+                                "description": "Base css of containing div (for position, size, scale, opacity, etc.)",
                                 "name": "css Base"
                               },
                               "transitions": {
@@ -461,7 +461,7 @@ Template.chapterform.rendered = function(){
                                       },
                                       "expand_height": true,
                                       "title": "css Start",
-                                      "description": "Start css of element (for position, size, scale, opacity, etc.)",
+                                      "description": "Start css of containing div (for position, size, scale, opacity, etc.)",
                                       "name": "css Start"
                                     },
                                     "cssEnd": {
@@ -473,7 +473,7 @@ Template.chapterform.rendered = function(){
                                       },
                                       "expand_height": true,
                                       "title": "css End",
-                                      "description": "End css of element (for position, size, scale, opacity, etc.)",
+                                      "description": "End css of containing div (for position, size, scale, opacity, etc.)",
                                       "name": "css End"
                                     }
                                   },

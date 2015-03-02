@@ -93,6 +93,7 @@ scrollBoxDiv = "<div id='scroll-box' class='chapter-scroll-box'>";
 scrollBoxID = "scroll-box";
 
 audioWrapperDiv = "<div class='audio offstage'><video id='audio-%id'></video></div>";
+visualWrapperDiv = "<div id='visual-%id' class='visual-element'></div>";
 
 // file locations
 imageDir = "/images/";
@@ -280,6 +281,26 @@ Template.chaptershow.helpers({
                         setAudioElement(scrollControl, thisAudio, audioID, shotID);
                     }
                 }
+
+                // VISUAL ELEMENTS
+                //
+                var visualElements = thisShot.visualElements;
+                if (debug) {
+                    console.log(">>There are "+visualElements.length+" visual elements.");
+                };
+                for (ivisual = 0; ivisual < visualElements.length; ivisual++) { 
+                    var thisVisual = visualElements[ivisual];
+                    if (thisVisual.visualContent) {
+                        var visualIDnum = IDnum+"-"+ivisual;
+                        var visualID = "visual-"+visualIDnum;
+                        // create the visual div
+                        var visualWrapper = visualWrapperDiv.replace("%id", visualIDnum);
+                        $('#'+contentID).append(visualWrapper);
+                        // set up visual elment
+                        setVisualElement(scrollControl, thisVisual, visualID, shotID);
+                    }
+                }
+
             }
         }
 
@@ -424,7 +445,6 @@ Template.chaptershow.helpers({
                     +" volume:"+myVolume+" fade:"+myFadein+" loop:"+myLoop
                     +" source:"+mySource);
             }
-
             var mySound = new Howl({
                 src: [mySource],
                 preload: true,
@@ -434,6 +454,48 @@ Template.chaptershow.helpers({
             });
             // TODO: Implement fade-in/out
             // Trigger background audio start and end
+            indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
+            new ScrollScene({
+                triggerHook: 0,
+                triggerElement: '#'+myTriggerID,
+                offset: vw * myOffset,
+                duration: vw * myDuration,
+            })
+                .on("start end", function (e) {
+                    mySound.play();
+                    console.log(myContentID+": Playing "+mySource+"     Hear it?");
+                })
+                .on("enter leave", function (e) {
+                    mySound.pause();
+                    console.log(myContentID+": No longer playing "+mySource);
+                })
+                .addTo(scrollControl)
+                .addIndicators({suffix: myContentID, indent: 60 * indent});
+        }
+
+        // VISUAL ELEMENTS
+
+        function setVisualElement(scrollControl, myVisual, myContentID, myTriggerID) {
+            var myContent = visualDir+myVisual.visualContent;
+            var myType = myVisual.visualType;
+            var myZindex = myVisual.zIndex;
+            var myCSSbase = myVisual.cssBase;
+            if (debug) {
+                console.log("content:"+myContent
+                    +" type:"+myType+" z-index:"+myZindex
+                    +" css base:"+myCSSbase);
+            }
+            if (myType == "still") {
+                // TODO: Instead of putting image in div, replace div with image and give same id
+                $('#'+myContentID).html("<img src='"+myContent+"' />");
+            } else {
+                $('#'+myContentID).html(myContent);
+            }
+            $('#'+myContentID).css("z-index", myZindex);
+            // TODO: How do I take css and parse it into this format
+            $('#'+myContentID).css(myCSSbase);
+
+            // Trigger background visual start and end
             indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
             new ScrollScene({
                 triggerHook: 0,
