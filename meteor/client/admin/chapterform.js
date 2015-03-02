@@ -378,6 +378,14 @@ Template.chapterform.rendered = function(){
                                 ],
                                 "name": "element Type"
                               },
+                              "fullscreen": {
+                                "id": "fullscreen",
+                                "type": "boolean",
+                                "title": "Fullscreen",
+                                "description": "Should this image be stretched fullscreen like the background?",
+                                "name": "Fullscreen",
+                                "default": 0
+                              },
                               "zIndex": {
                                 "id": "zIndex",
                                 "type": "number",
@@ -490,6 +498,7 @@ Template.chapterform.rendered = function(){
                             "required": [
                               "visualContent",
                               "visualType",
+                              "fullscreen",
                               "zIndex",
                               "cssBase",
                               "transitions"

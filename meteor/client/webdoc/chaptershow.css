@@ -29,9 +29,11 @@
 }
 
 #doc-canvas .shot-wrap {
+  overflow: hidden;
 }
 
 #doc-canvas .content {
+  overflow: hidden;
 }
 
 #doc-canvas, 
@@ -40,6 +42,7 @@
 #doc-canvas #table-wrapper {
   height: 100vh;
   background-color: black;
+  overflow: hidden;
 }
 
 /* testing borders
@@ -257,6 +260,15 @@ body.fancyscroll ::-webkit-scrollbar-thumb
 */
 
 /* Stuff Specific to these test pages */
+
+.webdoc .debug {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    text-align: right;
+    font-size: 10px;
+    z-index: 100;
+}
 
 .webdoc .shot {
   top: 0;

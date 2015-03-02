@@ -64,7 +64,7 @@
 
 // Useful constants 
 // TODO: Is there a better place to put these?
-debug = true;
+//debug = true;
 stickyLength = 0.33;
 mouseSpeed = 30;
 
@@ -250,11 +250,17 @@ Template.chaptershow.helpers({
                 // CONTENT
                 //
                 // just for kicks, we throw in a little content
-                var content = "<h1>Shot "+IDnum+"</h1>"
-                    + "<p>Content: "+thisShot.shotContent+"</p>"
-                    + "<p>Type: "+thisShot.shotType+"</p>"
-                    + "<p>Sticky: "+thisShot.sticky+"</p>";
-                $('#'+contentID).append(content);
+                if (debug) {
+                    var content = "<div class='debug'>"
+                        + "Shot "+IDnum+"<br/>"
+                        + thisShot.shotContent+"<br/>"
+                        + "Type: "+thisShot.shotType+"<br/>"
+                        + "Sticky: "+thisShot.sticky+"<br/>"
+                        + "Audio elements: " + thisShot.audioElements.length+"<br/>"
+                        + "Visual elements: " + thisShot.visualElements.length+"<br/>"
+                        + "</div>";
+                    $('#'+contentID).append(content);
+                }
 
                 // Background for this shot, stills or video
                 if (thisShot.shotType == "still") {
@@ -455,7 +461,7 @@ Template.chaptershow.helpers({
             // TODO: Implement fade-in/out
             // Trigger background audio start and end
             indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
-            new ScrollScene({
+            var myScrollScene = new ScrollScene({
                 triggerHook: 0,
                 triggerElement: '#'+myTriggerID,
                 offset: vw * myOffset,
@@ -469,50 +475,85 @@ Template.chaptershow.helpers({
                     mySound.pause();
                     console.log(myContentID+": No longer playing "+mySource);
                 })
-                .addTo(scrollControl)
-                .addIndicators({suffix: myContentID, indent: 60 * indent});
+                .addTo(scrollControl);
+            if (debug) {
+                myScrollScene.addIndicators({suffix: myContentID, indent: 60 * indent});
+            }
         }
 
         // VISUAL ELEMENTS
 
         function setVisualElement(scrollControl, myVisual, myContentID, myTriggerID) {
-            var myContent = visualDir+myVisual.visualContent;
+            var myContent = myVisual.visualContent;
             var myType = myVisual.visualType;
+            var myFullscreen = myVisual.fullscreen;
             var myZindex = myVisual.zIndex;
             var myCSSbase = myVisual.cssBase;
+            myTarget = $('#'+myContentID)
             if (debug) {
                 console.log("content:"+myContent
                     +" type:"+myType+" z-index:"+myZindex
                     +" css base:"+myCSSbase);
             }
             if (myType == "still") {
-                // TODO: Instead of putting image in div, replace div with image and give same id
-                $('#'+myContentID).html("<img src='"+myContent+"' />");
+                myContent = imageDir+myContent;
+                // Instead of putting image in div, replace div with image and give same id
+                myTarget.replaceWith("<img id='"+myContentID+"' src='"+myContent+"' />");
+                // we do this again because it just changed
+                myTarget = $('#'+myContentID)
             } else {
-                $('#'+myContentID).html(myContent);
+                myTarget.html(myContent);
             }
-            $('#'+myContentID).css("z-index", myZindex);
-            // TODO: How do I take css and parse it into this format
-            $('#'+myContentID).css(myCSSbase);
+            if (myFullscreen) {
+                var parentID = myTarget.parent().attr('id');
+                var backgroundStyle = $('#'+parentID+" .backstretch").attr("style");
+                myTarget.attr("style", myTarget.attr("style") + "; " + backgroundStyle);
+            }
+            myTarget.css("z-index", myZindex);
+            // Add cssBase css to existing element style
+            myTarget.attr("style", myTarget.attr("style") + "; " + myCSSbase);
 
+            //TODO: Process transitions
+            var transitions = myVisual.transitions;
+            if (debug) {
+                console.log(">>>There are "+transitions.length+" transitions.");
+            };
+            for (itrans = 0; itrans < transitions.length; itrans++) { 
+                var thisTrans = transitions[itrans];
+                console.log(thisTrans);
+                // we only do this if we have something to do
+                if (thisTrans.cssEnd) {
+                    // set up visual elment
+                    setVisualTrans(scrollControl, thisTrans, visualID, shotID);
+                }
+            }
+
+        }
+
+        function setVisualTrans(scrollControl, myTrans, myContentID, myTriggerID) {
             // Trigger background visual start and end
-            indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
-            new ScrollScene({
+            myOffset = myTrans.startTrigger;
+            myDuration = myTrans.duration;
+            // for now we ignore start
+            //TODO: If not needed we should delete it from the db & form as well
+            myCSSstart = CSSJSON.toJSON(myTrans.cssStart).attributes;
+            myCSSend = CSSJSON.toJSON(myTrans.cssEnd).attributes;
+            var myTween = TweenMax.to($('#'+myContentID), 1, myCSSend);
+            if (debug) {
+                console.log("Trans "+myContentID+" offset: "+myOffset+" duration: "+myDuration);
+            }
+            myScrollScene = new ScrollScene({
                 triggerHook: 0,
                 triggerElement: '#'+myTriggerID,
                 offset: vw * myOffset,
                 duration: vw * myDuration,
+                tweenChanges: true
             })
-                .on("start end", function (e) {
-                    mySound.play();
-                    console.log(myContentID+": Playing "+mySource+"     Hear it?");
-                })
-                .on("enter leave", function (e) {
-                    mySound.pause();
-                    console.log(myContentID+": No longer playing "+mySource);
-                })
-                .addTo(scrollControl)
-                .addIndicators({suffix: myContentID, indent: 60 * indent});
+                .setTween(myTween)
+                .addTo(scrollControl);
+            if (debug) {
+                myScrollScene.addIndicators({suffix: myContentID, indent: 60 * 8});
+            }
         }
 
         // CREATE TITLES
@@ -538,7 +579,6 @@ Template.chaptershow.helpers({
             $('#'+myContentID).append(scrollBoxDiv);
             $('#'+scrollBoxID).html("<img src='"+scrollImage+"' />");
             //$('#'+scrollBoxID).addClass("fade");
-            //TODO: instead make this a more efficient css animation w class toggle
             var myScrollScene = new ScrollScene({
                 triggerElement: '#'+myTriggerID,
                 triggerHook: 0,
@@ -548,9 +588,10 @@ Template.chaptershow.helpers({
                 .on("leave end",function(){
                     $('#'+scrollBoxID).addClass("scroll-box-fade");
                 })
-                .addTo(controller)
-                //.addIndicators({suffix: "scrollBox", indent: 20});
-                myScrollScene
+                .addTo(controller);
+            if (debug) {
+                myScrollScene.addIndicators({suffix: "scrollBox", indent: 20});
+            }
         }
 
         // RANDOM HELPERS
