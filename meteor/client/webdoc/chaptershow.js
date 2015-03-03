@@ -61,6 +61,9 @@
 *       (c) 2011 Brandon Aaron (http://brandonaaron.net) MIT License
 */
 
+// TESTING HARDCODED PATH & CHAPTER
+myPathNumber = 10;
+myChapterNumber = 10;
 
 // Useful constants 
 // TODO: Is there a better place to put these?
@@ -174,7 +177,13 @@ Template.chaptershow.helpers({
         // Okay, now we start reading data and generating content
 
         // get a chapter from the database
-        chapter = ChapterCollection.findOne();
+        chapter = ChapterCollection.findOne({
+            pathNumber: myPathNumber, 
+            chapterNumber: myChapterNumber
+        });
+        //TODO: If we don't get it at first now what?
+        debug = chapter.debug;
+
         //alert(JSON.stringify(chapterArray, null, 2));
         if (debug) {
             console.log("We are rendering the following chapter:\n\tp"
@@ -377,10 +386,16 @@ Template.chaptershow.helpers({
             var myDuration = thisShot.videoOptions.duration;
             var myLoop = thisShot.videoOptions.videoLoop;
             var myVideoBase = myContent.replace(vidDefault, "");
+            if (debug) {
+                console.log("full screen video: "
+                    + " offset:"+myOffset + " duration:"+myDuration
+                    + " loop:"+myLoop + " source:"+myContent);
+            }
             // defaults are set above
             myVideoSettings = $.extend({}, bigVideoDefaults, {
                 container: $('#'+myContentID),
                 doLoop: myLoop,
+                loop: myLoop,
                 id: "bigvideo-"+myIDnum
             });
             var myBigVideo = new $.BigVideo(myVideoSettings);
@@ -439,11 +454,7 @@ Template.chaptershow.helpers({
 
         function setAudioElement(scrollControl, myAudio, myContentID, myTriggerID) {
             var mySource = audioDir+myAudio.audioContent;
-            if (myAudio.audioType = "loop") {
-                var myLoop = true;
-            } else {
-                var myLoop = false;
-            }
+            var myLoop = myAudio.audioLoop;
             var myOffset = myAudio.startTrigger;
             var myDuration = myAudio.duration;
             var myVolume = myAudio.volume;
@@ -540,9 +551,6 @@ Template.chaptershow.helpers({
             // Trigger background visual start and end
             myOffset = myTrans.startTrigger;
             myDuration = myTrans.duration;
-            // for now we ignore start
-            //TODO: If not needed we should delete it from the db & form as well
-            myCSSstart = CSSJSON.toJSON(myTrans.cssStart).attributes;
             myCSSend = CSSJSON.toJSON(myTrans.cssEnd).attributes;
             var myTween = TweenMax.to($('#'+myContentID), 1, myCSSend);
             if (debug) {

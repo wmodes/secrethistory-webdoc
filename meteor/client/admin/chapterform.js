@@ -61,6 +61,13 @@ Template.chapterform.rendered = function(){
               "description": "Name for this chapter",
               "name": "chapter Name"
             },
+            "debug": {
+              "id": "debug",
+              "type": "boolean",
+              "title": "Debugging Output",
+              "description": "Do we output debugging info during testing for this chapter?",
+              "name": "debug"
+            },
             "ambientAudio": {
               "type": "object",
               "title": "Ambient Audio",
@@ -223,32 +230,28 @@ Template.chapterform.rendered = function(){
                           "properties": {
                             "videoLoop": {
                               "id": "videoLoop",
-                              "type": "string",
-                              "minLength": 0,
-                              "title": "Loop (Video Only)",
-                              "description": "Loop or played once?",
+                              "type": "boolean",
+                              "title": "Loop",
+                              "description": "Should this video be looped?",
                               "name": "Video Loop",
-                              "enum": [
-                                "once",
-                                "loop"
-                              ]
+                              "default": true
                             },
                             "startTrigger": {
                               "id": "startTrigger",
                               "type": "number",
-                              "title": "Start Trigger (Video Only)",
+                              "title": "Start Trigger",
                               "description": "Relative to start of shot (winUnits. 0=start, 0.5=half. Can be negative)",
                               "name": "start Trigger",
-                              "default": 0
+                              "default": -1
                             },
                             "duration": {
                               "id": "duration",
                               "type": "number",
-                              "title": "Duration (Video Only)",
+                              "title": "Duration",
                               "description": "Duration of shot (winUnits. 0.5=half, 2=two screens)",
                               "name": "Duration",
                               "minimum": 0,
-                              "default": 1
+                              "default": 2
                             }
                           }
                         },
@@ -277,17 +280,13 @@ Template.chapterform.rendered = function(){
                                 "description": "Filename of audio file",
                                 "name": "audio Content"
                               },
-                              "audioType": {
-                                "id": "audioType",
-                                "type": "string",
-                                "minLength": 0,
-                                "title": "Audio Type",
-                                "description": "Loop or played once?",
-                                "name": "audio Type",
-                                "enum": [
-                                  "once",
-                                  "loop"
-                                ]
+                              "audioLoop": {
+                                "id": "audioLoop",
+                                "type": "boolean",
+                                "title": "Audio Loop",
+                                "description": "Should this audio be looped?",
+                                "name": "Audio Loop",
+                                "default": true
                               },
                               "startTrigger": {
                                 "id": "startTrigger",
@@ -295,7 +294,7 @@ Template.chapterform.rendered = function(){
                                 "title": "Start Trigger",
                                 "description": "Relative to start of shot (winUnits. 0=start, 0.5=half. Can be negative)",
                                 "name": "start Trigger",
-                                "default": 0
+                                "default": -1
                               },
                               "duration": {
                                 "id": "duration",
@@ -304,7 +303,7 @@ Template.chapterform.rendered = function(){
                                 "description": "Duration of shot (winUnits. 0.5=half, 2=two screens)",
                                 "name": "Duration",
                                 "minimum": 0,
-                                "default": 1
+                                "default": 2
                               },
                               "volume": {
                                 "id": "volume",
@@ -327,7 +326,7 @@ Template.chapterform.rendered = function(){
                             },
                             "required": [
                               "audioContent",
-                              "audioType",
+                              "audioLoop",
                               "startTrigger",
                               "duration",
                               "volume",
@@ -401,8 +400,8 @@ Template.chapterform.rendered = function(){
                                 "options": {
                                   "expand_height": true
                                 },
-                                "title": "css Base",
-                                "description": "Base css of containing div (for position, size, scale, opacity, etc.)",
+                                "title": "Starting CSS",
+                                "description": "Starting css of containing div (for position, size, scale, opacity, etc.)",
                                 "name": "css Base"
                               },
                               "transitions": {
@@ -449,7 +448,7 @@ Template.chapterform.rendered = function(){
                                       "title": "Start Trigger",
                                       "description": "Relative to start of shot (winUnits. 0=start, 0.5=half. Can be negative)",
                                       "name": "start Trigger",
-                                      "default": 0
+                                      "default": -1
                                     },
                                     "duration": {
                                       "id": "duration",
@@ -458,19 +457,7 @@ Template.chapterform.rendered = function(){
                                       "description": "Duration of transition (winUnits. 0.5=half, 2=two screens)",
                                       "name": "Duration",
                                       "minimum": 0,
-                                      "default": 1
-                                    },
-                                    "cssStart": {
-                                      "id": "cssStart",
-                                      "type": "string",
-                                      "format": "textarea",
-                                      "options": {
-                                        "expand_height": true
-                                      },
-                                      "expand_height": true,
-                                      "title": "css Start",
-                                      "description": "Start css of containing div (for position, size, scale, opacity, etc.)",
-                                      "name": "css Start"
+                                      "default": 2
                                     },
                                     "cssEnd": {
                                       "id": "cssEnd",
@@ -480,8 +467,8 @@ Template.chapterform.rendered = function(){
                                         "expand_height": true
                                       },
                                       "expand_height": true,
-                                      "title": "css End",
-                                      "description": "End css of containing div (for position, size, scale, opacity, etc.)",
+                                      "title": "Ending CSS",
+                                      "description": "CSS of containing div at end of transition (for position, size, scale, opacity, etc.)",
                                       "name": "css End"
                                     }
                                   },
@@ -489,7 +476,6 @@ Template.chapterform.rendered = function(){
                                     "transitionType",
                                     "startTrigger",
                                     "duration",
-                                    "cssStart",
                                     "cssEnd"
                                   ]
                                 }
@@ -534,6 +520,7 @@ Template.chapterform.rendered = function(){
             "pathName",
             "chapterNumber",
             "chapterName",
+            "debug",
             "ambientAudio",
             "scenes"
           ]
