@@ -1,8 +1,11 @@
 debug = 1;
 
-changedFlag = false;
+chapterURL = "/chapter/";
 
 Template.chapterform.rendered = function(){
+
+    changedFlag = false;
+    setConfirmUnload(false);
 
     /* entertainment!
     console.log("playing howl");
@@ -60,6 +63,14 @@ Template.chapterform.rendered = function(){
               "title": "Chapter Name",
               "description": "Name for this chapter",
               "name": "chapter Name"
+            },
+            "slug": {
+              "id": "slug",
+              "type": "string",
+              "minLength": 0,
+              "title": "Slug",
+              "description": "Slug for URL",
+              "name": "slug"
             },
             "debug": {
               "id": "debug",
@@ -520,6 +531,7 @@ Template.chapterform.rendered = function(){
             "pathName",
             "chapterNumber",
             "chapterName",
+            "slug",
             "debug",
             "ambientAudio",
             "scenes"
@@ -537,6 +549,7 @@ Template.chapterform.rendered = function(){
     // but it is better than nothing
     $("#editor_holder .form-control").change(function(){
         changedFlag = true;
+        setConfirmUnload(true);
         if (debug) {
             console.log("changed!")
         }
@@ -553,6 +566,24 @@ Template.chapterform.rendered = function(){
         var pathNum = parseInt($("div[data-schemaid='pathNumber'] input").val());
         checkConflict(pathNum, chapterNum);
     });
+
+    $("div[data-schemaid='pathName'] input").change(function(){
+        var pathName = $(this).val();
+        var chapterName = $("div[data-schemaid='chapterName'] input").val();
+        var slug = makeSafeFilename(pathName)+'/'+makeSafeFilename(chapterName);
+        jsonEditor.getEditor('root.slug').setValue(slug)
+    });
+
+    $("div[data-schemaid='chapterName'] input").change(function(){
+        var chapterName = $(this).val();
+        var pathName = $("div[data-schemaid='pathName'] input").val();
+        var slug = makeSafeFilename(pathName)+'/'+makeSafeFilename(chapterName);
+        jsonEditor.getEditor('root.slug').setValue(slug)
+    });
+
+    function makeSafeFilename(dirtyString) {
+        return dirtyString.replace(/([^a-z0-9]+)/gi, '-').replace(/--*/g, '-').toLowerCase();
+    }
 
     function checkConflict(pathNum, chapterNum) {
         // First, we wouldn't be here if either pathNumber of chapterNumber weren't changed
@@ -590,6 +621,26 @@ Template.chapterform.rendered = function(){
         });
         return false;
     }
+    
+    // Prevent accidental navigation away
+
+    function setConfirmUnload(on)
+    {
+        window.onbeforeunload = on ? unloadMessage : null;
+    }
+    function unloadMessage()
+    {
+        return ('You have entered new data on this page. ' +
+                'If you navigate away from this page without ' +
+                'first saving your data, the changes will be lost.');
+    }
+
+    window.onerror = UnspecifiedErrorHandler;
+    function UnspecifiedErrorHandler()
+    {
+        return true;
+    }
+
 
     // if we select shot type video, uncollapse video options
     $("div[data-schemaid='shotType'] select").change(function(){
@@ -686,6 +737,18 @@ Template.chapterform.rendered = function(){
         saveChapter()
     });
 
+    // Submit Button
+    //
+    $(".preview-button").click(function() {
+        if (changedFlag) {
+            saveChapter();
+        }
+        urlBase = document.URL.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}(\.[a-z]{2,6}|:[0-9]{3,4})\b/)[0];
+        url = urlBase + chapterURL + jsonEditor.getEditor('root.slug').getValue();
+        var myWindow = window.open(url, '_preview');
+        myWindow.focus();
+    });
+
     // Collections
 
     function getChapter(pathNum, chapterNum) {
@@ -733,6 +796,7 @@ Template.chapterform.rendered = function(){
             }
         }
         changedFlag = false;
+        setConfirmUnload(false);
         bootbox.alert({
             title: "Saved",
             message:
@@ -744,3 +808,4 @@ Template.chapterform.rendered = function(){
     };
 
 };
+

@@ -61,10 +61,6 @@
 *       (c) 2011 Brandon Aaron (http://brandonaaron.net) MIT License
 */
 
-// TESTING HARDCODED PATH & CHAPTER
-myPathNumber = 10;
-myChapterNumber = 10;
-
 // Useful constants 
 // TODO: Is there a better place to put these?
 //
@@ -119,12 +115,23 @@ bigVideoDefaults = {
 }
 vidDefault = ".mp4";
 
+Template.chaptershow.rendered = function() {
+
+    routerParams = Router.current().params;
+    var slug = routerParams.pathSlug+'/'+routerParams.chapterSlug;
+    Session.set("slug", slug);
+    console.log("Rendering Path (from template): "+slug);
+
+}
+
 Template.chaptershow.helpers({
     isReady: function () {
         return Session.get("dataReady");
     },
 
     renderChapter: function () {
+        var slug = Session.get("slug");
+        console.log("Rendering Path (from renderChapter): "+slug);
 
         //TODO: Move setup stuff to approp function
 
@@ -178,8 +185,7 @@ Template.chaptershow.helpers({
 
         // get a chapter from the database
         chapter = ChapterCollection.findOne({
-            pathNumber: myPathNumber, 
-            chapterNumber: myChapterNumber
+            slug: slug
         });
         //TODO: If we don't get it at first now what?
         debug = chapter.debug;
