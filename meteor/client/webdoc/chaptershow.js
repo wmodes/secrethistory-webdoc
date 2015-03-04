@@ -59,6 +59,14 @@
 *       (c) 2014 Jeremy Dorn (https://github.com/jdorn/json-editor/) MIT License
 * Mousewheel.js v3.0.6 - to allow trapping vertical mouse wheel movements
 *       (c) 2011 Brandon Aaron (http://brandonaaron.net) MIT License
+* ffmpeg v2.5.4 - (masquerading on Ubuntu as libav-tools in the repoA complete, 
+*       cross-platform solution to record, convert and stream audio and video. 
+*       Installed with options --with-libvorbis --with-libvpx
+*       --with-theora --with-tools. We use this to compress video.
+*       (c) ffmper.org GNU Lesser General Public License version 2.1
+* ImageMagick vi6.9.0-9 - a software suite to create, edit, compose, or convert bitmap 
+*       images. We use this to compress and resize and compress our images
+*       (c) 1999-2015 ImageMagick Studio LLC (http://imagemagick.org) Apache 2.0 License
 */
 
 // Useful constants 

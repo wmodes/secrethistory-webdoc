@@ -150,6 +150,12 @@
     width:100%;
 }
 
+.vjs-big-play-button,
+.vjs-control-bar,
+.vjs-error-display {
+    display: none !important;
+}
+
 /* audio player */
 
 .webdoc .audio {
