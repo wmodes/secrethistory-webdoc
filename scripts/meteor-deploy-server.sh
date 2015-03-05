@@ -1,4 +1,5 @@
 
+STARTDIR="/Users/wmodes/dev/secrethistory/meteor/"
 APPNAME="secrethistory"
 SERVER="doc.peoplesriverhistory.us"
 PORT="80"
@@ -7,25 +8,29 @@ DEPLOY_LOCATION="/home/secrethistory/"
 DEPLOY_USER="secrethistory"
 ARCH="os.linux.x86_64"
 
-cd ..
-meteor build $APPNAME --server $SERVER:$PORT --architecture $ARCH
+cd $STARTDIR
+meteor build ../$APPNAME --server $SERVER:$PORT --architecture $ARCH
 if [ "$?" != 0 ]; then 
     echo "Error: Meteor build failed."
     exit 1
 fi
 
-scp $APPNAME.tar.gz $USER@$SERVER:~
+scp ../$APPNAME/meteor.tar.gz $USER@$SERVER:~
 if [ "$?" != 0 ]; then 
     echo "Error: Copy failed."
     exit 1
 fi
 
 ssh $USER@$SERVER <<EOT
-sudo mv ~$USER/$APPNAME.tar.gz $DEPLOY_LOCATION
+sudo mv ~$USER/meteor.tar.gz $DEPLOY_LOCATION
 cd $DEPLOY_LOCATION
-sudo tar xvfz $APPNAME.tar.gz
-chown -R $DEPLOY_USER.$DEPLOY_USER .
+sudo rm -rf bundle
+sudo tar xvfz meteor.tar.gz
+cd cd bundle/programs/server/
+sudo npm install
+sudo chown -R $DEPLOY_USER.$DEPLOY_USER .
 sudo nginx -s reload
+sudo restart secrethistory
 EOT
 if [ "$?" != 0 ]; then 
     echo "Error: Deploy and restart"
@@ -33,4 +38,4 @@ if [ "$?" != 0 ]; then
     exit 1
 fi
 
-rm $APPNAME.tar.gz
+rm ../$APPNAME/meteor.tar.gz
