@@ -1,4 +1,5 @@
 
+srcDir='~secrethistory//Google Drive/Creative Projects/Secret History/Web Doc/Web Files'
 srcDir='/Users/wmodes/Google Drive/Creative Projects/Secret History/Web Doc/Web Files'
 destDir='/Users/wmodes/dev/secrethistory/meteor/public'
 imgDir="images"
@@ -20,7 +21,6 @@ cp *.gif "$destDir/$imgDir/" 2> /dev/null
 cp *.png "$destDir/$imgDir/" 2> /dev/null
 
 echo "# Optimizing JPGs"
-echo "ex: $imagemagick" p10c10s10n05-hull-plans.jpg $imgOpt "$destDir/$imgDir/p10c10s10n05-hull-plans.jpg"
 for file in *.jpg
 do
     echo "  $file"
