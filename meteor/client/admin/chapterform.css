@@ -127,6 +127,12 @@
     clear: both;
 }
 
+/* upload form */
+
+.chapter-form .upload-row {
+    margin-top: -30px;
+}
+
 /* form formatting hacks */
 
 div [data-schemapath='root.pathNumber'] {

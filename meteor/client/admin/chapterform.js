@@ -7,6 +7,9 @@ Template.chapterform.rendered = function(){
     changedFlag = false;
     setConfirmUnload(false);
 
+    /* minor tweeks */
+    $(".jqDropZone").html("Drop files here<br><img src='/images/add.png'/>");
+
     /* entertainment!
     console.log("playing howl");
     var sound = new Howl({

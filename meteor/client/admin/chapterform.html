@@ -5,7 +5,7 @@
 
     <h1>Secret History Chapter Add/Edit</h1>
     
-    <div id="chapter-form" class="form json-form">
+    <div id="chapter-form" class="chapter-form json-form form">
 
         <div class="our-search-row well">
           <div class="our-search-field">
@@ -29,18 +29,30 @@
           <div id="search-results"></div>
         </div>
 
-      <div id='editor_holder'>
-
-        <div class="our-row">
-          <button class="btn btn-default our-button submit-button" id='submit1'>Save Chapter</button>
-          <button class="btn btn-default our-button preview-button" id='preview1'>Preview</button>
+        <div id='editor_holder'>
+          <div class="our-row">
+              <button class="btn btn-default our-button submit-button" id='submit1'>Save Chapter</button>
+              <button class="btn btn-default our-button preview-button" id='preview1'>Preview</button>
+          </div>
         </div>
 
-      </div>
-      <div class="our-row">
-        <button class="btn btn-default our-button submit-button" id='submit2'>Save Chapter</button>
-        <button class="btn btn-default our-button preview-button" id='preview2'>Preview</button>
-      </div>
+        <div class="our-row">
+            <button class="btn btn-default our-button submit-button" id='submit2'>Save Chapter</button>
+            <button class="btn btn-default our-button preview-button" id='preview2'>Preview</button>
+        </div>
+
+        <div class="our-row-seperator"></div>
+        <div id="upload-row" class="upload-row">
+            <h3>Images Video and Audio</h3>
+            Upload all images, video and audio files here.
+            {{> upload_bootstrap fileTypes='.jpg,.png' multiple=true formData=specificFormData }}
+
+            <p>Or drag and drop files on the target area</p>
+            {{> dropzone contentType='images' fileTypes='.jpg,.png' multiple=true formData=specificFormData }}
+            <p>Once you upload your files, you don't need to do it again unless the files are changed 
+            or updated.</p>
+        </div>
+
     </div>
 
 </div>

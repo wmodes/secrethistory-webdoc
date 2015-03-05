@@ -1,0 +1,36 @@
+
+<template name="chapterupload">
+<div id="admin-canvas" class="admin canvas">
+<div id="outer-wrapper">
+<div id="inner-wrapper">
+
+    <h1>Secret History Chapter Upload</h1>
+    
+    <div id="upload-form" class="upload-form">
+
+    <h3>Images</h3>
+    {{> upload_bootstrap fileTypes='.jpg,.png' multiple=true formData=specificFormData }}
+
+     <p>Drag and drop image files on the target area</p>
+    {{> dropzone contentType='images' fileTypes='.jpg,.png' multiple=true formData=specificFormData }}
+
+    <h3>Videos</h3>
+    {{> upload_bootstrap fileTypes='.mp4' multiple=true formData=specificFormData }}
+
+     <p>Drag and drop video files on the target area</p>
+    {{> dropzone contentType='video' fileTypes='.mp4' multiple=true formData=specificFormData }}
+
+    <h3>Audio</h3>
+    {{> upload_bootstrap fileTypes='.mp3,.wav' multiple=true formData=specificFormData }}
+
+     <p>Drag and drop audio files on the target area</p>
+    {{> dropzone contentType='audio' fileTypes='.mp3,.wav' multiple=true formData=specificFormData }}
+
+
+    </div>
+
+</div>
+</div>
+</div>
+</template>
+

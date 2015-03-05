@@ -24,6 +24,10 @@ Router.route('/admin/chapter', function () {
     this.render('chapterform');
 });
 
+Router.route('/admin/upload', function () {
+    this.render('chapterupload');
+});
+
 /*
 Router.map(function(){
     this.route('chaptershow', {

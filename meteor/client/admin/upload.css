@@ -1,0 +1,63 @@
+
+
+#admin-canvas #upload-form {
+    border: 1px solid #ccc;
+    padding: 10px 10px 50px 10px;
+    background-color: #fdfdfd;
+}
+
+.chapter-form p,
+.upload-form p {
+    margin: 10px 0 0;
+}
+
+/* drop zone */
+
+#admin-canvas .jqDropZone {
+    background: #e8e8e8;
+    width: 100%;
+    height: 100px;
+    line-height: 50px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+
+    display: inline-block;
+    padding: 20px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid #888;
+    border-radius: 4px;
+}
+
+#admin-canvas .jqDropZone.in {
+    width: 600px;
+    height: 200px;
+    line-height: 200px;
+    font-size: larger;
+}
+
+#admin-canvas .jqDropZone.hover {
+    background: rgba(0,86,132,.9);
+    color: white;
+    font-weight: bold;
+}
+
+#admin-canvas .jqDropZone.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+}
