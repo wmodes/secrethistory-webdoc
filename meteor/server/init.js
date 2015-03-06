@@ -12,9 +12,9 @@ Meteor.startup(function() {
     //console.log("this.connection.httpHeaders.host" + this.connection.httpHeaders.host);
     console.log("Meteor.absoluteUrl(): " + Meteor.absoluteUrl());
     if (Meteor.absoluteUrl().match(/localhost/)) {
-        publicBase = "/Users/wmodes/dev/secrethistory/meteor/public/upload";
+        publicBase = "/Users/wmodes/dev/secrethistory/meteor/public/.upload";
     } else  if (Meteor.absoluteUrl().match(/peoplesriverhistory/)) {
-        publicBase = "/home/secrethistory/bundle/programs/web.browser/app/upload";
+        publicBase = "/home/secrethistory/bundle/programs/web.browser/app/.upload";
     }
 
     //Prep uploads
