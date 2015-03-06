@@ -1,4 +1,20 @@
 
+
+imageDir = "images";
+videoDir = "video";
+audioDir = "audio";
+tmpDir = "audio";
+
+if [[ "`hostname`" =~ secrethistory|peoplesriverhistory ]]; then
+    # we are deployed
+    publicBase="/home/secrethistory/bundle/programs/web.browser/app/upload";
+else
+    publicBase="/Users/wmodes/dev/secrethistory/meteor/public/upload";
+fi
+
+
+
+
 srcDir='~secrethistory//Google Drive/Creative Projects/Secret History/Web Doc/Web Files'
 srcDir='/Users/wmodes/Google Drive/Creative Projects/Secret History/Web Doc/Web Files'
 destDir='/Users/wmodes/dev/secrethistory/meteor/public'

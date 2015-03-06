@@ -7,9 +7,6 @@ Template.chapterform.rendered = function(){
     changedFlag = false;
     setConfirmUnload(false);
 
-    /* minor tweeks */
-    $(".jqDropZone").html("Drop files here<br><img src='/images/add.png'/>");
-
     /* entertainment!
     console.log("playing howl");
     var sound = new Howl({
@@ -812,3 +809,10 @@ Template.chapterform.rendered = function(){
 
 };
 
+Template.chapterform.helpers({
+    filestuff: function () {
+        var filestuff = Session.get("filestuff");
+        console.log(filestuff);
+        return filestuff;
+    }
+});

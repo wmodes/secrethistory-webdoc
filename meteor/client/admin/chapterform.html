@@ -45,12 +45,16 @@
         <div id="upload-row" class="upload-row">
             <h3>Images Video and Audio</h3>
             Upload all images, video and audio files here.
-            {{> upload_bootstrap fileTypes='.jpg,.png' multiple=true formData=specificFormData }}
+            {{> upload_bootstrap fileTypes='.jpg,.png,.mp4,.wav,.mp3' 
+                multiple=true formData=specificFormData }}
 
             <p>Or drag and drop files on the target area</p>
-            {{> dropzone contentType='images' fileTypes='.jpg,.png' multiple=true formData=specificFormData }}
+            {{> dropzone contentType='images' fileTypes='.jpg,.png,.mp4,.wav,.mp3' 
+                multiple=true formData=specificFormData }}
             <p>Once you upload your files, you don't need to do it again unless the files are changed 
             or updated.</p>
+
+            {{ filestuff }}
         </div>
 
     </div>

@@ -40,6 +40,11 @@
     border-radius: 4px;
 }
 
+#admin-canvas .jqDropZone:after {
+    content: url("/images/add.png");
+    display: block;
+}
+
 #admin-canvas .jqDropZone.in {
     width: 600px;
     height: 200px;
@@ -48,9 +53,15 @@
 }
 
 #admin-canvas .jqDropZone.hover {
-    background: rgba(0,86,132,.9);
+    background: #0099ff;
     color: white;
     font-weight: bold;
+}
+#admin-canvas .jqDropZone.hover:after {
+    content: url("/images/add.png");
+    display: block;
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
 }
 
 #admin-canvas .jqDropZone.fade {
