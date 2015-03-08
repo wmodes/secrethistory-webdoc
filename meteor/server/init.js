@@ -1,28 +1,49 @@
+
+exec = Npm.require('child_process').exec;
+
+// From https://gentlenode.com/journal/meteor-14-execute-a-unix-command/33
+runCommand = function (error, stdout, stderr) {
+  console.log('stdout: ' + stdout);
+  console.log('stderr: ' + stderr);
+
+  if(error !== null) {
+    console.log('exec error: ' + error);
+  }
+}
+
 Meteor.startup(function() {
 
     //chapterFile = "chapter-voyage-life.json"
     //Meteor.chapterData = JSON.parse(Assets.getText(chapterFile));
     //console.log(Meteor.chapterData);
 
-    imageDir = "images";
-    videoDir = "video";
-    audioDir = "audio";
-    tmpDir = "audio";
+    //testing
+    exec("ls -la", runCommand);
+
+    imageDir = "images/";
+    videoDir = "video/";
+    audioDir = "audio/";
+    tmpDir = "tmp/";
+    uploadDir = ".upload/";
 
     //console.log("this.connection.httpHeaders.host" + this.connection.httpHeaders.host);
     console.log("Meteor.absoluteUrl(): " + Meteor.absoluteUrl());
     if (Meteor.absoluteUrl().match(/localhost/)) {
-        publicBase = "/Users/wmodes/dev/secrethistory/meteor/public/.upload";
+        publicBase = "/Users/wmodes/dev/secrethistory/meteor/public/";
     } else  if (Meteor.absoluteUrl().match(/peoplesriverhistory/)) {
-        publicBase = "/home/secrethistory/bundle/programs/web.browser/app/.upload";
+        publicBase = "/home/secrethistory/bundle/programs/web.browser/app/";
     }
+
+    fullUploadDir = publicBase+uploadDir;
+    fullTmpDir = publicBase+uploadDir+tmpDir;
+    fullImageDir = publicBase+imageDir;
+    fullVideoDir = publicBase+videoDir;
+    fullAudioDir = publicBase+audioDir;
 
     //Prep uploads
     UploadServer.init({
-        tmpDir: publicBase + '/' + tmpDir + '/',
-        uploadDir: publicBase,
-        //tmpDir: '/Users/tomi/Documents/Uploads/tmp',
-        //uploadDir: '/Users/tomi/Documents/Uploads/',
+        tmpDir: fullTmpDir,
+        uploadDir: fullUploadDir,
         checkCreateDirectories: true, //create the directories for you
         getDirectory: function(fileInfo, formData) {
             // create a sub-directory in the uploadDir based on the content type (e.g. 'images')
@@ -51,6 +72,8 @@ Meteor.startup(function() {
             } else if (myExt.match(/mp3|wav|ogg/)) {
                 // audio
             }
+            //return "This is important";
+            return true;
         },
         cacheTime: 100,
         mimeTypes: {

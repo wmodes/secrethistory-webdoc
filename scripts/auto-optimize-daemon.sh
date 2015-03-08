@@ -49,6 +49,9 @@ while true; do
     files=`ls *.gif *.png 2> /dev/null`
     for file in $files
     do
+        if [ $debug == 1 ]; then
+            echo "  $file"
+        fi
         mv $file "$destDir/$imageDir/" 2> /dev/null
     done
 
@@ -97,6 +100,9 @@ while true; do
     files=`ls *.mp3 *.wav 2> /dev/null`
     for file in $files
     do
+        if [ $debug == 1 ]; then
+            echo "  $file"
+        fi
         mv $file "$destDir/$audioDir/" 2> /dev/null
     done
 
