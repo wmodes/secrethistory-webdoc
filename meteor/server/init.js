@@ -1,14 +1,12 @@
+debug = true;
 
 exec = Npm.require('child_process').exec;
 
 // From https://gentlenode.com/journal/meteor-14-execute-a-unix-command/33
 runCommand = function (error, stdout, stderr) {
-  console.log('stdout: ' + stdout);
-  console.log('stderr: ' + stderr);
-
-  if(error !== null) {
-    console.log('exec error: ' + error);
-  }
+    if (stdout && debug) console.log('stdout: ' + stdout);
+    if (stderr && debug) console.log('stderr: ' + stderr);
+    if (error && debug) console.log('exec error: ' + error);
 }
 
 Meteor.startup(function() {
@@ -17,21 +15,26 @@ Meteor.startup(function() {
     //Meteor.chapterData = JSON.parse(Assets.getText(chapterFile));
     //console.log(Meteor.chapterData);
 
-    //testing
-    exec("ls -la", runCommand);
-
     imageDir = "images/";
     videoDir = "video/";
     audioDir = "audio/";
     tmpDir = "tmp/";
     uploadDir = ".upload/";
+    
+    imageMagickOpts = ' -quality 50 -resize 1920x1920\\> ';
+    handbrakeOpts = ' -e x264 -q 22 -r 15 -B 64 -X 1280 -O ';
 
     //console.log("this.connection.httpHeaders.host" + this.connection.httpHeaders.host);
-    console.log("Meteor.absoluteUrl(): " + Meteor.absoluteUrl());
     if (Meteor.absoluteUrl().match(/localhost/)) {
+        // we are local
         publicBase = "/Users/wmodes/dev/secrethistory/meteor/public/";
+        imagemagick = "/opt/local/bin/convert ";
+        handbrake = "/usr/local/bin/HandbrakeCLI ";
     } else  if (Meteor.absoluteUrl().match(/peoplesriverhistory/)) {
+        // we are deployed
         publicBase = "/home/secrethistory/bundle/programs/web.browser/app/";
+        imagemagick = "/usr/bin/convert ";
+        handbrake = "/usr/bin/HandBrakeCLI ";
     }
 
     fullUploadDir = publicBase+uploadDir;
@@ -64,13 +67,33 @@ Meteor.startup(function() {
         },
         finished: function(fileInfo, formFields) {
             // perform a disk operation
+            var filename = fileInfo.name;
             var myExt = fileInfo.name.replace(/^.*\./, "");
             if (myExt.match(/jpg|png|gif/)) {
                 // image
+                var srcFile = fullUploadDir+imageDir+filename;
+                var destFile = fullImageDir+filename;
+                if (debug) console.log("image file: src:"+srcFile+" dest:"+destFile);
+                if (myExt == "jpg") {
+                    if (debug) console.log("Cmd: "+imagemagick+srcFile+imageMagickOpts+destFile);
+                    exec(imagemagick+srcFile+imageMagickOpts+destFile, runCommand);
+                } else {
+                    exec("cp "+srcFile+" "+destFile, runCommand);
+                }
             } else if (myExt.match(/mp4|webm|mov/)) {
                 // video
+                var srcFile = fullUploadDir+videoDir+filename;
+                var destFile = fullVideoDir+filename;
+                if (debug) console.log("video file: src:"+srcFile+" dest:"+destFile);
+                if (debug) console.log("Cmd:"+handbrake+' -i '+srcFile+' -o '+destFile+handbrakeOpts);
+                exec(handbrake+' -i '+srcFile+' -o '+destFile+handbrakeOpts, runCommand);
+                //TODO: Add functionality: Copy to webm format as well
             } else if (myExt.match(/mp3|wav|ogg/)) {
                 // audio
+                var srcFile = fullUploadDir+audioDir+filename;
+                var destFile = fullAudioDir+filename;
+                if (debug) console.log("audio file: src:"+srcFile+" dest:"+destFile);
+                exec("cp "+srcFile+" "+destFile, runCommand);
             }
             //return "This is important";
             return true;
