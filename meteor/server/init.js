@@ -23,6 +23,7 @@ Meteor.startup(function() {
     
     imageMagickOpts = ' -quality 50 -resize 1920x1920\\> ';
     handbrakeOpts = ' -e x264 -q 22 -r 15 -B 64 -X 1280 -O ';
+    lameOpts = ' -b 64 -h -V 6 ';
 
     //console.log("this.connection.httpHeaders.host" + this.connection.httpHeaders.host);
     if (Meteor.absoluteUrl().match(/localhost/)) {
@@ -30,11 +31,13 @@ Meteor.startup(function() {
         publicBase = "/Users/wmodes/dev/secrethistory/meteor/public/";
         imagemagick = "/opt/local/bin/convert ";
         handbrake = "/usr/local/bin/HandbrakeCLI ";
+        lame = "/opt/local/bin/lame ";
     } else  if (Meteor.absoluteUrl().match(/peoplesriverhistory/)) {
         // we are deployed
         publicBase = "/home/secrethistory/bundle/programs/web.browser/app/";
         imagemagick = "/usr/bin/convert ";
         handbrake = "/usr/bin/HandBrakeCLI ";
+        lame = "/usr/bin/lame ";
     }
 
     fullUploadDir = publicBase+uploadDir;
@@ -42,6 +45,10 @@ Meteor.startup(function() {
     fullImageDir = publicBase+imageDir;
     fullVideoDir = publicBase+videoDir;
     fullAudioDir = publicBase+audioDir;
+                    
+    //exec("mkdir "+fullImageDir, runCommand);
+    //exec("mkdir "+fullVideoDir, runCommand);
+    //exec("mkdir "+fullAudioDir, runCommand);
 
     //Prep uploads
     UploadServer.init({
@@ -69,6 +76,7 @@ Meteor.startup(function() {
             // perform a disk operation
             var filename = fileInfo.name;
             var myExt = fileInfo.name.replace(/^.*\./, "");
+            //TODO: Strip extension from dest and reaply the format we want
             if (myExt.match(/jpg|png|gif/)) {
                 // image
                 var srcFile = fullUploadDir+imageDir+filename;
@@ -93,7 +101,8 @@ Meteor.startup(function() {
                 var srcFile = fullUploadDir+audioDir+filename;
                 var destFile = fullAudioDir+filename;
                 if (debug) console.log("audio file: src:"+srcFile+" dest:"+destFile);
-                exec("cp "+srcFile+" "+destFile, runCommand);
+                //exec("cp "+srcFile+" "+destFile, runCommand);
+                exec(lame+lameOpts+srcFile+" "+destFile, runCommand);
             }
             //return "This is important";
             return true;
