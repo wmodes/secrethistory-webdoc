@@ -21,11 +21,11 @@ Router.route('/chapter/:pathSlug/:chapterSlug', function () {
 });
 
 Router.route('/admin/chapter', function () {
-    this.render('chapterform');
+    this.render('chaptereditpage');
 });
 
 Router.route('/admin/upload', function () {
-    this.render('chapterupload');
+    this.render('uploadpage');
 });
 
 /*

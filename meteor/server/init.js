@@ -22,7 +22,7 @@ Meteor.startup(function() {
     uploadDir = ".upload/";
     
     imageMagickOpts = ' -quality 50 -resize 1920x1920\\> ';
-    handbrakeOpts = ' -e x264 -q 22 -r 15 -B 64 -X 1280 -O ';
+    handbrakeOpts = ' -e x264 -q 50 -r 29.97 -E fdk_aac -B 128 -X 1280 -O ';
     lameOpts = ' -b 64 -h -V 6 ';
 
     //console.log("this.connection.httpHeaders.host" + this.connection.httpHeaders.host);

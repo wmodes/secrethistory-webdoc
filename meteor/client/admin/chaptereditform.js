@@ -2,7 +2,7 @@ debug = 1;
 
 chapterURL = "/chapter/";
 
-Template.chapterform.rendered = function(){
+Template.chaptereditform.rendered = function(){
 
     changedFlag = false;
     setConfirmUnload(false);
@@ -809,7 +809,7 @@ Template.chapterform.rendered = function(){
 
 };
 
-Template.chapterform.helpers({
+Template.chaptereditform.helpers({
     filestuff: function () {
         var filestuff = Session.get("filestuff");
         console.log(filestuff);

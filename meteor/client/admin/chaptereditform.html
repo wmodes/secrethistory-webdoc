@@ -1,0 +1,37 @@
+<template name="chaptereditform">   
+
+<div class="our-search-row well">
+  <div class="our-search-field">
+      <label class=" control-label">Path Number</label>
+      <input id="path-num" type="text" class="form-control">
+  </div>
+  <div class="our-search-field">
+      <label class=" control-label">Chapter Number</label>
+      <input id="chapter-num" type="text" class="form-control">
+  </div>
+  <div class="our-search-button-field">
+      <label class=" control-label">&nbsp;</label><br>
+      <button class="btn btn-default our-button search-button" id='search'>Search Chapters</button>
+  </div>
+  <div class="our-search-button-field">
+      <label class=" control-label">&nbsp;</label><br>
+      <button class="btn btn-default our-button new-button" id='search'>New Chapter</button>
+  </div>
+  <div class="our-row-seperator"></div>
+  <p class="help-block">Start here to search for your chapter.</p>
+  <div id="search-results"></div>
+</div>
+
+<div id='editor_holder'>
+  <div class="our-row">
+      <button class="btn btn-default our-button submit-button" id='submit1'>Save Chapter</button>
+      <button class="btn btn-default our-button preview-button" id='preview1'>Preview</button>
+  </div>
+</div>
+
+<div class="our-row">
+    <button class="btn btn-default our-button submit-button" id='submit2'>Save Chapter</button>
+    <button class="btn btn-default our-button preview-button" id='preview2'>Preview</button>
+</div>
+
+</template>
