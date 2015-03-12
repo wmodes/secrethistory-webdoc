@@ -559,12 +559,14 @@ Template.chaptereditform.rendered = function(){
         var pathNum = parseInt($(this).val());
         var chapterNum = parseInt($("div[data-schemaid='chapterNumber'] input").val());
         checkConflict(pathNum, chapterNum);
+        //TODO: Do something if there is a conflict
     });
 
     $("div[data-schemaid='chapterNumber'] input").change(function(){
         var chapterNum = parseInt($(this).val());
         var pathNum = parseInt($("div[data-schemaid='pathNumber'] input").val());
         checkConflict(pathNum, chapterNum);
+        //TODO: Do something if there is a conflict
     });
 
     $("div[data-schemaid='pathName'] input").change(function(){
@@ -593,6 +595,8 @@ Template.chaptereditform.rendered = function(){
             if (chapter) {
                 reportConflict(pathNum, chapter.pathName, chapterNum, chapter.chapterName);
             }
+            Session.set('pathNum', pathNum);
+            Session.set('chapterNum', chapterNum);
         }
     }
 
@@ -695,6 +699,8 @@ Template.chaptereditform.rendered = function(){
             jsonEditor.setValue(myChapter);
             // write id to the session
             Session.set('current_id', id);
+            Session.set('pathNum', pathNum);
+            Session.set('chapterNum', chapterNum);
         } else {
             $("#search-results").html("<span class='error'>Chapter not found.</span>");
         }
@@ -712,6 +718,8 @@ Template.chaptereditform.rendered = function(){
         unprotectIndexNumbers();
         // remove saved id
         Session.set('current_id', null);
+        Session.set('pathNum', null);
+        Session.set('chapterNum', null);
         // clear search fields
         $("#path-num").val(null)
         $("#chapter-num").val(null)

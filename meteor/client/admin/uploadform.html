@@ -1,19 +1,39 @@
 
 <template name="uploadform">
 
-<div id="upload-row" class="upload-row">
-    <h3>Images Video and Audio</h3>
-    Upload all images, video and audio files here.
-    {{> upload_bootstrap fileTypes='.jpg,.png,.mp4,.wav,.mp3' 
-        multiple=true formData=specificFormData }}
+<div id="upload-wrapper">
 
-    <p>Or drag and drop files on the target area</p>
-    {{> dropzone contentType='images' fileTypes='.jpg,.png,.mp4,.wav,.mp3' 
-        multiple=true formData=specificFormData }}
-    <p>Files will be automatically optimized for the web.</p>
-    <p>Once you upload your files, you don't need to do it again unless the files are changed 
-    or updated.</p>
+    <h3>Images Video and Audio</h3>
+
+    <div id="upload-form" class="well">
+
+        <div>
+            {{> upload_bootstrap fileTypes='.jpg,.png,.mp4,.wav,.mp3' 
+                multiple=true formData=specificFormData }}
+            <p class="help-block">Upload all images, video and audio files here.  </p>
+
+            {{> dropzone contentType='images' fileTypes='.jpg,.png,.mp4,.wav,.mp3' 
+                multiple=true formData=specificFormData }}
+            <p class="help-block">Or drag and drop files on the target area</p>
+
+            <p>Files will be automatically optimized for the web. Once you upload your 
+            files, you don't need to do it again unless the files are changed 
+            or updated.</p>
+        </div>
+
+        <div id="filelist-wrapper" class="well">
+
+            <div class="our-row">
+                <button id='listfiles-button' 
+                    class="btn btn-default our-button listfiles-button">List Files</button>
+            </div>
+
+            <div id="filelist-results" class="well"></div>
+        </div>
+
+
+    </div>
+
 </div>
 
 </template>
-

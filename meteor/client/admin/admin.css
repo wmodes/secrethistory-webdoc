@@ -15,6 +15,7 @@
 #admin-canvas #chapter-form {
     border: 1px solid #ccc;
     padding: 10px 10px 50px 10px;
+    margin: 0 0 30px 0;
     background-color: #fdfdfd;
     width: 600px;
     margin: 0;
@@ -22,10 +23,10 @@
 }
 
 #admin-canvas #upload-form {
-    border: 1px solid #ccc;
+    border: 1px solid #000;
     padding: 10px 10px 50px 10px;
     background-color: #fdfdfd;
-    width: 600px;
+    /*width: 600px;*/
     margin: 0;
 }
 
@@ -37,6 +38,21 @@
     margin: 0;
     margin-left: 20px;
     float:left;
+}
+
+#upload-wrapper {
+    margin: 0 0 0;
+}
+
+#filelist-wrapper {
+    margin: 10px 0 0;
+    border: solid 1px #666 !important;
+}
+
+#filelist-results {
+    border: solid 1px #ddd !important;
+    width: 400px;
+    min-height: 50px;
 }
 
 .chapter-form p,
@@ -57,7 +73,7 @@
 /* wacky every other border coloring */
 
 #chapter-form .well {
-    border: 1px solid black;
+    border: 1px solid #666;
 }
 
 #chapter-form .well .well {
@@ -65,7 +81,7 @@
 }
 
 #chapter-form .well .well .well {
-    border: 1px solid black;
+    border: 1px solid #666;
 }
 
 #chapter-form .well .well .well .well {
@@ -73,7 +89,7 @@
 }
 
 #chapter-form .well .well .well .well .well {
-    border: 1px solid black;
+    border: 1px solid #666;
 }
 
 #chapter-form .well .well .well .well .well .well {
@@ -81,7 +97,7 @@
 }
 
 #chapter-form .well .well .well .well .well .well .well {
-    border: 1px solid black;
+    border: 1px solid #666;
 }
 
 #chapter-form .well .well .well .well .well .well .well .well {
@@ -89,7 +105,7 @@
 }
 
 #chapter-form .well .well .well .well .well .well .well .well .well {
-    border: 1px solid black;
+    border: 1px solid #666;
 }
 
 /* Nixing a few default buttons */
@@ -215,7 +231,7 @@ div [data-schemapath='root.ambientAudio'] {
     -o-user-select: none;
     user-select: none;
     background-image: none;
-    border: 1px solid #888;
+    border: 1px solid #666;
     border-radius: 4px;
 }
 

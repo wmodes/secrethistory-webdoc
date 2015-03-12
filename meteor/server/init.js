@@ -1,14 +1,5 @@
 debug = true;
 
-exec = Npm.require('child_process').exec;
-
-// From https://gentlenode.com/journal/meteor-14-execute-a-unix-command/33
-runCommand = function (error, stdout, stderr) {
-    if (stdout && debug) console.log('stdout: ' + stdout);
-    if (stderr && debug) console.log('stderr: ' + stderr);
-    if (error && debug) console.log('exec error: ' + error);
-}
-
 Meteor.startup(function() {
 
     //chapterFile = "chapter-voyage-life.json"
@@ -22,7 +13,7 @@ Meteor.startup(function() {
     uploadDir = ".upload/";
     
     imageMagickOpts = ' -quality 50 -resize 1920x1920\\> ';
-    handbrakeOpts = ' -e x264 -q 50 -r 29.97 -E fdk_aac -B 128 -X 1280 -O ';
+    handbrakeOpts = ' -e x264  -q 20.0 -a 1,1 -E faac,copy:ac3 -B 160,160 -6 dpl2,none -R Auto,Auto -D 0.0,0.0 --audio-copy-mask aac,ac3,dtshd,dts,mp3 --audio-fallback ffac3 -f mp4 -4 --decomb --loose-anamorphic --modulus 2 -m --x264-preset medium --h264-profile high --h264-level 4.1 -O ';
     lameOpts = ' -b 64 -h -V 6 ';
 
     //console.log("this.connection.httpHeaders.host" + this.connection.httpHeaders.host);
