@@ -77,7 +77,16 @@ Template.chaptereditform.rendered = function(){
               "type": "boolean",
               "title": "Debugging Output",
               "description": "Do we output debugging info during testing for this chapter?",
-              "name": "debug"
+              "name": "debug",
+              "default": "false"
+            },
+            "placeholders": {
+              "id": "placeholders",
+              "type": "boolean",
+              "title": "Placeholders",
+              "description": "If images or video are missing or blank, do we replace with placeholders?",
+              "name": "placeholders",
+              "default": "false"
             },
             "ambientAudio": {
               "type": "object",
@@ -533,6 +542,7 @@ Template.chaptereditform.rendered = function(){
             "chapterName",
             "slug",
             "debug",
+            "placeholders",
             "ambientAudio",
             "scenes"
           ]

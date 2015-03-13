@@ -1,4 +1,10 @@
 
+imageDir = "images/";
+videoDir = "video/";
+audioDir = "audio/";
+tmpDir = "tmp/";
+uploadDir = ".upload/";
+
 Template.uploadform.rendered = function(){
 
     //$(".jqDropZone").html("Drop files here<br><img src='/images/add.png'/>");
@@ -7,7 +13,9 @@ Template.uploadform.rendered = function(){
     //
     $("#listfiles-button").click(function() {
         console.log("List files!");
-        Meteor.call("getPublicFiles", function(err, result) {
+        if (typeof(pathNum) == "undefined") pathNum = null;
+        if (typeof(chapterNum) == "undefined") chapterNum = null;
+        Meteor.call("getPublicFiles", pathNum, chapterNum, function(err, result) {
             console.log("err");
             console.log(err);
             console.log("result");

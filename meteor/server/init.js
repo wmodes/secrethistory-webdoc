@@ -1,5 +1,6 @@
 debug = true;
 
+
 Meteor.startup(function() {
 
     //chapterFile = "chapter-voyage-life.json"

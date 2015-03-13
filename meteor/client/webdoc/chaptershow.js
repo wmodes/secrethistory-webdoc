@@ -73,6 +73,7 @@
 // TODO: Is there a better place to put these?
 //
 debug = false;
+placeholders = false;
 stickyLength = 0.33;
 mouseSpeed = 30;
 
@@ -109,6 +110,9 @@ videoDir = "/video/";
 audioDir = "/audio/";
 scrollImage = "/images/scrolldown.png";
 spacerImage = "/images/spacer.png";
+
+placeImage = "placeholder-title.jpg";
+placeVideo = "placeholder-title.mp4";
 
 $('img').error(function(){
     $(this).attr('src', spacerImage);
@@ -197,6 +201,7 @@ Template.chaptershow.helpers({
         });
         //TODO: If we don't get it at first now what?
         debug = chapter.debug;
+        placeholders = chapter.placeholders;
 
         //alert(JSON.stringify(chapterArray, null, 2));
         if (debug) {
@@ -235,6 +240,20 @@ Template.chaptershow.helpers({
             for (ishot = 0; ishot < shots.length; ishot++) { 
 
                 var thisShot = shots[ishot];
+                // if there is no content for the shot and we are not using placeholders, skip
+                if (! thisShot.shotContent) {
+                    if (! placeholders) {
+                        continue;
+                    } else {
+                        if (thisShot.shotType == "still") {
+                            thisShot.shotContent = placeImage;
+                        } else {
+                            thisShot.shotContent = placeVideo;
+                            thisShot.videoOptions.videoLoop = true;
+                        }
+                    }
+                }
+
                 var shotNumber = thisShot.shotNumber;
                 var IDnum = sceneNumber.toString()
                     +"-"+shotNumber.toString();
