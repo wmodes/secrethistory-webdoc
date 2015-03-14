@@ -8,7 +8,7 @@
 #admin-canvas #inner-wrapper {
   margin-left: auto;
   margin-right: auto;
-  width: 1000px;
+  width: 1250px;
   padding: 20px 20px 40px 20px;
 }
 
@@ -17,13 +17,13 @@
     padding: 10px 10px 50px 10px;
     margin: 0 0 30px 0;
     background-color: #fdfdfd;
-    width: 600px;
+    width: 550px;
     margin: 0;
     float: left;
 }
 
 #admin-canvas #upload-form {
-    border: 1px solid #000;
+    border: 1px solid #666;
     padding: 10px 10px 50px 10px;
     background-color: #fdfdfd;
     /*width: 600px;*/
@@ -34,10 +34,14 @@
     border: 1px solid #ccc;
     padding: 10px 10px 50px 10px;
     background-color: #fdfdfd;
-    width: 325px;
+    width: 550px;
     margin: 0;
     margin-left: 20px;
-    float:left;
+    float: left;
+}
+
+#admin-canvas #chapterhints {
+    border: 1px solid #666;
 }
 
 #upload-wrapper {
@@ -119,34 +123,34 @@
 
 /* our buttons */
 
-.json-form button.our-button {
+#admin-canvas button.our-button {
     float: right;
     margin-right: 5px;
 }
 
 /* our input fields */
 
-.json-form .our-search-field {
+#admin-canvas .our-search-field {
     float: left;
     margin-right: 5px;
     width: 125px;
 }
 
-.json-form .our-search-button-field {
+#admin-canvas .our-search-button-field {
     float: left;
     margin-right: 5px;
 }
 
-.json-form .our-search-field input {
+#admin-canvas .our-search-field input {
 }
 
-.json-form .error,
+#admin-canvas .error,
 .modal-body .error {
     color:  #aa0000;
     font-weight: bold;
 }
 
-.json-form .info {
+#admin-canvas .info {
     color:  black;
     font-weight: normal;
     font-size: 90%;
@@ -154,26 +158,28 @@
 
 /* button and field formatting */
 
-.json-form .our-search-row {
+#admin-canvas .our-search-row {
     display: table;
     overflow: auto;
 }
 
-.json-form .our-search-field,
-.json-form .our-search-button-field {
+#admin-canvas .our-search-field,
+#admin-canvas .our-search-button-field {
     display: table-cell;
     align: bottom;
 }
 
-.json-form .our-row-seperator {
+#admin-canvas .our-row-seperator {
     clear: both;
 }
 
+
 /* upload form */
 
-.chapter-form .upload-row {
+#admin-canvas .upload-row {
     margin-top: -30px;
 }
+
 
 /* form formatting hacks */
 
