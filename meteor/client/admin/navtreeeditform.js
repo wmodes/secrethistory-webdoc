@@ -2,18 +2,10 @@ debug = 1;
 
 chapterURL = "/chapter/";
 
-Template.chaptereditform.rendered = function(){
+Template.navtreeditform.rendered = function(){
 
     changedFlag = false;
     setConfirmUnload(false);
-
-    /* entertainment!
-    console.log("playing howl");
-    var sound = new Howl({
-        src: ['/audio/p10c20s20n05-bob-wills-stay-a-little-longer.mp3']
-    });
-    sound.play();
-    */
 
     // Initialize the editor with a JSON schema
     jsonEditor = new JSONEditor(document.getElementById('editor_holder'),{
@@ -22,11 +14,11 @@ Template.chaptereditform.rendered = function(){
         "required_by_default": true,
 
         "schema": {
-          "id": "chapter",
+          "id": "navtree",
           "type": "object",
-          "title": "Chapter",
-          "description": "This defines a single chapter",
-          "name": "chapter",
+          "title": "Nav Tree",
+          "description": "This defines a branch of the navigation tree",
+          "name": "navtree",
           "format": "grid",
           "options": {
             "grid_columns": 2
@@ -194,13 +186,7 @@ Template.chaptereditform.rendered = function(){
                           "minLength": 0,
                           "title": "Shot Content",
                           "description": "Filename of shot",
-                          "name": "Shot Content",
-                          "links": [
-                            {
-                              "href": "/thumbs/{{self}}.jpg",
-                              "mediaType": "image/jpg"
-                            }
-                          ]
+                          "name": "Shot Content"
                         },
                         "shotType": {
                           "id": "shotType",

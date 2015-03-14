@@ -10,12 +10,16 @@ Meteor.startup(function() {
     imageDir = "images/";
     videoDir = "video/";
     audioDir = "audio/";
+    thumbDir = "thumbs/";
     tmpDir = "tmp/";
-    uploadDir = ".upload/";
+    uploadDir = "upload/";
     
     imageMagickOpts = ' -quality 50 -resize 1920x1920\\> ';
     handbrakeOpts = ' -e x264  -q 20.0 -a 1,1 -E faac,copy:ac3 -B 160,160 -6 dpl2,none -R Auto,Auto -D 0.0,0.0 --audio-copy-mask aac,ac3,dtshd,dts,mp3 --audio-fallback ffac3 -f mp4 -4 --decomb --loose-anamorphic --modulus 2 -m --x264-preset medium --h264-profile high --h264-level 4.1 -O ';
     lameOpts = ' -b 64 -h -V 6 ';
+
+    imageThumbOpts = ' -quality 50 -resize 300x300\> ';
+    ffmpegThumbOpts = ' -s 300 ';
 
     //console.log("this.connection.httpHeaders.host" + this.connection.httpHeaders.host);
     if (Meteor.absoluteUrl().match(/localhost/)) {
@@ -24,12 +28,14 @@ Meteor.startup(function() {
         imagemagick = "/opt/local/bin/convert ";
         handbrake = "/usr/local/bin/HandbrakeCLI ";
         lame = "/opt/local/bin/lame ";
+        ffmpegthumbnailer = "/usr/local/bin/ffmpegthumbnailer";
     } else  if (Meteor.absoluteUrl().match(/peoplesriverhistory/)) {
         // we are deployed
         publicBase = "/home/secrethistory/bundle/programs/web.browser/app/";
         imagemagick = "/usr/bin/convert ";
         handbrake = "/usr/bin/HandBrakeCLI ";
         lame = "/usr/bin/lame ";
+        ffmpegthumbnailer = "/usr/bin/ffmpegthumbnailer";
     }
 
     fullUploadDir = publicBase+uploadDir;
@@ -37,6 +43,7 @@ Meteor.startup(function() {
     fullImageDir = publicBase+imageDir;
     fullVideoDir = publicBase+videoDir;
     fullAudioDir = publicBase+audioDir;
+    fullThumbDir = publicBase+thumbDir;
                     
     //exec("mkdir "+fullImageDir, runCommand);
     //exec("mkdir "+fullVideoDir, runCommand);
@@ -71,23 +78,34 @@ Meteor.startup(function() {
             //TODO: Strip extension from dest and reaply the format we want
             if (myExt.match(/jpg|png|gif/)) {
                 // image
-                var srcFile = fullUploadDir+imageDir+filename;
-                var destFile = fullImageDir+filename;
+                var srcFile = fullUploadDir + imageDir + filename;
+                var destFile = fullImageDir + filename;
+                var thumbFile = fullThumbDir + filename + ".jpg";
+
                 if (debug) console.log("image file: src:"+srcFile+" dest:"+destFile);
                 if (myExt == "jpg") {
                     if (debug) console.log("Cmd: "+imagemagick+srcFile+imageMagickOpts+destFile);
-                    exec(imagemagick+srcFile+imageMagickOpts+destFile, runCommand);
+                    exec(imagemagick + srcFile + imageMagickOpts + destFile, runCommand);
                 } else {
-                    exec("cp "+srcFile+" "+destFile, runCommand);
+                    exec("cp " + srcFile + " " + destFile, runCommand);
                 }
+
+                exec(imagemagick + srcFile + imageThumbOpts + thumbFile, runCommand);
+
             } else if (myExt.match(/mp4|webm|mov/)) {
                 // video
-                var srcFile = fullUploadDir+videoDir+filename;
-                var destFile = fullVideoDir+filename;
+                var srcFile = fullUploadDir + videoDir + filename;
+                var destFile = fullVideoDir + filename;
+                var thumbFile = fullThumbDir + filename + ".jpg";
+
                 if (debug) console.log("video file: src:"+srcFile+" dest:"+destFile);
                 if (debug) console.log("Cmd:"+handbrake+' -i '+srcFile+' -o '+destFile+handbrakeOpts);
-                exec(handbrake+' -i '+srcFile+' -o '+destFile+handbrakeOpts, runCommand);
+
+                exec(handbrake + ' -i ' + srcFile + ' -o ' + destFile + handbrakeOpts, runCommand);
                 //TODO: Add functionality: Copy to webm format as well
+
+                exec(ffmpegthumbnailer + " -i " + srcFile + " -o " + thumbFile + imageThumbOpts, runCommand);
+                
             } else if (myExt.match(/mp3|wav|ogg/)) {
                 // audio
                 var srcFile = fullUploadDir+audioDir+filename;
