@@ -13,5 +13,6 @@ killme*
 *.demeteorized
 *.demeteorized/*
 meteor/packages/*
+meteor/public
 secrethistory/meteor.tar.gz
 secrethistory/ios/*

@@ -195,6 +195,9 @@
     width:100%;
 }
 
+ .vjs-poster,
+ .vjs-text-track-display,
+ .vjs-loading-spinner,
 .vjs-big-play-button,
 .vjs-control-bar,
 .vjs-error-display {
