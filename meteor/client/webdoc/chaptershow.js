@@ -240,19 +240,18 @@ Template.chaptershow.helpers({
         if (debug) {
             console.log("There are "+scenes.length+" scenes.");
         };
-        for (iscene = 0; iscene < scenes.length; iscene++) { 
-            var thisScene = scenes[iscene];
+        for (sceneIndex = 0; sceneIndex < scenes.length; sceneIndex++) { 
+            var thisScene = scenes[sceneIndex];
             var shots = thisScene.shots;
-            var sceneNumber = thisScene.sceneNumber;
             if (debug) {
                 console.log(">This is scene s"
                     +thisScene.sceneNumber+" "
                     +thisScene.sceneName+"\n\t"
                     +"Which has "+shots.length+" shot(s)");
             }
-            for (ishot = 0; ishot < shots.length; ishot++) { 
+            for (shotIndex = 0; shotIndex < shots.length; shotIndex++) { 
 
-                var thisShot = shots[ishot];
+                var thisShot = shots[shotIndex];
                 // if there is no content for the shot and we are not using placeholders, skip
                 if (! thisShot.shotContent) {
                     if (! placeholders) {
@@ -267,9 +266,8 @@ Template.chaptershow.helpers({
                     }
                 }
 
-                var shotNumber = thisShot.shotNumber;
-                var IDnum = sceneNumber.toString()
-                    +"-"+shotNumber.toString();
+                var IDnum = sceneIndex.toString()
+                    +"-"+shotIndex.toString();
 
                 // HTML FRAMEWORK
                 //
@@ -312,6 +310,7 @@ Template.chaptershow.helpers({
                         + thisShot.shotContent+"<br/>"
                         + "Type: "+thisShot.shotType+"<br/>"
                         + "Sticky: "+thisShot.sticky+"<br/>"
+                        + "Loop: "+thisShot.videoOptions.videoLoop+"<br/>"
                         + "Audio elements: " + thisShot.audioElements.length+"<br/>"
                         + "Visual elements: " + thisShot.visualElements.length+"<br/>"
                         + "</div>";
