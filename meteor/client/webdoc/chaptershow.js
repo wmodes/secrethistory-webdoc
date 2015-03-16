@@ -83,7 +83,7 @@
 debug = false;
 placeholders = false;
 stickyLength = 0.33;
-mouseSpeed = 30;
+mouseSpeed = 100;
 audioOn = true;
 ambientSound = {};
 ambientVolume = 0.5;
@@ -114,6 +114,8 @@ scrollBoxID = "scroll-box";
 
 audioWrapperDiv = "<div class='audio offstage'><video id='audio-%id'></video></div>";
 visualWrapperDiv = "<div id='visual-%id' class='visual-element'></div>";
+
+ambientToggleID = "ambient-toggle";
 
 // file locations
 imageDir = "/images/";
@@ -367,7 +369,7 @@ Template.chaptershow.helpers({
 
         // BUTTONS AND CLICKY THINGS
 
-        $("#ambient-toggle").click(function() {
+        $('#'+ambientToggleID).click(function() {
             toggleAudio()
         });
 
@@ -375,11 +377,11 @@ Template.chaptershow.helpers({
         //
         function toggleAudio() {
             if (audioOn) {
-                $('#ambient-toggle').removeClass('audio-on');
+                $('#'+ambientToggleID).removeClass('audio-on');
                 audioOn = false;
                 ambientSound.fade(ambientVolume,0,3000,function() { ambientSound.pause() });
             } else {
-                $('#ambient-toggle').addClass('audio-on');
+                $('#'+ambientToggleID).addClass('audio-on');
                 audioOn = true;
                 ambientSound.volume(0);
                 ambientSound.play();
@@ -518,7 +520,6 @@ Template.chaptershow.helpers({
                 volume: myVolume
             })
             ambientSound.play();
-            // TODO: Make ambientAudio button
         }
 
         function setAudioElement(scrollControl, myAudio, myContentID, myTriggerID) {
@@ -682,6 +683,8 @@ Template.chaptershow.helpers({
             })
                 .on("leave end",function(){
                     $('#'+scrollBoxID).addClass("scroll-box-fade");
+                    // as a bonus we will also un-highlight the ambient audio
+                    $('#'+ambientToggleID).removeClass("highlighted");
                 })
                 .addTo(controller);
             if (debug) {

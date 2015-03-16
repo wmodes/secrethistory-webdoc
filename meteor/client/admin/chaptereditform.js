@@ -727,6 +727,15 @@ Template.chaptereditform.rendered = function(){
             console.log(myChapter);
             console.log(myid);
         }
+        if (!(myChapter.pathNumber && myChapter.chapterNumber)) {
+            bootbox.alert({
+                title: "Not Saved",
+                message:
+                    "<h3>Chapter not saved</h3>"+
+                    "You need to set the Path Number and Chapter Number before it can be saved."
+            });
+            return;
+        }
         // if we have an id, then this in an update
         if (myid) {
             ChapterCollection.update(myid, { 
