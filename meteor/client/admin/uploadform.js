@@ -3,7 +3,7 @@ imageDir = "images/";
 videoDir = "video/";
 audioDir = "audio/";
 tmpDir = "tmp/";
-uploadDir = "upload/";
+uploadDir = ".upload/";
 
 Template.uploadform.rendered = function(){
 

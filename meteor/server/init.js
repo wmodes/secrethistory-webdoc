@@ -12,13 +12,13 @@ Meteor.startup(function() {
     audioDir = "audio/";
     thumbDir = "thumbs/";
     tmpDir = "tmp/";
-    uploadDir = "upload/";
+    uploadDir = ".upload/";
     
     imageMagickOpts = ' -quality 50 -resize 1920x1920\\> ';
     handbrakeOpts = ' -e x264  -q 20.0 -a 1,1 -E faac,copy:ac3 -B 160,160 -6 dpl2,none -R Auto,Auto -D 0.0,0.0 --audio-copy-mask aac,ac3,dtshd,dts,mp3 --audio-fallback ffac3 -f mp4 -4 --decomb --loose-anamorphic --modulus 2 -m --x264-preset medium --h264-profile high --h264-level 4.1 -O ';
     lameOpts = ' -b 64 -h -V 6 ';
 
-    imageThumbOpts = ' -quality 50 -resize 300x300\> ';
+    imageThumbOpts = ' -quality 50 -resize 300x300\\> ';
     ffmpegThumbOpts = ' -s 300 ';
 
     //console.log("this.connection.httpHeaders.host" + this.connection.httpHeaders.host);
@@ -90,6 +90,7 @@ Meteor.startup(function() {
                     exec("cp " + srcFile + " " + destFile, runCommand);
                 }
 
+                if (debug) console.log("Cmd: "+imagemagick + srcFile + imageThumbOpts + thumbFile);
                 exec(imagemagick + srcFile + imageThumbOpts + thumbFile, runCommand);
 
             } else if (myExt.match(/mp4|webm|mov/)) {
@@ -104,6 +105,8 @@ Meteor.startup(function() {
                 exec(handbrake + ' -i ' + srcFile + ' -o ' + destFile + handbrakeOpts, runCommand);
                 //TODO: Add functionality: Copy to webm format as well
 
+                if (debug) console.log("Cmd: "+ ffmpegthumbnailer + " -i " + srcFile 
+                    + " -o " + thumbFile + imageThumbOpts);
                 exec(ffmpegthumbnailer + " -i " + srcFile + " -o " + thumbFile + imageThumbOpts, runCommand);
                 
             } else if (myExt.match(/mp3|wav|ogg/)) {

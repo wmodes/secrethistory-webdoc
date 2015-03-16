@@ -94,7 +94,17 @@
     left: 50vw;
 }
 
-/* hidey menus */
+/*
+ * shared elements
+ */
+
+ #sharedfeatures {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
 
 .burger {
     position: fixed;
@@ -138,6 +148,41 @@
 }
 #mapburger:hover {
     left: 0;
+}
+
+#ambientaudio {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    top: 25px;
+    right: 25px;
+    display: block;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: 0;
+    overflow: hidden;
+    opacity: 0.30;
+    -webkit-transition: opacity 5s;
+    -moz-transition: opacity 5s;
+    -o-transition: opacity 5s;
+    transition: opacity 5s;
+}
+
+#ambientaudio:hover {
+    opacity: 1.0;
+    -webkit-transition: opacity 0.2s;
+    -moz-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+}
+
+#ambientaudio img {
+    position: absolute;
+    left: -28px;
+}
+
+#ambientaudio img.audio-on {
+    left: 0 !important;
 }
 
 

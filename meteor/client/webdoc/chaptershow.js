@@ -64,6 +64,14 @@
 *       Installed with options --with-libvorbis --with-libvpx
 *       --with-theora --with-tools. We use this to compress video.
 *       (c) ffmper.org GNU Lesser General Public License version 2.1
+* HandBrakeCLI - HandBrakeCLI is command-line driven interface to a collection 
+*       of built-in libraries which enables the decoding, encoding and conversion 
+*       of audio and video streams to MP4 (M4V) and MKV container formats with an 
+*       emphasis on H.264/MPEG-4 AVC encoding through x264
+*       GNU General Public v2 License with L)GPL or BSD licensed libraries
+* ffmpegthumbnailer v2.0.9 - A lightweight video thumbnailer. Uses ffmpeg to generate 
+*       thumbnails from video easily
+*       (c) dirk.vdb@gmail.com GNU GPL v2 License
 * ImageMagick vi6.9.0-9 - a software suite to create, edit, compose, or convert bitmap 
 *       images. We use this to compress and resize and compress our images
 *       (c) 1999-2015 ImageMagick Studio LLC (http://imagemagick.org) Apache 2.0 License
@@ -76,6 +84,9 @@ debug = false;
 placeholders = false;
 stickyLength = 0.33;
 mouseSpeed = 30;
+audioOn = true;
+ambientSound = {};
+ambientVolume = 0.5;
 
 // ids and html for jquery insertions
 docCanvasID = "doc-canvas";
@@ -217,7 +228,7 @@ Template.chaptershow.helpers({
         $('#'+innerWrapperID).before(ambientWrapperDiv);
 
         // Start ambient audio
-        setAmbientAudio();
+        setAmbientAudio(chapter.ambientAudio);
 
         //for each scene, and
         //  for each shot
@@ -354,6 +365,28 @@ Template.chaptershow.helpers({
         }
 
 
+        // BUTTONS AND CLICKY THINGS
+
+        $("#ambient-toggle").click(function() {
+            toggleAudio()
+        });
+
+        // AUDIO
+        //
+        function toggleAudio() {
+            if (audioOn) {
+                $('#ambient-toggle').removeClass('audio-on');
+                audioOn = false;
+                ambientSound.fade(ambientVolume,0,3000,function() { ambientSound.pause() });
+            } else {
+                $('#ambient-toggle').addClass('audio-on');
+                audioOn = true;
+                ambientSound.volume(0);
+                ambientSound.play();
+                ambientSound.fade(0,ambientVolume,3000);
+            }
+        }
+
         //TODO: pass myContentID to this func
         function setSizing(thisShot, myShotID, myContentID) {
             // TODO: Add db fields: advanced > height, width, and sticky length
@@ -470,18 +503,21 @@ Template.chaptershow.helpers({
 
         // CREATE AUDIO ELEMENTS
 
-        function setAmbientAudio() {
+        function setAmbientAudio(ambientAudio) {
             // Background audio player
-            var mySource = audioDir+chapter.ambientAudio.audioContent;
-            var myVolume = chapter.ambientAudio.volume;
-            // we are using howler.js for audio
-            var mySound = new Howl({
-                src: [mySource],
+            var mySource = audioDir+ambientAudio.audioContent;
+            var myVolume = ambientAudio.volume;
+            // set a var usable elsewhere
+            ambientVolume = myVolume;
+            // we are using howler.js for audio and set a var used elsewhere
+            ambientSound = new Howl({
+                urls: [mySource],
                 preload: true,
-                autoplay: true,
+                autoplay: false,
                 loop: true,
                 volume: myVolume
-            }).play();
+            })
+            ambientSound.play();
             // TODO: Make ambientAudio button
         }
 
@@ -499,13 +535,12 @@ Template.chaptershow.helpers({
                     +" source:"+mySource);
             }
             var mySound = new Howl({
-                src: [mySource],
+                urls: [mySource],
                 preload: true,
                 autoplay: false,
                 loop: myLoop,
                 volume: myVolume
             });
-            // TODO: Implement fade-in/out
             // Trigger background audio start and end
             indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
             var myScrollScene = new ScrollScene({
@@ -516,11 +551,24 @@ Template.chaptershow.helpers({
             })
                 .on("start end", function (e) {
                     mySound.play();
+                    if (myFadein) {
+                        mySound.volume(0);
+                        mySound.play();
+                        mySound.fade(0,myVolume,1000);
+                    } else {
+                        mySound.play();
+                    }
                     if (debug) {
                         console.log(myContentID+": Playing "+mySource+"     Hear it?");
                     }
                 })
                 .on("enter leave", function (e) {
+                    //mySound.pause();
+                    if (myFadein) {
+                        mySound.fade(myVolume,0,1000,function() { mySound.pause() });
+                    } else {
+                        mySound.pause();
+                    }
                     mySound.pause();
                     if (debug) {
                         console.log(myContentID+": No longer playing "+mySource);

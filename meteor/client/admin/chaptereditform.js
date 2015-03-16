@@ -1,19 +1,12 @@
 debug = 1;
 
 chapterURL = "/chapter/";
+chapterEditorURL = "/admin/chapter/";
 
 Template.chaptereditform.rendered = function(){
 
     changedFlag = false;
     setConfirmUnload(false);
-
-    /* entertainment!
-    console.log("playing howl");
-    var sound = new Howl({
-        src: ['/audio/p10c20s20n05-bob-wills-stay-a-little-longer.mp3']
-    });
-    sound.play();
-    */
 
     // Initialize the editor with a JSON schema
     jsonEditor = new JSONEditor(document.getElementById('editor_holder'),{
@@ -105,7 +98,13 @@ Template.chaptereditform.rendered = function(){
                   "type": "string",
                   "title": "Audio Content",
                   "description": "Filename of audio file",
-                  "name": "audio Content"
+                  "name": "audio Content",
+                  "links": [
+                    {
+                      "href": "/audio/{{self}}",
+                      "mediaType": "audio/mp3"
+                    }
+                  ]
                 },
                 "volume": {
                   "id": "volume",
@@ -304,7 +303,13 @@ Template.chaptereditform.rendered = function(){
                                 "type": "string",
                                 "title": "Audio Content",
                                 "description": "Filename of audio file",
-                                "name": "audio Content"
+                                "name": "audio Content",
+                                "links": [
+                                  {
+                                    "href": "/audio/{{self}}",
+                                    "mediaType": "audio/mp3"
+                                  }
+                                ]
                               },
                               "audioLoop": {
                                 "id": "audioLoop",
@@ -382,6 +387,12 @@ Template.chaptereditform.rendered = function(){
                                 "id": "visualContent",
                                 "type": "string",
                                 "format": "textarea",
+                                "links": [
+                                  {
+                                    "href": "/thumbs/{{self}}.jpg",
+                                    "mediaType": "image/jpg"
+                                  }
+                                ],
                                 "options": {
                                   "expand_height": true,
                                   "input_height": "24pt"
@@ -556,48 +567,199 @@ Template.chaptereditform.rendered = function(){
 
     });
 
-    // Watch fields
 
-    //TODO: Add confirmation before closing window
+    // DATA STUFF
 
-    //TODO: Flag changedFlag if any field is changed to prevent search from destroying data    
-    // This won't cover fields that are currently not showing i.e. collapsed fields
-    // but it is better than nothing
-    $("#editor_holder .form-control").change(function(){
-        changedFlag = true;
-        setConfirmUnload(true);
-        if (debug) {
-            console.log("changed!")
+    // Params from URL
+    //
+    routerParams = Router.current().params;
+    var pathNum = parseInt(routerParams.pathNum);
+    var chapterNum = parseInt(routerParams.chapterNum);
+    //console.log("Template created for p"+pathNum+"c"+chapterNum);
+    if (pathNum && chapterNum) {
+        console.log("Template created for p"+pathNum+"c"+chapterNum);
+        retreiveChapter(pathNum, chapterNum);
+    }
+
+    // Search Button
+    //
+    $(".search-button").click(function() {
+        if (changedFlag && !confirmBonk()) {
+            return false;
         }
+        // Get the value from the editor
+        pathNum = parseInt($("#path-num").val());
+        chapterNum = parseInt($("#chapter-num").val());
+        if (debug) {
+            console.log("PathNumber: "+pathNum+" ChapterNumber: "+chapterNum);
+        }
+        retreiveChapter(pathNum, chapterNum);
     });
 
-    $("div[data-schemaid='pathNumber'] input").change(function(){
-        var pathNum = parseInt($(this).val());
-        var chapterNum = parseInt($("div[data-schemaid='chapterNumber'] input").val());
-        checkConflict(pathNum, chapterNum);
-        //TODO: Do something if there is a conflict
+    function retreiveChapter(pathNum, chapterNum) {
+        pathNum = parseInt(pathNum);
+        chapterNum = parseInt(chapterNum);
+        console.log("retreiveChapter: p"+pathNum+"c"+chapterNum);
+        // Get chapter from collection
+        var myChapter = getChapterCollection(pathNum, chapterNum);
+        if (debug) console.log(myChapter);
+        // if search results are positive
+        if (myChapter) {
+            // get the document id assigned by mongo
+            var id = myChapter._id;
+            // if the id is an object, the id string is _id._str. Why? Not sure.
+            if (typeof id == "object") {
+                if (typeof id._str == "string") {
+                    id = id._str;
+                }
+            }
+            // separate the id from the document, otherwise we can't update
+            delete myChapter._id;
+            $("#search-results").html("<span class='info'>Chapter retreived: "+id+"</span>");
+            // make the pathNum and chapterNum readonly
+            protectIndexNumbers();
+            // write the object to the json editor
+            jsonEditor.setValue(myChapter);
+            // write id to the session
+            Session.set('current_id', id);
+            Session.set('pathNum', pathNum);
+            Session.set('chapterNum', chapterNum);
+            changeURL(pathNum, chapterNum);
+            addRefreshButtons();
+        } else {
+            $("#search-results").html("<span class='error'>Chapter not found.</span>");
+        }
+    }
+
+    // New Button
+    //
+    $(".new-button").click(function() {
+        if (changedFlag && !confirmBonk()) {
+            return false;
+        }
+        // Reset to all dafaults - but how?
+        jsonEditor.setValue();
+        // make the pathNum and chapterNum not readonly
+        unprotectIndexNumbers();
+        // remove saved id
+        Session.set('current_id', null);
+        Session.set('pathNum', null);
+        Session.set('chapterNum', null);
+        changeURL(null, null);
+        // clear search fields
+        $("#path-num").val(null)
+        $("#chapter-num").val(null)
+        $("#search-results").html("<span class='info'>New chapter. Save frequently.</span>");
+        $("div [data-schemapath='root.pathNumber'] input").focus();
     });
 
-    $("div[data-schemaid='chapterNumber'] input").change(function(){
-        var chapterNum = parseInt($(this).val());
-        var pathNum = parseInt($("div[data-schemaid='pathNumber'] input").val());
-        checkConflict(pathNum, chapterNum);
-        //TODO: Do something if there is a conflict
+    function protectIndexNumbers() {
+        // make fields readonly
+        $("div [data-schemapath='root.pathNumber'] input").attr("readonly", true);
+        $("div [data-schemapath='root.chapterNumber'] input").attr("readonly", true);
+    }
+
+    function unprotectIndexNumbers() {
+        // make fields not readonly
+        $("div [data-schemapath='root.pathNumber'] input").attr("readonly", false);
+        $("div [data-schemapath='root.chapterNumber'] input").attr("readonly", false);
+    }
+
+    function changeURL(pathNum, chapterNum) {
+        if (pathNum && chapterNum) {
+            var newPath = chapterEditorURL + pathNum.toString() + '/' + chapterNum.toString() + '/';
+            var newTitle = "Chapter Edit: p" + pathNum.toString() + "c" + chapterNum.toString() 
+                    + ": SecretHistory";
+        } else {
+            var newPath = chapterEditorURL;
+            var newTitle = "Chapter Edit: SecretHistory";
+        }
+        var state = {
+            "thisIsOnPopState": true
+        };
+        window.history.pushState(state, newTitle, newPath);
+        document.title = newTitle;
+    }
+
+    // Submit Button
+    //
+    $(".submit-button").click(function() {
+        saveChapterCollection()
     });
 
-    $("div[data-schemaid='pathName'] input").change(function(){
-        var pathName = $(this).val();
-        var chapterName = $("div[data-schemaid='chapterName'] input").val();
-        var slug = makeSafeFilename(pathName)+'/'+makeSafeFilename(chapterName);
-        jsonEditor.getEditor('root.slug').setValue(slug)
+    // Submit Button
+    //
+    $(".preview-button").click(function() {
+        if (changedFlag) {
+            saveChapterCollection();
+        }
+        urlBase = document.URL.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}(\.[a-z]{2,6}|:[0-9]{3,4})\b/)[0];
+        url = urlBase + chapterURL + jsonEditor.getEditor('root.slug').getValue();
+        var myWindow = window.open(url, '_preview');
+        myWindow.focus();
     });
 
-    $("div[data-schemaid='chapterName'] input").change(function(){
-        var chapterName = $(this).val();
-        var pathName = $("div[data-schemaid='pathName'] input").val();
-        var slug = makeSafeFilename(pathName)+'/'+makeSafeFilename(chapterName);
-        jsonEditor.getEditor('root.slug').setValue(slug)
-    });
+    // COLLECTIONS
+
+    function getChapterCollection(pathNum, chapterNum) {
+        pathNum = parseInt(pathNum);
+        chapterNum = parseInt(chapterNum);
+        console.log("pathNum:"+pathNum+"("+typeof(pathNum)+")"
+            +" chapterNum:"+chapterNum+"("+typeof(chapterNum)+")")
+        var item = ChapterCollection.findOne({
+            pathNumber: pathNum,
+            chapterNumber: chapterNum
+        });
+        if(typeof item == 'undefined'){
+            return null;
+        }
+        else{
+            return item;
+        }
+    };
+
+    function saveChapterCollection() {
+        // get current document from form editor
+        var myChapter = jsonEditor.getValue();
+        // get id if we have one
+        myid = Session.get('current_id');
+        if (debug) {
+            console.log(myChapter);
+            console.log(myid);
+        }
+        // if we have an id, then this in an update
+        if (myid) {
+            ChapterCollection.update(myid, { 
+                $set: myChapter
+            });
+        // if we don't have an id, this is an insert
+        } else {
+            // Make sure we are not overwriting an existing record
+            if (getChapter(myChapter.pathNumber,myChapter.chapterNumber)) {
+                // alert about conflict
+                reportConflict(myChapter.pathNumber, myChapter.pathName,
+                    myChapter.chapterNumber, myChapter.chapterName);
+                return;
+            } else {
+                // SAVE
+                // insert document in collection and save returned id
+                myid = ChapterCollection.insert(myChapter);
+                Session.set('current_id', myid);
+                // Make pathNumber and chapterNUmber readonly
+                protectIndexNumbers();
+            }
+        }
+        changedFlag = false;
+        setConfirmUnload(false);
+        bootbox.alert({
+            title: "Saved",
+            message:
+                "<h3>Chapter saved</h3><br>"+
+                "Path Number: "+myChapter.pathNumber+" "+myChapter.pathName+"<br>"+
+                "Chapter Number: "+myChapter.chapterNumber+" "+myChapter.chapterName+"<br><br>"+
+                "The chapter is recorded in the database."
+        });
+    };
 
     function makeSafeFilename(dirtyString) {
         return dirtyString.replace(/([^a-z0-9]+)/gi, '-').replace(/--*/g, '-').toLowerCase();
@@ -642,6 +804,70 @@ Template.chaptereditform.rendered = function(){
         return false;
     }
     
+    // WATCH FIELDS
+
+    //TODO: Add confirmation before closing window
+
+    //TODO: Flag changedFlag if any field is changed to prevent search from destroying data    
+    // This won't cover fields that are currently not showing i.e. collapsed fields
+    // but it is better than nothing
+    $("#editor_holder .form-control").change(function(){
+        changedFlag = true;
+        setConfirmUnload(true);
+        if (debug) {
+            console.log("changed!")
+        }
+    });
+
+    $("div[data-schemaid='pathNumber'] input").change(function(){
+        var pathNum = parseInt($(this).val());
+        var chapterNum = parseInt($("div[data-schemaid='chapterNumber'] input").val());
+        checkConflict(pathNum, chapterNum);
+        //TODO: Do something if there is a conflict
+    });
+
+    $("div[data-schemaid='chapterNumber'] input").change(function(){
+        var chapterNum = parseInt($(this).val());
+        var pathNum = parseInt($("div[data-schemaid='pathNumber'] input").val());
+        checkConflict(pathNum, chapterNum);
+        //TODO: Do something if there is a conflict
+    });
+
+    $("div[data-schemaid='pathName'] input").change(function(){
+        var pathName = $(this).val();
+        var chapterName = $("div[data-schemaid='chapterName'] input").val();
+        var slug = makeSafeFilename(pathName)+'/'+makeSafeFilename(chapterName);
+        jsonEditor.getEditor('root.slug').setValue(slug)
+    });
+
+    $("div[data-schemaid='chapterName'] input").change(function(){
+        var chapterName = $(this).val();
+        var pathName = $("div[data-schemaid='pathName'] input").val();
+        var slug = makeSafeFilename(pathName)+'/'+makeSafeFilename(chapterName);
+        jsonEditor.getEditor('root.slug').setValue(slug)
+    });
+
+    addRefreshButtons();
+
+    // NICEITIES
+
+    function addRefreshButtons() {
+      // add a refresh button to image previews
+      $("div.refresh-image").remove();
+      $('a[href*="/thumbs/"]').after('<div class="refresh-image"><button class="refresh-image-button">Refresh</button></div>');
+      // attach refresher to button
+      $(".refresh-image-button").click(function() {
+          refreshThumbnails();
+      });
+    }
+
+    function refreshThumbnails() {
+        $('img[src*="/thumbs/"]').each(function() {
+            var src = $(this).attr('src');
+            var newSrc = src.split('?',1)+'?'+Date.now()
+            $(this).attr('src', newSrc);
+        });
+    }
     // Prevent accidental navigation away
 
     function setConfirmUnload(on)
@@ -681,156 +907,6 @@ Template.chaptereditform.rendered = function(){
                 .css("display", "none");
         }
     });
-
-    // Search Button
-    //
-    $(".search-button").click(function() {
-        if (changedFlag && !confirmBonk()) {
-            return false;
-        }
-        // Get the value from the editor
-        pathNum = parseInt($("#path-num").val());
-        chapterNum = parseInt($("#chapter-num").val());
-        if (debug) {
-            console.log("PathNumber: "+pathNum+" ChapterNumber: "+chapterNum);
-        }
-        // Get chapter from collection
-        var myChapter = getChapter(pathNum, chapterNum);
-        // if search results are positive
-        if (myChapter) {
-            // get the document id assigned by mongo
-            var id = myChapter._id;
-            // if the id is an object, the id string is _id._str. Why? Not sure.
-            if (typeof id == "object") {
-                if (typeof id._str == "string") {
-                    id = id._str;
-                }
-            }
-            // separate the id from the document, otherwise we can't update
-            delete myChapter._id;
-            $("#search-results").html("<span class='info'>Chapter retreived: "+id+"</span>");
-            // make the pathNum and chapterNum readonly
-            protectIndexNumbers();
-            // write the object to the json editor
-            jsonEditor.setValue(myChapter);
-            // write id to the session
-            Session.set('current_id', id);
-            Session.set('pathNum', pathNum);
-            Session.set('chapterNum', chapterNum);
-        } else {
-            $("#search-results").html("<span class='error'>Chapter not found.</span>");
-        }
-    });
-
-    // New Button
-    //
-    $(".new-button").click(function() {
-        if (changedFlag && !confirmBonk()) {
-            return false;
-        }
-        // Reset to all dafaults - but how?
-        jsonEditor.setValue();
-        // make the pathNum and chapterNum not readonly
-        unprotectIndexNumbers();
-        // remove saved id
-        Session.set('current_id', null);
-        Session.set('pathNum', null);
-        Session.set('chapterNum', null);
-        // clear search fields
-        $("#path-num").val(null)
-        $("#chapter-num").val(null)
-        $("#search-results").html("<span class='info'>New chapter. Save frequently.</span>");
-        $("div [data-schemapath='root.pathNumber'] input").focus();
-    });
-
-    function protectIndexNumbers() {
-        // make fields readonly
-        $("div [data-schemapath='root.pathNumber'] input").attr("readonly", true);
-        $("div [data-schemapath='root.chapterNumber'] input").attr("readonly", true);
-    }
-
-    function unprotectIndexNumbers() {
-        // make fields not readonly
-        $("div [data-schemapath='root.pathNumber'] input").attr("readonly", false);
-        $("div [data-schemapath='root.chapterNumber'] input").attr("readonly", false);
-    }
-
-    // Submit Button
-    //
-    $(".submit-button").click(function() {
-        saveChapter()
-    });
-
-    // Submit Button
-    //
-    $(".preview-button").click(function() {
-        if (changedFlag) {
-            saveChapter();
-        }
-        urlBase = document.URL.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}(\.[a-z]{2,6}|:[0-9]{3,4})\b/)[0];
-        url = urlBase + chapterURL + jsonEditor.getEditor('root.slug').getValue();
-        var myWindow = window.open(url, '_preview');
-        myWindow.focus();
-    });
-
-    // Collections
-
-    function getChapter(pathNum, chapterNum) {
-        var item = ChapterCollection.findOne({
-            pathNumber: pathNum, 
-            chapterNumber: chapterNum
-        });
-        if(typeof item == 'undefined'){
-            return null;
-        }
-        else{
-            return item;
-        }
-    };
-
-    function saveChapter() {
-        // get current document from form editor
-        var myChapter = jsonEditor.getValue();
-        // get id if we have one
-        myid = Session.get('current_id');
-        if (debug) {
-            console.log(myChapter);
-            console.log(myid);
-        }
-        // if we have an id, then this in an update
-        if (myid) {
-            ChapterCollection.update(myid, { 
-                $set: myChapter
-            });
-        // if we don't have an id, this is an insert
-        } else {
-            // Make sure we are not overwriting an existing record
-            if (getChapter(myChapter.pathNumber,myChapter.chapterNumber)) {
-                // alert about conflict
-                reportConflict(myChapter.pathNumber, myChapter.pathName,
-                    myChapter.chapterNumber, myChapter.chapterName);
-                return;
-            } else {
-                // SAVE
-                // insert document in collection and save returned id
-                myid = ChapterCollection.insert(myChapter);
-                Session.set('current_id', myid);
-                // Make pathNumber and chapterNUmber readonly
-                protectIndexNumbers();
-            }
-        }
-        changedFlag = false;
-        setConfirmUnload(false);
-        bootbox.alert({
-            title: "Saved",
-            message:
-                "<h3>Chapter saved</h3><br>"+
-                "Path Number: "+myChapter.pathNumber+" "+myChapter.pathName+"<br>"+
-                "Chapter Number: "+myChapter.chapterNumber+" "+myChapter.chapterName+"<br><br>"+
-                "The chapter is recorded in the database."
-        });
-    };
-
 };
 
 Template.chaptereditform.helpers({

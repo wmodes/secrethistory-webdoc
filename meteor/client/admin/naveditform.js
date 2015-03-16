@@ -2,7 +2,7 @@ debug = 1;
 
 chapterURL = "/chapter/";
 
-Template.navtreeditform.rendered = function(){
+Template.naveditform.rendered = function(){
 
     changedFlag = false;
     setConfirmUnload(false);

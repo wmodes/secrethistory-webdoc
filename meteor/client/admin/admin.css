@@ -128,7 +128,26 @@
     margin-right: 5px;
 }
 
-/* our input fields */
+/* 
+ * Thumbnail images 
+ */
+
+img[src*="/thumbs/"] {
+    margin: -10px 0 5px 20px;
+}
+
+#admin-canvas .refresh-image {
+  float: right;
+  font-size: 10pt;
+}
+
+#admin-canvas button.refresh-image-button {
+  font-size: 10px;
+}
+
+/* 
+ * our input fields 
+ */
 
 #admin-canvas .our-search-field {
     float: left;
