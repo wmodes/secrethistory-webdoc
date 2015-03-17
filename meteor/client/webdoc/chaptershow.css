@@ -452,3 +452,48 @@ body.fancyscroll ::-webkit-scrollbar-thumb
 {
     z-index: 500 !important;
 }
+
+/*
+ * Pull quotes
+ */
+
+.pullquote {
+    display: block;
+    font-size: 18pt;
+    font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
+    padding: 10px 0 10px 0;
+}
+
+.pullquote.right, .pullquote.left {
+    position: absolute;
+    max-width: 20vw;
+    bottom: 20vh;
+    border-top: solid 2px white;
+    border-bottom: solid 2px white;
+}
+
+.pullquote.right {
+    right: 2vw;
+    text-align: right;
+}
+
+.pullquote.left {
+    left: 2vw;
+    text-align: left;
+}
+
+.pullquote.bottom, .pullquote.top {
+    position: absolute;
+    max-width: 40vw;
+    left: 30vw;
+}
+
+.pullquote.top {
+    top: 2vh;
+    text-align: center;
+}
+
+.pullquote.bottom {
+    bottom: 2vh;
+    text-align: center;
+}

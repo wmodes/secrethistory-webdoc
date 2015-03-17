@@ -431,6 +431,7 @@ Template.chaptershow.helpers({
                 //duration: myWidth.toString()+"vw",
                 duration: vw * stickyLength,
                 //pushFollowers: true
+                pushFollowers: false
             })
                 .setPin('#'+myShotID)
                 .addTo(controller);
@@ -444,7 +445,7 @@ Template.chaptershow.helpers({
         function setFullscreenImage(thisShot, myContentID) {
             $('#'+myContentID).backstretch(imageDir+thisShot.shotContent);
             //TODO:Next line is just a test
-            $('#'+myContentID).css("color", "white")
+            //$('#'+myContentID).css("color", "white")
         }
 
         function setFullscreenVideo(controller, thisShot, myContentID, myIDnum) {
@@ -582,13 +583,13 @@ Template.chaptershow.helpers({
 
         // VISUAL ELEMENTS
 
-        function setVisualElement(scrollControl, myVisual, myContentID, myTriggerID) {
+        function setVisualElement(scrollControl, myVisual, myVisualDivID, myTriggerID) {
             var myContent = myVisual.visualContent;
             var myType = myVisual.visualType;
             var myFullscreen = myVisual.fullscreen;
             var myZindex = myVisual.zIndex;
             var myCSSbase = myVisual.cssBase;
-            myTarget = $('#'+myContentID)
+            myTarget = $('#'+myVisualDivID)
             if (debug) {
                 console.log("content:"+myContent
                     +" type:"+myType+" z-index:"+myZindex
@@ -597,9 +598,9 @@ Template.chaptershow.helpers({
             if (myType == "still") {
                 myContent = imageDir+myContent;
                 // Instead of putting image in div, replace div with image and give same id
-                myTarget.replaceWith("<img id='"+myContentID+"' src='"+myContent+"' />");
+                myTarget.replaceWith("<img id='"+myVisualDivID+"' src='"+myContent+"' />");
                 // we do this again because it just changed
-                myTarget = $('#'+myContentID)
+                myTarget = $('#'+myVisualDivID)
             } else {
                 myTarget.html(myContent);
             }
