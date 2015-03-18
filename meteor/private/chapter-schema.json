@@ -1,5 +1,7 @@
-      {
-        
+        "theme": "bootstrap3",
+        "iconlib": "fontawesome4",
+        "required_by_default": true,
+
         "schema": {
           "id": "chapter",
           "type": "object",
@@ -7,16 +9,13 @@
           "description": "This defines a single chapter",
           "name": "chapter",
           "format": "grid",
-          "options": {
-            "grid_columns": 2
-          },
           "properties": {
             "pathNumber": {
               "id": "pathNumber",
               "type": "integer",
               "minimum": 0,
               "title": "Path Number",
-              "description": "Unique path id number",
+              "description": "Path ID number",
               "name": "path Number"
             },
             "pathName": {
@@ -32,7 +31,7 @@
               "type": "integer",
               "minimum": 0,
               "title": "Chapter Number",
-              "description": "Unique chapter id number",
+              "description": "Chapter ID number",
               "name": "chapter Number"
             },
             "chapterName": {
@@ -42,6 +41,42 @@
               "title": "Chapter Name",
               "description": "Name for this chapter",
               "name": "chapter Name"
+            },
+            "slug": {
+              "id": "slug",
+              "type": "string",
+              "minLength": 0,
+              "title": "Slug",
+              "description": "Slug for URL",
+              "name": "slug"
+            },
+            "description": {
+              "id": "description",
+              "type": "string",
+              "minLength": 0,
+              "title": "Public Description",
+              "description": "This is a public description for your chapter. Make it dynamic, exciting, and interesting.",
+              "name": "description",
+              "format": "textarea",
+              "options": {
+                "expand_height": true
+              }
+            },
+            "debug": {
+              "id": "debug",
+              "type": "boolean",
+              "title": "Debugging Output",
+              "description": "Do we output debugging info during testing for this chapter?",
+              "name": "debug",
+              "default": "false"
+            },
+            "placeholders": {
+              "id": "placeholders",
+              "type": "boolean",
+              "title": "Placeholders",
+              "description": "If images or video are missing or blank, do we replace with placeholders?",
+              "name": "placeholders",
+              "default": "false"
             },
             "ambientAudio": {
               "type": "object",
@@ -60,7 +95,13 @@
                   "type": "string",
                   "title": "Audio Content",
                   "description": "Filename of audio file",
-                  "name": "audio Content"
+                  "name": "audio Content",
+                  "links": [
+                    {
+                      "href": "/audio/{{self}}",
+                      "mediaType": "audio/mp3"
+                    }
+                  ]
                 },
                 "volume": {
                   "id": "volume",
@@ -74,6 +115,7 @@
                 }
               }
             },
+
             "scenes": {
               "id": "scenes",
               "type": "array",
@@ -149,7 +191,13 @@
                           "minLength": 0,
                           "title": "Shot Content",
                           "description": "Filename of shot",
-                          "name": "Shot Content"
+                          "name": "Shot Content",
+                          "links": [
+                            {
+                              "href": "/thumbs/{{self}}.jpg",
+                              "mediaType": "image/jpg"
+                            }
+                          ]
                         },
                         "shotType": {
                           "id": "shotType",
@@ -170,7 +218,7 @@
                           "title": "Sticky",
                           "description": "Stays visible when page scrolls?",
                           "name": "Sticky",
-                          "default": true,
+                          "default": true
                         },
                         "transitionType": {
                           "id": "transitionType",
@@ -205,32 +253,28 @@
                           "properties": {
                             "videoLoop": {
                               "id": "videoLoop",
-                              "type": "string",
-                              "minLength": 0,
-                              "title": "Loop (Video Only)",
-                              "description": "Loop or played once?",
+                              "type": "boolean",
+                              "title": "Loop",
+                              "description": "Should this video be looped?",
                               "name": "Video Loop",
-                              "enum": [
-                                "once",
-                                "loop"
-                              ]
+                              "default": true
                             },
                             "startTrigger": {
                               "id": "startTrigger",
                               "type": "number",
-                              "title": "Start Trigger (Video Only)",
+                              "title": "Start Trigger",
                               "description": "Relative to start of shot (winUnits. 0=start, 0.5=half. Can be negative)",
                               "name": "start Trigger",
-                              "default": 0
+                              "default": -1
                             },
                             "duration": {
                               "id": "duration",
                               "type": "number",
-                              "title": "Duration (Video Only)",
+                              "title": "Duration",
                               "description": "Duration of shot (winUnits. 0.5=half, 2=two screens)",
                               "name": "Duration",
                               "minimum": 0,
-                              "default": 1
+                              "default": 2
                             }
                           }
                         },
@@ -257,19 +301,21 @@
                                 "type": "string",
                                 "title": "Audio Content",
                                 "description": "Filename of audio file",
-                                "name": "audio Content"
-                              },
-                              "audioType": {
-                                "id": "audioType",
-                                "type": "string",
-                                "minLength": 0,
-                                "title": "Audio Type",
-                                "description": "Loop or played once?",
-                                "name": "audio Type",
-                                "enum": [
-                                  "once",
-                                  "loop"
+                                "name": "audio Content",
+                                "links": [
+                                  {
+                                    "href": "/audio/{{self}}",
+                                    "mediaType": "audio/mp3"
+                                  }
                                 ]
+                              },
+                              "audioLoop": {
+                                "id": "audioLoop",
+                                "type": "boolean",
+                                "title": "Audio Loop",
+                                "description": "Should this audio be looped?",
+                                "name": "Audio Loop",
+                                "default": true
                               },
                               "startTrigger": {
                                 "id": "startTrigger",
@@ -277,7 +323,7 @@
                                 "title": "Start Trigger",
                                 "description": "Relative to start of shot (winUnits. 0=start, 0.5=half. Can be negative)",
                                 "name": "start Trigger",
-                                "default": 0
+                                "default": -1
                               },
                               "duration": {
                                 "id": "duration",
@@ -286,7 +332,7 @@
                                 "description": "Duration of shot (winUnits. 0.5=half, 2=two screens)",
                                 "name": "Duration",
                                 "minimum": 0,
-                                "default": 1
+                                "default": 2
                               },
                               "volume": {
                                 "id": "volume",
@@ -309,7 +355,7 @@
                             },
                             "required": [
                               "audioContent",
-                              "audioType",
+                              "audioLoop",
                               "startTrigger",
                               "duration",
                               "volume",
@@ -339,6 +385,12 @@
                                 "id": "visualContent",
                                 "type": "string",
                                 "format": "textarea",
+                                "links": [
+                                  {
+                                    "href": "/thumbs/{{self}}.jpg",
+                                    "mediaType": "image/jpg"
+                                  }
+                                ],
                                 "options": {
                                   "expand_height": true,
                                   "input_height": "24pt"
@@ -360,6 +412,14 @@
                                 ],
                                 "name": "element Type"
                               },
+                              "fullscreen": {
+                                "id": "fullscreen",
+                                "type": "boolean",
+                                "title": "Fullscreen",
+                                "description": "Should this image be stretched fullscreen like the background?",
+                                "name": "Fullscreen",
+                                "default": 0
+                              },
                               "zIndex": {
                                 "id": "zIndex",
                                 "type": "number",
@@ -375,8 +435,8 @@
                                 "options": {
                                   "expand_height": true
                                 },
-                                "title": "css Base",
-                                "description": "Base css of element (for position, size, scale, opacity, etc.)",
+                                "title": "Starting CSS",
+                                "description": "Starting css of containing div (for position, size, scale, opacity, etc.)",
                                 "name": "css Base"
                               },
                               "transitions": {
@@ -423,7 +483,7 @@
                                       "title": "Start Trigger",
                                       "description": "Relative to start of shot (winUnits. 0=start, 0.5=half. Can be negative)",
                                       "name": "start Trigger",
-                                      "default": 0
+                                      "default": -1
                                     },
                                     "duration": {
                                       "id": "duration",
@@ -432,19 +492,7 @@
                                       "description": "Duration of transition (winUnits. 0.5=half, 2=two screens)",
                                       "name": "Duration",
                                       "minimum": 0,
-                                      "default": 1
-                                    },
-                                    "cssStart": {
-                                      "id": "cssStart",
-                                      "type": "string",
-                                      "format": "textarea",
-                                      "options": {
-                                        "expand_height": true
-                                      },
-                                      "expand_height": true,
-                                      "title": "css Start",
-                                      "description": "Start css of element (for position, size, scale, opacity, etc.)",
-                                      "name": "css Start"
+                                      "default": 2
                                     },
                                     "cssEnd": {
                                       "id": "cssEnd",
@@ -454,8 +502,8 @@
                                         "expand_height": true
                                       },
                                       "expand_height": true,
-                                      "title": "css End",
-                                      "description": "End css of element (for position, size, scale, opacity, etc.)",
+                                      "title": "Ending CSS",
+                                      "description": "CSS of containing div at end of transition (for position, size, scale, opacity, etc.)",
                                       "name": "css End"
                                     }
                                   },
@@ -463,7 +511,6 @@
                                     "transitionType",
                                     "startTrigger",
                                     "duration",
-                                    "cssStart",
                                     "cssEnd"
                                   ]
                                 }
@@ -472,6 +519,7 @@
                             "required": [
                               "visualContent",
                               "visualType",
+                              "fullscreen",
                               "zIndex",
                               "cssBase",
                               "transitions"
@@ -485,6 +533,7 @@
                         "shotContent",
                         "shotType",
                         "sticky",
+                        "description",
                         "transitionType",
                         "videoOptions",
                         "audioElements",
@@ -500,16 +549,49 @@
                   "shots"
                 ]
               }
+            },
+
+            "links": {
+
+              "type": "object",
+              "title": "Chapter Links",
+              "description": "Related links to other chapters, starting with the link to the next chapter in this path",
+              "format": "grid",
+              "options": {
+                "collapsed": false,
+                "disable_properties": true
+              },
+              "properties": {
+                "pathNumber": {
+                  "id": "pathNumber",
+                  "type": "integer",
+                  "minimum": 0,
+                  "title": "Path Number",
+                  "description": "Path ID number",
+                  "name": "path Number"
+                },
+                "chapterNumber": {
+                  "id": "chapterNumber",
+                  "type": "integer",
+                  "minimum": 0,
+                  "title": "Chapter Number",
+                  "description": "Chapter ID number",
+                  "name": "chapter Number"
+                }
+              }
             }
           },
+
           "required": [
             "pathNumber",
             "pathName",
             "chapterNumber",
             "chapterName",
+            "slug",
+            "debug",
+            "placeholders",
             "ambientAudio",
-            "scenes"
+            "scenes",
+            "links"
           ]
         }
-
-      }

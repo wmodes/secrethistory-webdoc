@@ -116,6 +116,7 @@ audioWrapperDiv = "<div class='audio offstage'><video id='audio-%id'></video></d
 visualWrapperDiv = "<div id='visual-%id' class='visual-element'></div>";
 
 ambientToggleID = "ambient-toggle";
+burgerID = "burger";
 
 // file locations
 imageDir = "/images/";
@@ -683,8 +684,9 @@ Template.chaptershow.helpers({
             })
                 .on("leave end",function(){
                     $('#'+scrollBoxID).addClass("scroll-box-fade");
-                    // as a bonus we will also un-highlight the ambient audio
+                    // as a bonus we will also un-highlight
                     $('#'+ambientToggleID).removeClass("highlighted");
+                    $('.'+burgerID).removeClass("highlighted");
                 })
                 .addTo(controller);
             if (debug) {

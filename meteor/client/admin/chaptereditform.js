@@ -10,6 +10,7 @@ Template.chaptereditform.rendered = function(){
 
     // Initialize the editor with a JSON schema
     jsonEditor = new JSONEditor(document.getElementById('editor_holder'),{
+
         "theme": "bootstrap3",
         "iconlib": "fontawesome4",
         "required_by_default": true,
@@ -21,16 +22,12 @@ Template.chaptereditform.rendered = function(){
           "description": "This defines a single chapter",
           "name": "chapter",
           "format": "grid",
-          "options": {
-            "grid_columns": 2
-          },
           "properties": {
             "pathNumber": {
               "id": "pathNumber",
               "type": "integer",
               "minimum": 0,
               "title": "Path Number",
-              "description": "Path ID number",
               "name": "path Number"
             },
             "pathName": {
@@ -38,7 +35,6 @@ Template.chaptereditform.rendered = function(){
               "type": "string",
               "minLength": 0,
               "title": "Path Name",
-              "description": "Name for this path",
               "name": "path Name"
             },
             "chapterNumber": {
@@ -46,7 +42,6 @@ Template.chaptereditform.rendered = function(){
               "type": "integer",
               "minimum": 0,
               "title": "Chapter Number",
-              "description": "Chapter ID number",
               "name": "chapter Number"
             },
             "chapterName": {
@@ -54,7 +49,6 @@ Template.chaptereditform.rendered = function(){
               "type": "string",
               "minLength": 0,
               "title": "Chapter Name",
-              "description": "Name for this chapter",
               "name": "chapter Name"
             },
             "slug": {
@@ -64,6 +58,18 @@ Template.chaptereditform.rendered = function(){
               "title": "Slug",
               "description": "Slug for URL",
               "name": "slug"
+            },
+            "description": {
+              "id": "description",
+              "type": "string",
+              "minLength": 0,
+              "title": "Public Description",
+              "description": "This is a public description for your chapter. Make it dynamic, exciting, and interesting.",
+              "name": "description",
+              "format": "textarea",
+              "options": {
+                "expand_height": true
+              }
             },
             "debug": {
               "id": "debug",
@@ -112,12 +118,13 @@ Template.chaptereditform.rendered = function(){
                   "maximum": 1,
                   "minimum": 0,
                   "title": "Volume",
-                  "description": "Volume of this audio element [0-1]",
+                  "description": "Volume [0-1]",
                   "name": "start Volume",
                   "default": 1
                 }
               }
             },
+
             "scenes": {
               "id": "scenes",
               "type": "array",
@@ -146,7 +153,6 @@ Template.chaptereditform.rendered = function(){
                     "multipleOf": 1,
                     "minimum": 0,
                     "title": "Scene Number",
-                    "description": "Unique scene id number",
                     "name": "scene Number"
                   },
                   "sceneName": {
@@ -154,7 +160,6 @@ Template.chaptereditform.rendered = function(){
                     "type": "string",
                     "minLength": 0,
                     "title": "Scene Name",
-                    "description": "Unique scene name",
                     "name": "scene Name"
                   },
 
@@ -184,7 +189,6 @@ Template.chaptereditform.rendered = function(){
                           "multipleOf": 1,
                           "minimum": 0,
                           "title": "Shot Number",
-                          "description": "Unique shot id number",
                           "name": "shot Number"
                         },
                         "shotContent": {
@@ -206,7 +210,7 @@ Template.chaptereditform.rendered = function(){
                           "type": "string",
                           "minLength": 0,
                           "title": "Shot Type",
-                          "description": "What type of visual element is this? [still, video]",
+                          "description": "What type of visual element is this?",
                           "enum": [
                             "still",
                             "video"
@@ -220,14 +224,14 @@ Template.chaptereditform.rendered = function(){
                           "title": "Sticky",
                           "description": "Stays visible when page scrolls?",
                           "name": "Sticky",
-                          "default": true,
+                          "default": true
                         },
                         "transitionType": {
                           "id": "transitionType",
                           "type": "string",
                           "minLength": 0,
                           "title": "Transition Type",
-                          "description": "What type of transition is this? [cut, fade, flare, push, wipe, cut, pan, split, focus, animate",
+                          "description": "What type of transition is this?",
                           "enum": [
                             "push",
                             "cut",
@@ -257,7 +261,7 @@ Template.chaptereditform.rendered = function(){
                               "id": "videoLoop",
                               "type": "boolean",
                               "title": "Loop",
-                              "description": "Should this video be looped?",
+                              "description": "Loop this video?",
                               "name": "Video Loop",
                               "default": true
                             },
@@ -371,7 +375,7 @@ Template.chaptereditform.rendered = function(){
                           "type": "array",
                           "minItems": 0,
                           "title": "Visual Elements",
-                          "description": "Visual elements for this shot (Click +Add Visual Element button below to add)",
+                          "description": "Visual elements for this shot (Click +Visual Element button below to add)",
                           "name": "visual Elements",
                           "items": {
                             "id": "0",
@@ -407,7 +411,7 @@ Template.chaptereditform.rendered = function(){
                                 "type": "string",
                                 "minLength": 0,
                                 "title": "Visual Type",
-                                "description": "What type of visual element is this? [still, html]",
+                                "description": "What type of visual element is this?",
                                 "enum": [
                                   "still",
                                   "html"
@@ -550,18 +554,93 @@ Template.chaptereditform.rendered = function(){
                   "shots"
                 ]
               }
+            },
+
+            "links": {
+              "id": "scenes",
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": false,
+              "additionalItems": true,
+              "title": "Chapter Links",
+              "description": "Related links to other chapters, starting with the link to the next chapter in this path",
+              "options": {
+                "collapsed": false,
+                "disable_properties": true
+              },
+              "items": {
+                "id": "0",
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Link",
+                "name": "0",
+                "format": "grid",
+                "options": {
+                  "disable_edit_json": true,
+                  "disable_properties": true,
+                  "grid_columns": 2
+                },
+                "properties": {
+                  "pathNumber": {
+                    "id": "pathNumber",
+                    "type": "integer",
+                    "minimum": 0,
+                    "title": "Path Number",
+                    "name": "path Number"
+                  },
+                  "chapterNumber": {
+                    "id": "chapterNumber",
+                    "type": "integer",
+                    "minimum": 0,
+                    "title": "Chapter Number",
+                    "name": "chapter Number"
+                  },
+                  "pathName": {
+                    "id": "pathName",
+                    "type": "string",
+                    "minimum": 0,
+                    "title": "Path Name",
+                    "name": "pathName"
+                  },
+                  "chapterName": {
+                    "id": "chapterName",
+                    "type": "string",
+                    "minimum": 0,
+                    "title": "Chapter Name",
+                    "name": "chapterName"
+                  },
+                  "description": {
+                    "id": "description",
+                    "type": "string",
+                    "format": "textarea",
+                    "minimum": 0,
+                    "title": "Description",
+                    "name": "description"
+                  },
+                  "slug": {
+                    "id": "slug",
+                    "type": "string",
+                    "minimum": 0,
+                    "title": "Chapter Slug",
+                    "name": "slug"
+                  }
+                }
+              }
             }
           },
+
           "required": [
             "pathNumber",
             "pathName",
             "chapterNumber",
             "chapterName",
             "slug",
+            "description",
             "debug",
             "placeholders",
             "ambientAudio",
-            "scenes"
+            "scenes",
+            "links"
           ]
         }
 
@@ -578,7 +657,7 @@ Template.chaptereditform.rendered = function(){
     //console.log("Template created for p"+pathNum+"c"+chapterNum);
     if (pathNum && chapterNum) {
         console.log("Template created for p"+pathNum+"c"+chapterNum);
-        retreiveChapter(pathNum, chapterNum);
+        getEditChapter(pathNum, chapterNum);
     }
 
     // Search Button
@@ -593,13 +672,13 @@ Template.chaptereditform.rendered = function(){
         if (debug) {
             console.log("PathNumber: "+pathNum+" ChapterNumber: "+chapterNum);
         }
-        retreiveChapter(pathNum, chapterNum);
+        getEditChapter(pathNum, chapterNum);
     });
 
-    function retreiveChapter(pathNum, chapterNum) {
+    function getEditChapter(pathNum, chapterNum) {
         pathNum = parseInt(pathNum);
         chapterNum = parseInt(chapterNum);
-        console.log("retreiveChapter: p"+pathNum+"c"+chapterNum);
+        console.log("getEditChapter: p"+pathNum+"c"+chapterNum);
         // Get chapter from collection
         var myChapter = getChapterCollection(pathNum, chapterNum);
         if (debug) console.log(myChapter);
@@ -626,6 +705,8 @@ Template.chaptereditform.rendered = function(){
             Session.set('chapterNum', chapterNum);
             changeURL(pathNum, chapterNum);
             addRefreshButtons();
+            protectLinks();
+            fetchLinkInfo(myChapter);
         } else {
             $("#search-results").html("<span class='error'>Chapter not found.</span>");
         }
@@ -651,6 +732,7 @@ Template.chaptereditform.rendered = function(){
         $("#chapter-num").val(null)
         $("#search-results").html("<span class='info'>New chapter. Save frequently.</span>");
         $("div [data-schemapath='root.pathNumber'] input").focus();
+        protectLinks();
     });
 
     function protectIndexNumbers() {
@@ -842,24 +924,75 @@ Template.chaptereditform.rendered = function(){
         //TODO: Do something if there is a conflict
     });
 
-    $("div[data-schemaid='pathName'] input").change(function(){
+    $("div[data-schemapath='root.pathName'] input").change(function(){
         var pathName = $(this).val();
-        var chapterName = $("div[data-schemaid='chapterName'] input").val();
+        var chapterName = $("div[data-schemapath='root.chapterName'] input").val();
         var slug = makeSafeFilename(pathName)+'/'+makeSafeFilename(chapterName);
         jsonEditor.getEditor('root.slug').setValue(slug)
     });
 
-    $("div[data-schemaid='chapterName'] input").change(function(){
+    $("div[data-schemapath='root.chapterName'] input").change(function(){
         var chapterName = $(this).val();
-        var pathName = $("div[data-schemaid='pathName'] input").val();
+        var pathName = $("div[data-schemapath='root.pathName'] input").val();
         var slug = makeSafeFilename(pathName)+'/'+makeSafeFilename(chapterName);
         jsonEditor.getEditor('root.slug').setValue(slug)
     });
+
+
+    // Extra info for links
+    function protectLinks() {
+        $("div[data-schemapath^='root.links'] [data-schemapath$='pathName'] input").attr("readonly", true);
+        $("div[data-schemapath^='root.links'] [data-schemapath$='chapterName'] input").attr("readonly", true);
+        $("div[data-schemapath^='root.links'] [data-schemapath$='description'] textarea").attr("readonly", true);
+        $("div[data-schemapath^='root.links'] [data-schemapath$='slug'] input").attr("readonly", true);
+    }
+
+    function extraLinkInfo(linkIndex, pathNum, chapterNum) {
+        var linkChapter = getChapterCollection(pathNum, chapterNum);
+        if (linkChapter) {
+            linkPathName = linkChapter.pathName;
+            linkChapterName = linkChapter.chapterName;
+            linkDescription = linkChapter.description;
+            linkSlug = linkChapter.slug;
+        } else {
+            linkPathName = linkChapterName = linkDescription = "Not found... yet";
+        }
+        jsonEditor.getEditor('root.links.'+linkIndex+'.pathName').setValue(linkPathName)
+        jsonEditor.getEditor('root.links.'+linkIndex+'.chapterName').setValue(linkChapterName)
+        jsonEditor.getEditor('root.links.'+linkIndex+'.description').setValue(linkDescription)
+        jsonEditor.getEditor('root.links.'+linkIndex+'.slug').setValue(linkSlug)
+    }
+
+    function fetchLinkInfo(myChapter) {
+        if ($debug) console.log("There are "+myChapter.links.length+" links");
+        console.log("There are "+myChapter.links.length+" links");
+        for (linkIndex = 0; linkIndex < myChapter.links.length; linkIndex++) { 
+                    
+            $("div[data-schemapath^='root.links."+linkIndex+".pathNumber'] input").change(function(){
+                var pathNum = $(this).val();
+                var chapterNum = $("div[data-schemapath='root.links."+linkIndex+".chapterNumber'] input").val();
+                console.log("pathNum:"+pathNum+" chapterNum:"+chapterNum+" linkIndex:"+linkIndex);
+                if (pathNum && chapterNum) {
+                    extraLinkInfo(linkIndex, pathNum, chapterNum);
+                }
+            });
+
+            $("div[data-schemapath^='root.links."+linkIndex+".chapterNumber'] input").change(function(){
+                var chapterNum = $(this).val();
+                var pathNum = $("div[data-schemapath='root.links."+linkIndex+".pathNumber'] input").val();
+                console.log("pathNum:"+pathNum+" chapterNum:"+chapterNum+" linkIndex:"+linkIndex);
+                if (pathNum && chapterNum) {
+                    extraLinkInfo(linkIndex, pathNum, chapterNum);
+                }
+            });
+
+            //extraLinkInfo(linkIndex, ...
+        }
+    }
+
+    // Refresh buttons
 
     addRefreshButtons();
-
-    // NICEITIES
-
     function addRefreshButtons() {
       // add a refresh button to image previews
       $("div.refresh-image").remove();

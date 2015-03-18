@@ -123,31 +123,62 @@
     -webkit-box-shadow: 0 0 5px 0px #fff;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
     -moz-box-shadow:    0 0 5px 0px #fff;  /* Firefox 3.5 - 3.6 */
     box-shadow:         0 0 5px 0px #fff;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+    opacity: 0.33;
+    -webkit-transition: opacity 5s ease-in-out, 
+            left 1s ease-in-out;
+    -moz-transition: opacity 5s ease-in-out, 
+            left 1s ease-in-out;
+    -o-transition: opacity 5s ease-in-out, 
+            left 1s ease-in-out;
+    transition: opacity 5s ease-in-out, 
+            left 1s ease-in-out;
+}
+
+.burger.highlighted {
+    opacity: 1.0;
+    -webkit-transition: opacity 0.25s ease-in, 
+            left 0.25s ease-in-out;
+    -moz-transition: opacity 0.25s ease-in, 
+            left 0.25s ease-in-out;
+    -o-transition: opacity 0.25s ease-in, 
+            left 0.25s ease-in-out;
+    transition: opacity 0.25s ease-in, 
+            left 0.25s ease-in-out;
+}
+
+.burger:hover {
+    left: -8px;
+    opacity: 1.0;
+    -webkit-transition: opacity 0.25s ease-in, 
+            left 0.25s ease-in-out;
+    -moz-transition: opacity 0.25s ease-in, 
+            left 0.25s ease-in-out;
+    -o-transition: opacity 0.25s ease-in, 
+            left 0.25s ease-in-out;
+    transition: opacity 0.25s ease-in, 
+            left 0.25s ease-in-out;
 }
 
 #menuburger {
     top: 100px;
 }
+
 #menuburger img {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 8px;
+    right: 2px;
     border: 0px;
 }
-#menuburger:hover {
-    left: 0;
-}
+
 #mapburger {
     top: 200px;
 }
+
 #mapburger img {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 6px;
+    right: 2px;
     border: 0px;
-}
-#mapburger:hover {
-    left: 0;
 }
 
 #ambientaudio {
@@ -161,30 +192,12 @@
     box-sizing: border-box;
     padding-left: 0;
     overflow: hidden;
-    /*
-    opacity: 0.25;
-    -webkit-transition: opacity 5s;
-    -moz-transition: opacity 5s;
-    -o-transition: opacity 5s;
-    transition: opacity 5s;
-    */
 }
-
-/*
-#ambientaudio:hover,
-#ambientaudio.highlighted {
-    opacity: 1.0;
-    -webkit-transition: opacity 0.2s;
-    -moz-transition: opacity 0.2s;
-    -o-transition: opacity 0.2s;
-    transition: opacity 0.2s;
-}
-*/
 
 #ambientaudio img {
     position: absolute;
     left: -28px;
-    opacity: 0.25;
+    opacity: 0.33;
     -webkit-transition: opacity 5s;
     -moz-transition: opacity 5s;
     -o-transition: opacity 5s;

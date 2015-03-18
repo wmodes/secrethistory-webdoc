@@ -202,33 +202,48 @@ img[src*="/thumbs/"] {
 
 /* form formatting hacks */
 
-div [data-schemapath='root.pathNumber'] {
-    width: 160px;
-    float: left;
+/* number sizing */
+div [data-schemapath$='pathNumber'],
+div [data-schemapath$='chapterNumber'],
+div [data-schemapath$='sceneNumber'],
+div [data-schemapath$='shotNumber'] 
+{
+    width: 25%;
     padding-right: 10px;
+    display: inline-block;
+    vertical-align: top;
 }
 
-div [data-schemapath='root.chapterNumber'] {
-    width: 160px;
-    float: left;
+/* short text sizing */
+div [data-schemapath$='pathName'],
+div [data-schemapath$='chapterName'],
+div [data-schemapath$='sceneName']
+{
+    width: 75%;
     padding-right: 10px;
+    display: inline-block;
+    vertical-align: top;
 }
 
-div [data-schemapath='root.pathName'] {
-    width: 380px;
-    float: left;
+/* halvsies */
+div [data-schemapath$='debug'],
+div [data-schemapath$='placeholders'],
+div [data-schemapath$='shotType'],
+div [data-schemapath$='sticky'],
+div [data-schemapath$='transitionType'],
+div [data-schemapath$='startTrigger'],
+div [data-schemapath$='duration'],
+div [data-schemapath$='fadeIn'],
+div [data-schemapath$='visualType'],
+div [data-schemapath$='fullscreen'],
+div [data-schemapath$='volume'],
+div [data-schemapath$='zIndex']
+{
+    width: 50%;
+    padding-right: 10px;
+    display: inline-block;
+    vertical-align: top;
 }
-
-div [data-schemapath='root.chapterName'] {
-    width: 380px;
-    float: left;
-}
-
-div [data-schemapath='root.ambientAudio'] {
-    clear: both;
-}
-
-
 
 
 /* drop zone */
