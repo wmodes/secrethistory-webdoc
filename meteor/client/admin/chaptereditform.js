@@ -1,4 +1,4 @@
-debug = 1;
+debug = true;
 
 chapterURL = "/chapter/";
 chapterEditorURL = "/admin/chapter/";
@@ -964,7 +964,9 @@ Template.chaptereditform.rendered = function(){
     }
 
     function fetchLinkInfo(myChapter) {
-        if ($debug) console.log("There are "+myChapter.links.length+" links");
+        console.log("fetchLinkInfo:");
+        console.log(myChapter);
+        if (debug) console.log("There are "+myChapter.links.length+" links");
         console.log("There are "+myChapter.links.length+" links");
         for (linkIndex = 0; linkIndex < myChapter.links.length; linkIndex++) { 
                     

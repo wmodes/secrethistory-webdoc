@@ -106,8 +106,8 @@ Meteor.startup(function() {
                 //TODO: Add functionality: Copy to webm format as well
 
                 if (debug) console.log("Cmd: "+ ffmpegthumbnailer + " -i " + srcFile 
-                    + " -o " + thumbFile + imageThumbOpts);
-                exec(ffmpegthumbnailer + " -i " + srcFile + " -o " + thumbFile + imageThumbOpts, runCommand);
+                    + " -o " + thumbFile + ffmpegThumbOpts);
+                exec(ffmpegthumbnailer + " -i " + srcFile + " -o " + thumbFile + ffmpegThumbOpts, runCommand);
                 
             } else if (myExt.match(/mp3|wav|ogg/)) {
                 // audio

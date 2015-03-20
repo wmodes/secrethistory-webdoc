@@ -13,7 +13,7 @@ export VIDEO_THUMBNAIL_OPTS=' -s 300 '
 
 export IMAGE_THUMBNAIL_OPTS=' -quality 50 -resize 300x500\> '
 
-if [[ "`hostname`" =~ peoplesriverhistory ]]; then
+if [[ "`hostname`" =~ peoplesriverhistory ]] || [[  "`hostname`" =~ secrethistory ]]; then 
 
     export PUBLIC_FILES_DIR="/home/secrethistory/bundle/programs/web.browser/app"
 
