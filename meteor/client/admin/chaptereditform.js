@@ -748,7 +748,9 @@ Template.chaptereditform.rendered = function(){
         $("#chapter-num").val(null)
         $("#search-results").html("<span class='info'>New chapter. Save frequently.</span>");
         $("div [data-schemapath='root.pathNumber'] input").focus();
-        protectLinkInfo(0);
+        setTimeout(function() {
+            protectLinkInfo(0);
+        }, 1000);
     });
 
     function protectIndexNumbers() {
@@ -967,7 +969,8 @@ Template.chaptereditform.rendered = function(){
                 linkDescription = linkChapter.description;
                 linkSlug = linkChapter.slug;
             } else {
-                linkPathName = linkChapterName = linkDescription = "Not found... yet";
+                linkPathName = linkChapterName = linkSlug = "";
+                linkDescription = "Not found... yet";
             }
         }
         jsonEditor.getEditor('root.links.'+linkIndex+'.pathName').setValue(linkPathName)
@@ -991,13 +994,16 @@ Template.chaptereditform.rendered = function(){
         }
     }
 
-    $("button[title='Add Link']").click(function() {
-        lastLink = jsonEditor.getEditor('root.links').getValue().length - 1;
-        console.log("The link added is number " + lastLink);
-        populateOneLink(lastLink);
-        addLinkWatcher(lastLink);
-        protectLinkInfo(lastLink);
-    });
+    setTimeout(function() {
+        // Your code here
+        $("button[title='Add Link']").click(function() {
+            lastLink = jsonEditor.getEditor('root.links').getValue().length - 1;
+            console.log("The link added is number " + lastLink);
+            populateOneLink(lastLink);
+            addLinkWatcher(lastLink);
+            protectLinkInfo(lastLink);
+        });
+    }, 1000);
 
     function addLinkWatcher(linkIndex) {
         console.log("addLinkWatcher: Setting up watchers for link " + linkIndex);
