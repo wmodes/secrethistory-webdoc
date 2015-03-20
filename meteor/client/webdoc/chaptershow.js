@@ -217,6 +217,9 @@ Template.chaptershow.helpers({
         debug = chapter.debug;
         placeholders = chapter.placeholders;
 
+        // set window title
+        document.title = "Secret History - " + chapter.pathName + " - " + chapter.chapterName;
+
         //alert(JSON.stringify(chapterArray, null, 2));
         if (debug) {
             console.log("We are rendering the following chapter:\n\tp"

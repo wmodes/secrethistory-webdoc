@@ -71,6 +71,20 @@ Template.chaptereditform.rendered = function(){
                 "expand_height": true
               }
             },
+            "featureContent": {
+              "id": "featureContent",
+              "type": "string",
+              "minLength": 0,
+              "title": "Feature Image/Video",
+              "description": "Filename of feature to be used when linking to this chapter",
+              "name": "featureContent",
+              "links": [
+                {
+                  "href": "/thumbs/{{self}}.jpg",
+                  "mediaType": "image/jpg"
+                }
+              ]
+            },
             "debug": {
               "id": "debug",
               "type": "boolean",
@@ -636,6 +650,7 @@ Template.chaptereditform.rendered = function(){
             "chapterName",
             "slug",
             "description",
+            "featureContent",
             "debug",
             "placeholders",
             "ambientAudio",
@@ -660,6 +675,9 @@ Template.chaptereditform.rendered = function(){
         getEditChapter(pathNum, chapterNum);
     }
 
+    //TODO: Important: Make sure safeties are added to JSON edit button - right now, you can clobber an entire chapter by uploading JSON from another chapter which is then saved with the old ID.
+
+
     // Search Button
     //
     $(".search-button").click(function() {
@@ -678,7 +696,6 @@ Template.chaptereditform.rendered = function(){
     function getEditChapter(pathNum, chapterNum) {
         pathNum = parseInt(pathNum);
         chapterNum = parseInt(chapterNum);
-        console.log("getEditChapter: p"+pathNum+"c"+chapterNum);
         // Get chapter from collection
         var myChapter = getChapterCollection(pathNum, chapterNum);
         if (debug) console.log(myChapter);
@@ -705,8 +722,7 @@ Template.chaptereditform.rendered = function(){
             Session.set('chapterNum', chapterNum);
             changeURL(pathNum, chapterNum);
             addRefreshButtons();
-            protectLinks();
-            fetchLinkInfo(myChapter);
+            populateAllLinks();
         } else {
             $("#search-results").html("<span class='error'>Chapter not found.</span>");
         }
@@ -732,7 +748,7 @@ Template.chaptereditform.rendered = function(){
         $("#chapter-num").val(null)
         $("#search-results").html("<span class='info'>New chapter. Save frequently.</span>");
         $("div [data-schemapath='root.pathNumber'] input").focus();
-        protectLinks();
+        protectLinkInfo(0);
     });
 
     function protectIndexNumbers() {
@@ -786,8 +802,6 @@ Template.chaptereditform.rendered = function(){
     function getChapterCollection(pathNum, chapterNum) {
         pathNum = parseInt(pathNum);
         chapterNum = parseInt(chapterNum);
-        console.log("pathNum:"+pathNum+"("+typeof(pathNum)+")"
-            +" chapterNum:"+chapterNum+"("+typeof(chapterNum)+")")
         var item = ChapterCollection.findOne({
             pathNumber: pathNum,
             chapterNumber: chapterNum
@@ -940,22 +954,21 @@ Template.chaptereditform.rendered = function(){
 
 
     // Extra info for links
-    function protectLinks() {
-        $("div[data-schemapath^='root.links'] [data-schemapath$='pathName'] input").attr("readonly", true);
-        $("div[data-schemapath^='root.links'] [data-schemapath$='chapterName'] input").attr("readonly", true);
-        $("div[data-schemapath^='root.links'] [data-schemapath$='description'] textarea").attr("readonly", true);
-        $("div[data-schemapath^='root.links'] [data-schemapath$='slug'] input").attr("readonly", true);
-    }
 
-    function extraLinkInfo(linkIndex, pathNum, chapterNum) {
-        var linkChapter = getChapterCollection(pathNum, chapterNum);
-        if (linkChapter) {
-            linkPathName = linkChapter.pathName;
-            linkChapterName = linkChapter.chapterName;
-            linkDescription = linkChapter.description;
-            linkSlug = linkChapter.slug;
-        } else {
-            linkPathName = linkChapterName = linkDescription = "Not found... yet";
+    function populateOneLink(linkIndex) {
+        pathNum = jsonEditor.getEditor('root.links.'+linkIndex+'.pathNumber').getValue();
+        chapterNum = jsonEditor.getEditor('root.links.'+linkIndex+'.chapterNumber').getValue();
+        console.log("populateOneLink: pathNum:"+pathNum+" chapterNum:"+chapterNum);
+        if (pathNum && chapterNum) {
+            var linkChapter = getChapterCollection(pathNum, chapterNum);
+            if (linkChapter) {
+                linkPathName = linkChapter.pathName;
+                linkChapterName = linkChapter.chapterName;
+                linkDescription = linkChapter.description;
+                linkSlug = linkChapter.slug;
+            } else {
+                linkPathName = linkChapterName = linkDescription = "Not found... yet";
+            }
         }
         jsonEditor.getEditor('root.links.'+linkIndex+'.pathName').setValue(linkPathName)
         jsonEditor.getEditor('root.links.'+linkIndex+'.chapterName').setValue(linkChapterName)
@@ -963,33 +976,58 @@ Template.chaptereditform.rendered = function(){
         jsonEditor.getEditor('root.links.'+linkIndex+'.slug').setValue(linkSlug)
     }
 
-    function fetchLinkInfo(myChapter) {
-        console.log("fetchLinkInfo:");
-        console.log(myChapter);
-        if (debug) console.log("There are "+myChapter.links.length+" links");
-        console.log("There are "+myChapter.links.length+" links");
-        for (linkIndex = 0; linkIndex < myChapter.links.length; linkIndex++) { 
-                    
-            $("div[data-schemapath^='root.links."+linkIndex+".pathNumber'] input").change(function(){
-                var pathNum = $(this).val();
-                var chapterNum = $("div[data-schemapath='root.links."+linkIndex+".chapterNumber'] input").val();
-                console.log("pathNum:"+pathNum+" chapterNum:"+chapterNum+" linkIndex:"+linkIndex);
-                if (pathNum && chapterNum) {
-                    extraLinkInfo(linkIndex, pathNum, chapterNum);
-                }
-            });
-
-            $("div[data-schemapath^='root.links."+linkIndex+".chapterNumber'] input").change(function(){
-                var chapterNum = $(this).val();
-                var pathNum = $("div[data-schemapath='root.links."+linkIndex+".pathNumber'] input").val();
-                console.log("pathNum:"+pathNum+" chapterNum:"+chapterNum+" linkIndex:"+linkIndex);
-                if (pathNum && chapterNum) {
-                    extraLinkInfo(linkIndex, pathNum, chapterNum);
-                }
-            });
-
-            //extraLinkInfo(linkIndex, ...
+    function populateAllLinks() {
+        linkLength = jsonEditor.getEditor('root.links').getValue().length;
+        if (debug) {
+            console.log("populateAllLinks:");
+            console.log("There are "+linkLength+" links");
         }
+        console.log("populateAllLinks:");
+        console.log("There are "+linkLength+" links");
+        for (linkIndex = 0; linkIndex < linkLength; linkIndex++) { 
+            populateOneLink(linkIndex);
+            addLinkWatcher(linkIndex);
+            protectLinkInfo(linkIndex);
+        }
+    }
+
+    $("button[title='Add Link']").click(function() {
+        lastLink = jsonEditor.getEditor('root.links').getValue().length - 1;
+        console.log("The link added is number " + lastLink);
+        populateOneLink(lastLink);
+        addLinkWatcher(lastLink);
+        protectLinkInfo(lastLink);
+    });
+
+    function addLinkWatcher(linkIndex) {
+        console.log("addLinkWatcher: Setting up watchers for link " + linkIndex);
+        // set up watcher on the links.*.pathNumber field
+        $("div[data-schemapath='root.links."+linkIndex+".pathNumber'] input").unbind();
+        $("div[data-schemapath='root.links."+linkIndex+".pathNumber'] input").change(function(){
+            // We set this manually because this gets triggered before it is written to form data
+            jsonEditor.getEditor('root.links.'+linkIndex+'.pathNumber').setValue($(this).val());
+            console.log("I just set the pathNumber after it was changed. I read it as "
+                +jsonEditor.getEditor('root.links.'+linkIndex+'.pathNumber').getValue());
+            populateOneLink(linkIndex);
+        });
+        // set up watcher on the links.*.chapterNumber field
+        $("div[data-schemapath='root.links."+linkIndex+".chapterNumber'] input").unbind();
+        $("div[data-schemapath='root.links."+linkIndex+".chapterNumber'] input").change(function(){
+            // We set this manually because this gets triggered before it is written to form data
+            jsonEditor.getEditor('root.links.'+linkIndex+'.chapterNumber').setValue($(this).val());
+            console.log("I just set the chapterNumber after it was changed. I read it as "
+                +jsonEditor.getEditor('root.links.'+linkIndex+'.chapterNumber').getValue());
+            populateOneLink(linkIndex);
+        });
+    }
+
+    // protect the fields that are only informational
+    function protectLinkInfo(linkIndex) {
+        console.log("protectLinkInfo: for link " + linkIndex);
+        $("div[data-schemapath='root.links."+linkIndex+".pathName'] input").attr("readonly", true);
+        $("div[data-schemapath='root.links."+linkIndex+".chapterName'] input").attr("readonly", true);
+        $("div[data-schemapath='root.links."+linkIndex+".description'] textarea").attr("readonly", true);
+        $("div[data-schemapath='root.links."+linkIndex+".slug'] input").attr("readonly", true);
     }
 
     // Refresh buttons
