@@ -498,7 +498,7 @@ html ::-webkit-scrollbar-thumb:horizontal,
  * Links
  */
 
- .link-wrapper {
+#doc-canvas .link-wrapper {
     position: absolute;
     width: 95vw;
     height: 100vh;
@@ -521,14 +521,16 @@ html ::-webkit-scrollbar-thumb:horizontal,
     */
  }
 
- .link-element {
+#doc-canvas .link-element {
     display: inline-block;
     max-width: 400px;
-    width: 35vh;
+    width: 45vh;
     height: 35vh;
     margin: 20px;
     margin-right: 30px;
     overflow: hidden;
+    background-size: cover;
+    background-position: center;
     z-index: 25;
     padding: 0;
     border: solid 3px black;
@@ -536,13 +538,13 @@ html ::-webkit-scrollbar-thumb:horizontal,
     /* drop shadow & vignette */
         -webkit-box-shadow: 
             5px 5px 40px 10px rgba(0,0,0,0.75),
-            inset 0px 0px 76px 12px rgba(0,0,0,0.75);
+            inset 0px 0px 76px 12px rgba(0,0,0,0.25);
         -moz-box-shadow: 
             5px 5px 40px 10px rgba(0,0,0,0.75),
-            inset 0px 0px 76px 12px rgba(0,0,0,0.75);
+            inset 0px 0px 76px 12px rgba(0,0,0,0.25);
         box-shadow: 
             5px 5px 40px 10px rgba(0,0,0,0.75),
-            inset 0px 0px 76px 12px rgba(0,0,0,0.75);
+            inset 0px 0px 76px 12px rgba(0,0,0,0.25);
     /* vignetting */
         /*
         -webkit-box-shadow: inset 0px 0px 76px 12px rgba(0,0,0,0.75);
@@ -565,15 +567,15 @@ html ::-webkit-scrollbar-thumb:horizontal,
             brightness 1.5s;
  }
 
- .link-element:hover {
+#doc-canvas .link-element:hover {
     /* brightness */
         -webkit-filter: brightness(1.0);
         -moz-filter: brightness(1.0);  
         filter: brightness(1.0);
     /* drop shadow */
-        -webkit-box-shadow: 10px 10px 50px 10px rgba(0,0,0,0.75);
-        -moz-box-shadow: 10px 10px 50px 10px rgba(0,0,0,0.75);
-        box-shadow: 10px 10px 50px 10px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 45px 10px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 45px 10px rgba(0,0,0,0.75);
+        box-shadow: 10px 10px 45px 10px rgba(0,0,0,0.75);
     /* outer glow */
         /*
         -webkit-box-shadow: 0 0 10px 2px #fff;
@@ -592,7 +594,7 @@ html ::-webkit-scrollbar-thumb:horizontal,
             brightness 0.75s;
  }
 
- .link-element img {
+#doc-canvas .link-element img {
     height: 100%;
     position: relative;
     top: 50%;
@@ -603,3 +605,35 @@ html ::-webkit-scrollbar-thumb:horizontal,
     padding: 0;
     margin: 0;
  }
+
+#doc-canvas .link-text {
+    display: inline-block;
+    min-width: 400px;
+    width: 20vw;
+    min-height: 60vh;
+    margin: 20px;
+    margin-right: 40px;
+    z-index: 25;
+    border: solid 3px black;
+    align-self: center;
+    padding: 10px 20px 10px 20px;
+    background: #000;
+    opacity: 0.75;
+    visibility: hidden;
+    line-spacing: 1.15;
+}
+
+#doc-canvas .visible {
+    visibility: visible;
+}
+
+#doc-canvas .link-text h1 {
+}
+
+#doc-canvas .link-text h2 {
+}
+
+#doc-canvas .link-text p {
+}
+
+

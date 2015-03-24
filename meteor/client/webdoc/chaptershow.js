@@ -134,6 +134,8 @@ linkWrapperID = "link-wrapper";
 linkElementDiv = "<div id='link-%id' class='link-element'></div>";
 linkElementID = "link-";
 linkElementClass = "link-element";
+linkTextDiv = "<div id='link-text' class='link-text'></div>";
+linkTextID = "link-text";
 
 ambientToggleID = "ambient-toggle";
 burgerID = "burger";
@@ -156,7 +158,6 @@ Template.chaptershow.rendered = function() {
     routerParams = Router.current().params;
     var slug = routerParams.pathSlug+'/'+routerParams.chapterSlug;
     Session.set("slug", slug);
-    console.log("Rendering Path (from template): "+slug);
 
 }
 
@@ -167,7 +168,6 @@ Template.chaptershow.helpers({
 
     renderChapter: function () {
         var slug = Session.get("slug");
-        console.log("Rendering Path (from renderChapter): "+slug);
 
         //TODO: Move setup stuff to approp function
 
@@ -378,12 +378,12 @@ Template.chaptershow.helpers({
 
         // ADD LINKS
         //
-        console.log("Content ID:"+contentID);
         var linkWrapper = linkWrapperDiv.replace("%id", IDnum);
         $('#'+contentID).append(linkWrapper);
         for (linkIndex = 0; linkIndex < chapter.links.length; linkIndex++) {
             createLink(chapter.links[linkIndex], linkWrapperID, linkIndex);
         }
+        $('#'+linkWrapperID).append(linkTextDiv);
         // attach audio to hover over the links
         onClick = createAudioPlayer(clickOnSource, false, clickVolume);
         offClick = createAudioPlayer(clickOffSource, false, clickVolume);
@@ -693,41 +693,48 @@ Template.chaptershow.helpers({
         // CREATE LINKS
 
         function createLink(link, linkWrapperID, linkIndex) {
-            console.log(link);
             // Get link chapter from database
-            myPathNum = link.pathNumber;
-            myChapterNum = link.chapterNumber;
-            console.log("createLink:pathNum:"+myPathNum+" chapterNum:"+myChapterNum);
+            var myPathNum = link.pathNumber;
+            var myChapterNum = link.chapterNumber;
             if (myPathNum && myChapterNum) {
                 var linkChapter = getChapterCollection(myPathNum, myChapterNum);
-                console.log(linkChapter);
                 if (linkChapter) {
-                    linkPathName = linkChapter.pathName;
-                    linkChapterName = linkChapter.chapterName;
-                    linkDescription = linkChapter.description;
-                    linkSlug = linkChapter.slug;
-                    linkFeature = linkChapter.featureContent;
+                    var linkPathName = linkChapter.pathName;
+                    var linkChapterName = linkChapter.chapterName;
+                    var linkDescription = linkChapter.description;
+                    var linkSlug = linkChapter.slug;
+                    var linkFeature = linkChapter.featureContent;
                     //TODO: allow videos as features
                     if (linkFeature) {
                         // if we have a feature image, use its thumbnail
-                        linkThumb = '/thumbs/'+linkFeature+'.jpg';
+                        var linkThumb = '/thumbs/'+linkFeature+'.jpg';
                     } else {
                         // otherwise, use the thumbnail of the first shot
-                        linkThumb = '/thumbs/'+linkChapter.scenes[0].shots[0].shotContent+'.jpg';
+                        var linkThumb = '/thumbs/'+linkChapter.scenes[0].shots[0].shotContent+'.jpg';
                     }
-                } else {
-                    return false;
+                    // create the link div
+                    var myLinkElement = linkElementDiv.replace("%id", linkIndex);
+                    var linkID = linkElementID + linkIndex;
+                    $('#'+linkWrapperID).append(myLinkElement);
+                    $('#'+linkID).css('background-image', 'url('+linkThumb+')');
+                    $('#'+linkID).on({
+                        click: function() {
+                            console.log("link: /chapter/" + linkSlug);
+                            //document.location = "/chapter/" + linkSlug;
+                        },
+                        mouseover: function() {
+                            linkText = "<h2>" + linkPathName + "</h2>" +
+                                    "<h1>" + linkChapterName + "</h1>" +
+                                    "<p>" + linkDescription + "</p>";
+                            $('#'+linkTextID).html(linkText);
+                            $('#'+linkTextID).addClass("visible");
+                        },
+                        mouseout: function() {
+                            $('#'+linkTextID).removeClass("visible");
+                        }
+                    });
                 }
             }
-            // create the link div
-            var myLinkElement = linkElementDiv.replace("%id", linkIndex);
-            var linkID = linkElementID + linkIndex;
-            $('#'+linkWrapperID).append(myLinkElement);
-            imageHTML = "<a href='/chapter/"+linkSlug+"'><img src='"+linkThumb+"'/></a>";
-            $('#'+linkID).append(imageHTML);
-            console.log("createLink:");
-            console.log("myLinkElement:"+myLinkElement);
-            console.log("imageHTML:"+imageHTML);
         }
 
         // CREATE TITLES

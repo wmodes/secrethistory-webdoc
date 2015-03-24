@@ -574,7 +574,7 @@ Template.chaptereditform.rendered = function(){
               "id": "scenes",
               "type": "array",
               "minItems": 0,
-              "maxItems": 6,
+              "maxItems": 4,
               "uniqueItems": false,
               "additionalItems": true,
               "title": "Chapter Links",
