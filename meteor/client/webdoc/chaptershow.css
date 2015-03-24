@@ -616,7 +616,7 @@ html ::-webkit-scrollbar-thumb:horizontal,
     z-index: 25;
     border: solid 3px black;
     align-self: center;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 30px 10px 30px;
     background: #000;
     opacity: 0;
     line-height: 1.5;
@@ -635,12 +635,17 @@ html ::-webkit-scrollbar-thumb:horizontal,
 }
 
 #doc-canvas .link-text h1 {
+    margin-top: 0;
 }
 
 #doc-canvas .link-text h2 {
+    font-size: 16pt;
+    margin-top: 10px;
 }
 
 #doc-canvas .link-text p {
+    line-height: 1.5;
+    margin: 15px 0 10px;
 }
 
 
