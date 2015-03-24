@@ -720,7 +720,7 @@ Template.chaptershow.helpers({
                     $('#'+linkID).on({
                         click: function() {
                             console.log("link: /chapter/" + linkSlug);
-                            //document.location = "/chapter/" + linkSlug;
+                            document.location = "/chapter/" + linkSlug;
                         },
                         mouseover: function() {
                             linkText = "<h2>" + linkPathName + "</h2>" +

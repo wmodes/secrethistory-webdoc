@@ -618,13 +618,20 @@ html ::-webkit-scrollbar-thumb:horizontal,
     align-self: center;
     padding: 10px 20px 10px 20px;
     background: #000;
-    opacity: 0.75;
-    visibility: hidden;
-    line-spacing: 1.15;
+    opacity: 0;
+    line-height: 1.5;
+    /* radius */
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+    /* transition */
+        -webkit-transition: opacity 1s ease-out;
+        -moz-transition: opacity 1s ease-out;
+        transition: opacity 1s ease-out;
 }
 
-#doc-canvas .visible {
-    visibility: visible;
+#doc-canvas .link-text.visible {
+    opacity: 0.75;
 }
 
 #doc-canvas .link-text h1 {
