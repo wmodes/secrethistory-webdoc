@@ -9,9 +9,9 @@ export HANDBRAKE_OPTS=' -e x264  -q 20.0 -a 1,1 -E faac,copy:ac3 -B 160,160 -6 d
 
 export IMAGEMAGICK_OPTS=' -quality 50 -resize 1920x1920 '
 
-export VIDEO_THUMBNAIL_OPTS=' -s 300 '
+export VIDEO_THUMBNAIL_OPTS=' -s 500 '
 
-export IMAGE_THUMBNAIL_OPTS=' -quality 50 -resize 300x500\> '
+export IMAGE_THUMBNAIL_OPTS=' -quality 50 -resize 500x500\> '
 
 if [[ "`hostname`" =~ peoplesriverhistory ]] || [[  "`hostname`" =~ secrethistory ]]; then 
 

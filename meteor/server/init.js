@@ -18,8 +18,8 @@ Meteor.startup(function() {
     handbrakeOpts = ' -e x264  -q 20.0 -a 1,1 -E faac,copy:ac3 -B 160,160 -6 dpl2,none -R Auto,Auto -D 0.0,0.0 --audio-copy-mask aac,ac3,dtshd,dts,mp3 --audio-fallback ffac3 -f mp4 -4 --decomb --loose-anamorphic --modulus 2 -m --x264-preset medium --h264-profile high --h264-level 4.1 -O ';
     lameOpts = ' -b 64 -h -V 6 ';
 
-    imageThumbOpts = ' -quality 50 -resize 300x300\\> ';
-    ffmpegThumbOpts = ' -s 300 ';
+    imageThumbOpts = ' -quality 50 -resize 500x500\\> ';
+    ffmpegThumbOpts = ' -s 500 ';
 
     //console.log("this.connection.httpHeaders.host" + this.connection.httpHeaders.host);
     if (Meteor.absoluteUrl().match(/localhost/)) {

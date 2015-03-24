@@ -573,7 +573,8 @@ Template.chaptereditform.rendered = function(){
             "links": {
               "id": "scenes",
               "type": "array",
-              "minItems": 1,
+              "minItems": 0,
+              "maxItems": 6,
               "uniqueItems": false,
               "additionalItems": true,
               "title": "Chapter Links",
@@ -841,17 +842,21 @@ Template.chaptereditform.rendered = function(){
             });
         // if we don't have an id, this is an insert
         } else {
+            console.log("This is new chapter. Testing for conflict");
             // Make sure we are not overwriting an existing record
-            if (getChapter(myChapter.pathNumber,myChapter.chapterNumber)) {
+            if (getChapterCollection(myChapter.pathNumber,myChapter.chapterNumber)) {
+                console.log("Conflict found in database");
                 // alert about conflict
                 reportConflict(myChapter.pathNumber, myChapter.pathName,
                     myChapter.chapterNumber, myChapter.chapterName);
                 return;
             } else {
+                console.log("No conflict found in database");
                 // SAVE
                 // insert document in collection and save returned id
                 myid = ChapterCollection.insert(myChapter);
                 Session.set('current_id', myid);
+                console.log("Saved as new: "+myid);
                 // Make pathNumber and chapterNUmber readonly
                 protectIndexNumbers();
             }
@@ -876,13 +881,15 @@ Template.chaptereditform.rendered = function(){
         // First, we wouldn't be here if either pathNumber of chapterNumber weren't changed
         // If we don't have both, then we can't do anything, so return
         if (pathNum && chapterNum) {
-            var chapter = getChapter(pathNum, chapterNum);
+            var chapter = getChapterCollection(pathNum, chapterNum);
             if (chapter) {
                 reportConflict(pathNum, chapter.pathName, chapterNum, chapter.chapterName);
+                return true;
             }
             Session.set('pathNum', pathNum);
             Session.set('chapterNum', chapterNum);
         }
+        return false;
     }
 
     function reportConflict(pathNum, pathName, chapterNum, chapterName){
@@ -929,15 +936,19 @@ Template.chaptereditform.rendered = function(){
     $("div[data-schemaid='pathNumber'] input").change(function(){
         var pathNum = parseInt($(this).val());
         var chapterNum = parseInt($("div[data-schemaid='chapterNumber'] input").val());
-        checkConflict(pathNum, chapterNum);
         //TODO: Do something if there is a conflict
+        if (! checkConflict(pathNum, chapterNum)) {
+            changedFlag = true;
+        }
     });
 
     $("div[data-schemaid='chapterNumber'] input").change(function(){
         var chapterNum = parseInt($(this).val());
         var pathNum = parseInt($("div[data-schemaid='pathNumber'] input").val());
-        checkConflict(pathNum, chapterNum);
         //TODO: Do something if there is a conflict
+        if (! checkConflict(pathNum, chapterNum)) {
+            changedFlag = true;
+        }
     });
 
     $("div[data-schemapath='root.pathName'] input").change(function(){

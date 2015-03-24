@@ -78,7 +78,7 @@
 */
 
 // Useful constants 
-// TODO: Is there a better place to put these?
+// TODO: Make all these user-servicable parts in the database, modifible through admin
 //
 debug = false;
 placeholders = false;
@@ -87,6 +87,21 @@ mouseSpeed = 100;
 audioOn = true;
 ambientSound = {};
 ambientVolume = 0.5;
+
+// file locations
+imageDir = "/images/";
+videoDir = "/video/";
+audioDir = "/audio/";
+
+clickOnSource =  "/audio/link-rustyclick1.wav";
+clickOffSource =  "/audio/link-rustyclick2.wav";
+clickVolume = 0.25;
+
+scrollImage = "/images/scrolldown.png";
+spacerImage = "/images/spacer.png";
+
+placeImage = "placeholder-title.jpg";
+placeVideo = "placeholder-title.mp4";
 
 // ids and html for jquery insertions
 docCanvasID = "doc-canvas";
@@ -114,19 +129,14 @@ scrollBoxID = "scroll-box";
 
 audioWrapperDiv = "<div class='audio offstage'><video id='audio-%id'></video></div>";
 visualWrapperDiv = "<div id='visual-%id' class='visual-element'></div>";
+linkWrapperDiv = "<div id='link-wrapper' class='link-wrapper'></div>";
+linkWrapperID = "link-wrapper";
+linkElementDiv = "<div id='link-%id' class='link-element'></div>";
+linkElementID = "link-";
+linkElementClass = "link-element";
 
 ambientToggleID = "ambient-toggle";
 burgerID = "burger";
-
-// file locations
-imageDir = "/images/";
-videoDir = "/video/";
-audioDir = "/audio/";
-scrollImage = "/images/scrolldown.png";
-spacerImage = "/images/spacer.png";
-
-placeImage = "placeholder-title.jpg";
-placeVideo = "placeholder-title.mp4";
 
 $('img').error(function(){
     $(this).attr('src', spacerImage);
@@ -239,8 +249,8 @@ Template.chaptershow.helpers({
         //for each scene, and
         //  for each shot
         //    create a canvas
+        var allShotIndex = 0;
         var scenes = chapter.scenes;
-        var firstContent;
         if (debug) {
             console.log("There are "+scenes.length+" scenes.");
         };
@@ -253,8 +263,7 @@ Template.chaptershow.helpers({
                     +thisScene.sceneName+"\n\t"
                     +"Which has "+shots.length+" shot(s)");
             }
-            for (shotIndex = 0; shotIndex < shots.length; shotIndex++) { 
-
+            for (shotIndex = 0; shotIndex < shots.length; shotIndex++, allShotIndex++) { 
                 var thisShot = shots[shotIndex];
                 // if there is no content for the shot and we are not using placeholders, skip
                 if (! thisShot.shotContent) {
@@ -270,8 +279,7 @@ Template.chaptershow.helpers({
                     }
                 }
 
-                var IDnum = sceneIndex.toString()
-                    +"-"+shotIndex.toString();
+                var IDnum = allShotIndex.toString();
 
                 // HTML FRAMEWORK
                 //
@@ -365,20 +373,42 @@ Template.chaptershow.helpers({
                         setVisualElement(scrollControl, thisVisual, visualID, shotID);
                     }
                 }
-
             }
         }
 
+        // ADD LINKS
+        //
+        console.log("Content ID:"+contentID);
+        var linkWrapper = linkWrapperDiv.replace("%id", IDnum);
+        $('#'+contentID).append(linkWrapper);
+        for (linkIndex = 0; linkIndex < chapter.links.length; linkIndex++) {
+            createLink(chapter.links[linkIndex], linkWrapperID, linkIndex);
+        }
+        // attach audio to hover over the links
+        onClick = createAudioPlayer(clickOnSource, false, clickVolume);
+        offClick = createAudioPlayer(clickOffSource, false, clickVolume);
+        $('.'+linkElementClass).on({
+            mouseover: function() {
+                onClick.play();
+            },
+            mouseout: function() {
+                offClick.play();
+            }
+        });
+
+        //mouseover(function(){
+            //myClick.play();
+        //});
 
         // BUTTONS AND CLICKY THINGS
 
         $('#'+ambientToggleID).click(function() {
-            toggleAudio()
+            toggleAmbientAudio()
         });
 
         // AUDIO
         //
-        function toggleAudio() {
+        function toggleAmbientAudio() {
             if (audioOn) {
                 $('#'+ambientToggleID).removeClass('audio-on');
                 audioOn = false;
@@ -539,13 +569,7 @@ Template.chaptershow.helpers({
                     +" volume:"+myVolume+" fade:"+myFadein+" loop:"+myLoop
                     +" source:"+mySource);
             }
-            var mySound = new Howl({
-                urls: [mySource],
-                preload: true,
-                autoplay: false,
-                loop: myLoop,
-                volume: myVolume
-            });
+            var mySound = createAudioPlayer(mySource, myLoop, myVolume);
             // Trigger background audio start and end
             indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
             var myScrollScene = new ScrollScene({
@@ -583,6 +607,16 @@ Template.chaptershow.helpers({
             if (debug) {
                 myScrollScene.addIndicators({suffix: myContentID, indent: 60 * indent});
             }
+        }
+
+        function createAudioPlayer(mySource, myLoop, myVolume) {
+            return new Howl({
+                urls: [mySource],
+                preload: true,
+                autoplay: false,
+                loop: myLoop,
+                volume: myVolume
+            });
         }
 
         // VISUAL ELEMENTS
@@ -656,8 +690,49 @@ Template.chaptershow.helpers({
             }
         }
 
+        // CREATE LINKS
+
+        function createLink(link, linkWrapperID, linkIndex) {
+            console.log(link);
+            // Get link chapter from database
+            myPathNum = link.pathNumber;
+            myChapterNum = link.chapterNumber;
+            console.log("createLink:pathNum:"+myPathNum+" chapterNum:"+myChapterNum);
+            if (myPathNum && myChapterNum) {
+                var linkChapter = getChapterCollection(myPathNum, myChapterNum);
+                console.log(linkChapter);
+                if (linkChapter) {
+                    linkPathName = linkChapter.pathName;
+                    linkChapterName = linkChapter.chapterName;
+                    linkDescription = linkChapter.description;
+                    linkSlug = linkChapter.slug;
+                    linkFeature = linkChapter.featureContent;
+                    //TODO: allow videos as features
+                    if (linkFeature) {
+                        // if we have a feature image, use its thumbnail
+                        linkThumb = '/thumbs/'+linkFeature+'.jpg';
+                    } else {
+                        // otherwise, use the thumbnail of the first shot
+                        linkThumb = '/thumbs/'+linkChapter.scenes[0].shots[0].shotContent+'.jpg';
+                    }
+                } else {
+                    return false;
+                }
+            }
+            // create the link div
+            var myLinkElement = linkElementDiv.replace("%id", linkIndex);
+            var linkID = linkElementID + linkIndex;
+            $('#'+linkWrapperID).append(myLinkElement);
+            imageHTML = "<a href='/chapter/"+linkSlug+"'><img src='"+linkThumb+"'/></a>";
+            $('#'+linkID).append(imageHTML);
+            console.log("createLink:");
+            console.log("myLinkElement:"+myLinkElement);
+            console.log("imageHTML:"+imageHTML);
+        }
+
         // CREATE TITLES
 
+        // create title and trigger for fade
         function setTitle(controller, myTriggerID, myContentID) {
             $('#'+myContentID).append(titleWrapperDiv);
             $('#'+titleWrapperID).append(titleBoxDiv);
@@ -675,6 +750,7 @@ Template.chaptershow.helpers({
                 .addTo(controller)
         }
 
+        // create scroll text and trigger for fade
         function setScrollText(controller, myTriggerID, myContentID) {
             $('#'+myContentID).append(scrollBoxDiv);
             $('#'+scrollBoxID).html("<img src='"+scrollImage+"' />");
@@ -696,6 +772,23 @@ Template.chaptershow.helpers({
                 myScrollScene.addIndicators({suffix: "scrollBox", indent: 20});
             }
         }
+
+        // COLLECTIONS
+
+        function getChapterCollection(pathNum, chapterNum) {
+            pathNum = parseInt(pathNum);
+            chapterNum = parseInt(chapterNum);
+            var item = ChapterCollection.findOne({
+                pathNumber: pathNum,
+                chapterNumber: chapterNum
+            });
+            if(typeof item == 'undefined'){
+                return null;
+            }
+            else{
+                return item;
+            }
+        };
 
         // RANDOM HELPERS
 

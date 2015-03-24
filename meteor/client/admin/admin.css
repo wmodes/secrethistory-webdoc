@@ -44,23 +44,23 @@
     border: 1px solid #666;
 }
 
-#upload-wrapper {
+#admin-canvas #upload-wrapper {
     margin: 40px 0 0;
 }
 
-#filelist-wrapper {
+#admin-canvas #filelist-wrapper {
     margin: 10px 0 0;
     border: solid 1px #666 !important;
 }
 
-#filelist-results {
+#admin-canvas #filelist-results {
     border: solid 1px #ddd !important;
     width: 400px;
     min-height: 50px;
 }
 
-.chapter-form p,
-.upload-form p {
+#admin-canvas .chapter-form p,
+#admin-canvas .upload-form p {
     margin: 10px 0 0;
 }
 
@@ -114,11 +114,11 @@
 
 /* Nixing a few default buttons */
 
-.json-form button[title="Add Property"] {
+#admin-canvas .json-form button[title="Add Property"] {
     display: none;
 }
 
-.json-form .well button[title="Edit JSON"] {
+#admin-canvas .json-form .well button[title="Edit JSON"] {
 }
 
 /* our buttons */
@@ -132,7 +132,7 @@
  * Thumbnail images 
  */
 
-img[src*="/thumbs/"] {
+#admin-canvas img[src*="/thumbs/"] {
     margin: -10px 0 5px 20px;
 }
 
