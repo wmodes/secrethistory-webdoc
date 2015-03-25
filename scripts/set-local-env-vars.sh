@@ -11,7 +11,7 @@ export IMAGEMAGICK_OPTS=' -quality 50 -resize 1920x1920 '
 
 export VIDEO_THUMBNAIL_OPTS=' -s 500 '
 
-export IMAGE_THUMBNAIL_OPTS=' -quality 50 -resize 500x500\> '
+export IMAGE_THUMBNAIL_OPTS=' -quality 50 -resize 500x500\> -flatten '
 
 if [[ "`hostname`" =~ peoplesriverhistory ]] || [[  "`hostname`" =~ secrethistory ]]; then 
 

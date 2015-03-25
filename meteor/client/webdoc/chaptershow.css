@@ -229,8 +229,34 @@
 .webdoc #big-video-wrap {
     position: relative !important;
 }
+
+.big-video-vid {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200% !important;
+    height: 200% !important;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
 .vjs-tech {
-    width:100%;
+    position: relative !important;
+    /*
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 50%;
+    */
+    min-width: 50%;
+    min-height: 50%;
 }
 
  .vjs-poster,
@@ -490,6 +516,54 @@ html ::-webkit-scrollbar-thumb:horizontal,
 }
 
 .pullquote.bottom {
+    bottom: 2vh;
+    text-align: center;
+}
+
+
+/*
+ * Textblock
+ */
+
+.textblock {
+    display: block;
+    font-size: 16pt;
+    font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
+    padding: 10px 0 10px 0;
+}
+
+.textblock.right, .textblock.left {
+    position: absolute;
+    max-width: 25vw;
+    bottom: 10vh;
+    /*
+    border-top: solid 2px white;
+    border-bottom: solid 2px white;
+    */
+}
+
+.textblock.right {
+    right: 2vw;
+    text-align: right;
+}
+
+.textblock.left {
+    left: 2vw;
+    text-align: left;
+}
+
+.textblock.bottom, .textblock.top {
+    position: absolute;
+    max-width: 60vw;
+    left: 20vw;
+}
+
+.textblock.top {
+    top: 2vh;
+    text-align: center;
+}
+
+.textblock.bottom {
     bottom: 2vh;
     text-align: center;
 }
