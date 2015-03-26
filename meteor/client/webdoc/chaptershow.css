@@ -568,6 +568,38 @@ html ::-webkit-scrollbar-thumb:horizontal,
     text-align: center;
 }
 
+/* Credits */
+
+.credits {
+    display: block;
+    font-size: 10pt;
+    font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
+    padding: 10px 0 10px 0;
+    position: absolute;
+    max-width: 12vw;
+    bottom: 10vh;
+    left: 2vw;
+    text-align: left;
+}
+
+.credits:before {
+    display: block;
+    content: "Credits";
+    font-size: 16pt;
+}
+
+.credits a {
+    color: white;
+}
+
+.credits a:hover {
+    text-decoration: none;
+    border-bottom: 1px dotted white;
+}
+
+.credits p {
+}
+
 /*
  * Links
  */
@@ -584,6 +616,7 @@ html ::-webkit-scrollbar-thumb:horizontal,
     justify-content: center;
     justify-content: center;
     align-content: flex-start;
+    z-index: -9999;
     /*
     -webkit-column-width: 37vh;
     -moz-column-width: 37vh;

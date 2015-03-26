@@ -920,34 +920,41 @@ Template.chaptereditform.rendered = function(){
     
     // WATCH FIELDS
 
-    //TODO: Add confirmation before closing window
+    // TODO: Make all these watchers that are attached to fields into a single function, so it can be triggered whenver new fields are added by new field buttons
 
-    //TODO: Flag changedFlag if any field is changed to prevent search from destroying data    
+    // Add confirmation before closing window
+    // Flag changedFlag if any field is changed to prevent search from destroying data    
     // This won't cover fields that are currently not showing i.e. collapsed fields
     // but it is better than nothing
-    $("#editor_holder .form-control").change(function(){
+    function preventBonk () {
         changedFlag = true;
         setConfirmUnload(true);
         if (debug) {
-            console.log("changed!")
+            console.log("data changed; prevent bonk")
         }
+    }
+
+    $("#editor_holder input").change(function(){
+        preventBonk();
     });
 
+    // TODO: after creating the preventBonk function, is the tail of this still valid?
     $("div[data-schemaid='pathNumber'] input").change(function(){
         var pathNum = parseInt($(this).val());
         var chapterNum = parseInt($("div[data-schemaid='chapterNumber'] input").val());
         //TODO: Do something if there is a conflict
         if (! checkConflict(pathNum, chapterNum)) {
-            changedFlag = true;
+            preventBonk();
         }
     });
 
+    // TODO: after creating the preventBonk function, is the tail of this still valid?
     $("div[data-schemaid='chapterNumber'] input").change(function(){
         var chapterNum = parseInt($(this).val());
         var pathNum = parseInt($("div[data-schemaid='pathNumber'] input").val());
         //TODO: Do something if there is a conflict
         if (! checkConflict(pathNum, chapterNum)) {
-            changedFlag = true;
+            preventBonk();
         }
     });
 
@@ -1067,6 +1074,7 @@ Template.chaptereditform.rendered = function(){
             $(this).attr('src', newSrc);
         });
     }
+
     // Prevent accidental navigation away
 
     function setConfirmUnload(on)
