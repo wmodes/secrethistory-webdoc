@@ -476,6 +476,20 @@ html ::-webkit-scrollbar-thumb:horizontal,
 }
 
 /*
+ * Captions
+ */
+
+ .visual-element h1,
+ .visual-element h2,
+ .visual-element h3,
+ .visual-element h4,
+ .visual-element h5 {
+    -webkit-text-shadow: 0 0 5px rgba(0,0,0,0.75);
+    -moz-text-shadow: 0 0 5px rgba(0,0,0,0.75);
+    text-shadow: 0 0 5px rgba(0,0,0,0.75);
+}
+
+/*
  * Pull quotes
  */
 
@@ -484,6 +498,9 @@ html ::-webkit-scrollbar-thumb:horizontal,
     font-size: 18pt;
     font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
     padding: 10px 0 10px 0;
+    -webkit-text-shadow: 0 0 5px rgba(0,0,0,0.75);
+    -moz-text-shadow: 0 0 5px rgba(0,0,0,0.75);
+    text-shadow: 0 0 5px rgba(0,0,0,0.75);
 }
 
 .pullquote.right, .pullquote.left {
@@ -530,6 +547,9 @@ html ::-webkit-scrollbar-thumb:horizontal,
     font-size: 16pt;
     font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
     padding: 10px 0 10px 0;
+    -webkit-text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    -moz-text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 .textblock.right, .textblock.left {
@@ -580,6 +600,9 @@ html ::-webkit-scrollbar-thumb:horizontal,
     bottom: 10vh;
     left: 2vw;
     text-align: left;
+    -webkit-text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    -moz-text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    text-shadow: 0 0 2px rgba(0,0,0,0.5);
 }
 
 .credits:before {
