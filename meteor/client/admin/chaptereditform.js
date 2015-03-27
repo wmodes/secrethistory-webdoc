@@ -1114,6 +1114,35 @@ Template.chaptereditform.rendered = function(){
                 .css("display", "none");
         }
     });
+
+    // pin upload form in view
+    /*
+    $(window).unbind("scroll");
+    var uploadDiv = "#upload-wrapper";
+    var uploadOffset = 30;
+    $(window).scroll(function(e){ 
+        var scrollPos = $(this).scrollTop();
+        var uploadPos = $(uploadDiv).offset().top + uploadOffset;
+        console.log("uploadPos:"+uploadPos+" scrollTop:"+scrollPos+" css:"+$el.css('position'));
+        $el = $(uploadDiv); 
+        if (scrollPos > uploadPos && $el.css('position') != 'fixed') { 
+            $(uploadDiv).css({'position': 'fixed', 'top': '-'+uploadOffset+'px'}); 
+        }
+        if (scrollPos < uploadPos && $el.css('position') == 'fixed') {
+            $(uploadDiv).css({'position': 'static', 'top': '-'+uploadOffset+'px'}); 
+        } 
+    });
+    */
+
+    // pin upload form in view
+    var $window = $(window),
+       $stickyEl = $('#upload-wrapper'),
+       elTop = $stickyEl.offset().top;
+
+   $window.scroll(function() {
+        $stickyEl.toggleClass('sticky', $window.scrollTop() > elTop);
+    });
+
 };
 
 Template.chaptereditform.helpers({

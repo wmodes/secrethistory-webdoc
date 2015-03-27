@@ -48,6 +48,11 @@
     margin: 40px 0 0;
 }
 
+#admin-canvas #upload-wrapper .sticky {
+    position: fixed;
+    top: 0;
+}
+
 #admin-canvas #filelist-wrapper {
     margin: 10px 0 0;
     border: solid 1px #666 !important;
