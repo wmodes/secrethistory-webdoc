@@ -1138,8 +1138,9 @@ Template.chaptereditform.rendered = function(){
     var $window = $(window),
        $stickyEl = $('#upload-wrapper'),
        elTop = $stickyEl.offset().top;
-
-   $window.scroll(function() {
+    //add calculated width to css to fix it when it is free of its bounding box
+    $stickyEl.css("width", $stickyEl.width()+"px");
+    $window.scroll(function() {
         $stickyEl.toggleClass('sticky', $window.scrollTop() > elTop);
     });
 

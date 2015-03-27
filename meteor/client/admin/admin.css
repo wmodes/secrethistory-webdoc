@@ -42,13 +42,15 @@
 
 #admin-canvas #chapterhints {
     border: 1px solid #666;
+    margin-bottom: 30px;
 }
 
 #admin-canvas #upload-wrapper {
-    margin: 40px 0 0;
+    margin: 0 0 0;
+    /*width: 578px;*/
 }
 
-#admin-canvas #upload-wrapper .sticky {
+#admin-canvas #upload-wrapper.sticky {
     position: fixed;
     top: 0;
 }
