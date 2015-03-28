@@ -7,21 +7,21 @@
     //except: ['userUnauthorized', 'otherPageUnauthorizedUsersAllowedToSee']
 //});
 
+Router.route('/admin/auth', function () {
+    this.render('authpage');
+});
+
 Router.route('/chapter', function () {
-    console.log(this.params);
-    console.log(this.params.query);
     this.render('chaptershow');
 });
 
 // given a url like "/chapter/voyage-of-the-doty/provisioning"
 Router.route('/chapter/:pathSlug/:chapterSlug', function () {
     var slug = this.params.pathSlug+'/'+this.params.chapterSlug;
-    console.log("Rendering Chapter: "+slug);
     this.render('chaptershow');
 });
 
 Router.route('/admin/chapter/:pathNum/:chapterNum', function () {
-    console.log("Editing Chapter: p"+this.params.pathNum+"c"+this.params.chapterNum);
     this.render('chaptereditpage');
 });
 

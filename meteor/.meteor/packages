@@ -26,3 +26,6 @@ mrt:gsap
 ovcharik:howler
 tomi:upload-server
 tomi:upload-jquery
+accounts-ui
+accounts-password
+accounts-base
