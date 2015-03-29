@@ -7,7 +7,7 @@
     //except: ['userUnauthorized', 'otherPageUnauthorizedUsersAllowedToSee']
 //});
 
-Router.route('/admin/auth', function () {
+Router.route('/auth', function () {
     this.render('authpage');
 });
 
@@ -33,25 +33,17 @@ Router.route('/admin/upload', function () {
     this.render('uploadpage');
 });
 
-/*
-Router.map(function(){
-    this.route('chaptershow', {
-        path: '/'
-    });
-    this.route('chaptershow', {
-        path: '/chapter/'
-    });
-    this.route('doctest', {
-        path: '/doctest'
-    });
-    this.route('chapterform', {
-        path: '/admin/chapter'
-    });
-    this.route('notauthorized', {
-        path: '/noauth'
-    });
+Router.route('dashboard', {
+  path: '/dashboard',
+  template: 'dashboard',
+  waitOn: function() {
+    return Meteor.subscribe('userData');
+  },
+  onBeforeAction: function() {
+    Session.set('currentRoute', 'dashboard');
+    return this.next();
+  }
 });
-*/
 
 Router.configure({
     notFoundTemplate: 'four-oh-four'
