@@ -29,11 +29,3 @@ tomi:upload-jquery
 accounts-ui
 accounts-password
 accounts-base
-accounts-google
-accounts-facebook
-accounts-github
-accounts-twitter
-service-configuration
-http
-email
-meteorhacks:ssr
