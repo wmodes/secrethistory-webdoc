@@ -31,3 +31,6 @@ accounts-password
 accounts-base
 accounts-google
 service-configuration
+accounts-facebook
+accounts-github
+accounts-twitter
