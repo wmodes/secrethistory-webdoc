@@ -60,6 +60,8 @@ cd $DEPLOY_LOCATION/
 sudo tar xvfz meteor.tar.gz
 cd bundle/programs/server/
 sudo npm install
+sudo rm -R ./npm/npm-bcrypt/node_modules/bcrypt
+sudo npm install bcrypt
 sudo chown -R $DEPLOY_USER.$DEPLOY_USER $DEPLOY_LOCATION
 sudo nginx -s reload
 sudo restart secrethistory
