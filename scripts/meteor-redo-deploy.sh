@@ -20,6 +20,8 @@ cd bundle/programs/server/
 sudo npm install
 sudo rm -R ./npm/npm-bcrypt/node_modules/bcrypt
 sudo npm install bcrypt
+sudo rm -R ./npm/email/node_modules/simplesmtp
+sudo npm install simplesmtp
 sudo chown -R $DEPLOY_USER.$DEPLOY_USER $DEPLOY_LOCATION
 sudo nginx -s reload
 sudo restart secrethistory
