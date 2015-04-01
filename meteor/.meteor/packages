@@ -26,3 +26,13 @@ mrt:gsap
 ovcharik:howler
 tomi:upload-server
 tomi:upload-jquery
+accounts-ui
+accounts-password
+accounts-base
+#accounts-google
+service-configuration
+#accounts-facebook
+#accounts-github
+#accounts-twitter
+alanning:roles
+email
