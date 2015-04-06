@@ -332,9 +332,8 @@ Template.chaptershow.helpers({
         if (fancyTrans.indexOf(transType) >= 0) {
           // if fancy, extend shot duration and make sure we pin
           thisShot.sticky = true;
-          // TODO: Figure out best calculation for this duration
-          //pinDuration = 1 + thisShot.shotDuration * 2;
-          var pinDuration = 1.5;
+          // shotDuration for 2 shots + dissolve
+          var pinDuration = thisShot.shotDuration * 2 + 1;
           var pinPushFollowers = true;
         } else {
           var pinDuration = thisShot.shotDuration;
