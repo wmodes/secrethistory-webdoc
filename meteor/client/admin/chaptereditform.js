@@ -88,6 +88,7 @@ Template.chaptereditform.rendered = function(){
             "debug": {
               "id": "debug",
               "type": "boolean",
+              "format": "checkbox",
               "title": "Debugging Output",
               "description": "Do we output debugging info during testing for this chapter?",
               "name": "debug",
@@ -96,6 +97,7 @@ Template.chaptereditform.rendered = function(){
             "placeholders": {
               "id": "placeholders",
               "type": "boolean",
+              "format": "checkbox",
               "title": "Placeholders",
               "description": "If images or video are missing or blank, do we replace with placeholders?",
               "name": "placeholders",
@@ -231,9 +233,19 @@ Template.chaptereditform.rendered = function(){
                           ],
                           "name": "shot Type"
                         },
+                        "shotDuration": {
+                          "id": "shotDuration",
+                          "type": "number",
+                          "minimum": 0,
+                          "title": "Shot Duration",
+                          "description": "How long is shot? [winUnits, default: 0.5]",
+                          "name": "shotDuration",
+                          "default": 0.5
+                        },
                         "sticky": {
                           "id": "sticky",
                           "type": "boolean",
+                          "format": "checkbox",
                           "format": "checkbox",
                           "title": "Sticky",
                           "description": "Stays visible when page scrolls?",
@@ -249,10 +261,10 @@ Template.chaptereditform.rendered = function(){
                           "enum": [
                             "push",
                             "cut",
+                            "dissolve",
                             "fade",
                             "flare",
                             "wipe",
-                            "cut",
                             "pan",
                             "split",
                             "focus",
@@ -274,6 +286,7 @@ Template.chaptereditform.rendered = function(){
                             "videoLoop": {
                               "id": "videoLoop",
                               "type": "boolean",
+                              "format": "checkbox",
                               "title": "Loop",
                               "description": "Loop this video?",
                               "name": "Video Loop",
@@ -332,6 +345,7 @@ Template.chaptereditform.rendered = function(){
                               "audioLoop": {
                                 "id": "audioLoop",
                                 "type": "boolean",
+                                "format": "checkbox",
                                 "title": "Audio Loop",
                                 "description": "Should this audio be looped?",
                                 "name": "Audio Loop",
@@ -367,6 +381,7 @@ Template.chaptereditform.rendered = function(){
                               "fadeIn": {
                                 "id": "fadeIn",
                                 "type": "boolean",
+                                "format": "checkbox",
                                 "title": "Fade In/Out",
                                 "description": "Should this audio element fade in/out?",
                                 "name": "fade In/Out",
@@ -435,6 +450,7 @@ Template.chaptereditform.rendered = function(){
                               "fullscreen": {
                                 "id": "fullscreen",
                                 "type": "boolean",
+                                "format": "checkbox",
                                 "title": "Fullscreen",
                                 "description": "Should this image be stretched fullscreen like the background?",
                                 "name": "Fullscreen",
@@ -552,6 +568,7 @@ Template.chaptereditform.rendered = function(){
                         "shotNumber",
                         "shotContent",
                         "shotType",
+                        "shotDuration",
                         "sticky",
                         "transitionType",
                         "videoOptions",

@@ -214,7 +214,7 @@
 div [data-schemapath$='pathNumber'],
 div [data-schemapath$='chapterNumber'],
 div [data-schemapath$='sceneNumber'],
-div [data-schemapath$='shotNumber'] 
+div [data-schemapath$='shotNumber']
 {
     width: 25%;
     padding-right: 10px;
@@ -236,16 +236,16 @@ div [data-schemapath$='sceneName']
 /* halvsies */
 div [data-schemapath$='debug'],
 div [data-schemapath$='placeholders'],
-div [data-schemapath$='shotType'],
-div [data-schemapath$='sticky'],
-div [data-schemapath$='transitionType'],
-div [data-schemapath$='startTrigger'],
-div [data-schemapath$='duration'],
 div [data-schemapath$='fadeIn'],
 div [data-schemapath$='visualType'],
 div [data-schemapath$='fullscreen'],
 div [data-schemapath$='volume'],
-div [data-schemapath$='zIndex']
+div [data-schemapath$='zIndex'],
+div [data-schemapath$='shotType'],
+div [data-schemapath$='shotDuration'],
+div [data-schemapath$='sticky'],
+div [data-schemapath$='startTrigger'],
+div [data-schemapath$='duration']
 {
     width: 50%;
     padding-right: 10px;
@@ -253,6 +253,15 @@ div [data-schemapath$='zIndex']
     vertical-align: top;
 }
 
+/* thirdsies */
+/*
+{
+    width: 33%;
+    padding-right: 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+*/
 
 /* drop zone */
 

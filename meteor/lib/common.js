@@ -12,5 +12,17 @@ function zeroPad(num, size) {
     return s;
 }
 
-
+/*
+Object.prototype.isin = function() {
+    for(var i = arguments.length; i--;) {
+        var a = arguments[i];
+        if(a.constructor === Array) {
+            for(var j = a.length; j--;)
+                if(a[j] == this) return true;
+        }
+        else if(a == this) return true;
+    }
+    return false;
+}
+*/
 

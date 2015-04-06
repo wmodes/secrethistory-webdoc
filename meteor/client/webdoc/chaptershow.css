@@ -74,7 +74,7 @@
 }
 
 .webdoc .content {
-    position: absolute;
+    position: relative;
     top: 0px;
     color: white;
     font-size: 14px;
