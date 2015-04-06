@@ -247,14 +247,14 @@ Template.chaptershow.helpers({
     // Start ambient audio
     setAmbientAudio(chapter.ambientAudio);
 
+    // FIRST PASS - create all containers and major DOM elements
+    //
     //for each scene, and
     //  for each shot
     //  create a canvas
     var allShotIndex = 0;
     var scenes = chapter.scenes;
-    if (debug) {
-      console.log("There are "+scenes.length+" scenes.");
-    };
+    if (debug) console.log("FIRST PASS: "+scenes.length+" scenes.");
     for (sceneIndex = 0; sceneIndex < scenes.length; sceneIndex++) { 
       var thisScene = scenes[sceneIndex];
       var shots = thisScene.shots;
@@ -266,22 +266,8 @@ Template.chaptershow.helpers({
       }
       for (shotIndex = 0; shotIndex < shots.length; shotIndex++, allShotIndex++) { 
         var thisShot = shots[shotIndex];
-        // if there is no content for the shot and we are not using placeholders, skip
-        if (! thisShot.shotContent) {
-          if (! placeholders) {
-            continue;
-          } else {
-            if (thisShot.shotType == "still") {
-              thisShot.shotContent = placeImage;
-            } else {
-              thisShot.shotContent = placeVideo;
-              thisShot.videoOptions.videoLoop = true;
-            }
-          }
-        }
-
         var IDnum = allShotIndex;
-
+        //
         // HTML FRAMEWORK
         //
         // create the div that serves as a table cell
@@ -296,6 +282,46 @@ Template.chaptershow.helpers({
         var thisContentID = "#content-"+IDnum;
         var contentWrapper=contentWrapperDiv.replace("%id", IDnum);
         $(thisShotID).append(contentWrapper);
+      }
+    }
+
+    // SECOND PASS - fill the containers
+    //
+    //for each scene, and
+    //  for each shot
+    //  create a canvas
+    var allShotIndex = 0;
+    if (debug) console.log("SECOND PASS: "+scenes.length+" scenes.");
+    for (sceneIndex = 0; sceneIndex < scenes.length; sceneIndex++) { 
+      var thisScene = scenes[sceneIndex];
+      var shots = thisScene.shots;
+      if (debug) console.log(">This is scene s" + thisScene.sceneNumber + " "
+                             + thisScene.sceneName + "\n\t"
+                             + "Which has " + shots.length + " shot(s)");
+      for (shotIndex = 0; shotIndex < shots.length; shotIndex++, allShotIndex++) { 
+        var thisShot = shots[shotIndex];
+        // Placeholders
+        // if there is no content for the shot and we are not using placeholders, skip
+        if (! thisShot.shotContent) {
+          if (! placeholders) {
+            continue;
+          } else {
+            if (thisShot.shotType == "still") {
+              thisShot.shotContent = placeImage;
+            } else {
+              thisShot.shotContent = placeVideo;
+              thisShot.videoOptions.videoLoop = true;
+            }
+          }
+        }
+        //
+        // HTML Framework created above in first pass
+        //
+        // but we still need the ID nums
+        var IDnum = allShotIndex;
+        var tableID = "#table-"+IDnum;
+        var thisShotID = "#shot-"+IDnum;
+        var thisContentID = "#content-"+IDnum;
         // next up...
         var nextIDnum = parseInt(IDnum)+1;
         var nextContentID = "#content-"+nextIDnum;
@@ -547,7 +573,7 @@ Template.chaptershow.helpers({
       if (debug) console.log("Fade:"+thisContentID+" & "+nextContentID
                    +" Trigger:"+nextShotID+" Offset:"+duration);
       // set backgrounds
-      $(thisShotID).css({backgroundColor: 'black'});
+      //$(thisShotID).css({backgroundColor: 'black'});
       $(nextShotID).css({backgroundColor: 'black'});
       $(nextContentID).css({opacity:0});
       // set Tween for fade to black from first element
@@ -584,7 +610,15 @@ Template.chaptershow.helpers({
         duration: 0.5 * vw + 'px'
       })
         .setTween(myTween)
+        /*.on("start end", function (e) {
+            // in this second half of the fade, we want the first frame to go away
+            $(thisShotID).css({visibility: 'hidden'});
+            $(thisContentID).css({left: 0, position:'fixed', zIndex: 2});
+            $(nextShotID).css({zIndex: 1});
+            $(nextContentID).css({left: 0, position:'fixed', zIndex: 1});
+          })*/
         .addTo(scrollControl);
+
       if (debug) {
         myScrollScene.addIndicators({
           zindex: 100, 
