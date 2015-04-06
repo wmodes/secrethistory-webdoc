@@ -333,7 +333,7 @@ Template.chaptershow.helpers({
           // if fancy, extend shot duration and make sure we pin
           thisShot.sticky = true;
           // shotDuration for 2 shots + dissolve
-          var pinDuration = thisShot.shotDuration * 2 + 1;
+          var pinDuration = thisShot.shotDuration * 2 ;
           var pinPushFollowers = true;
         } else {
           var pinDuration = thisShot.shotDuration;
@@ -351,7 +351,7 @@ Template.chaptershow.helpers({
           // make sure next frame is pinned
           fancyTransFlag = true;
 
-          // FAUX PIN NEXT SHOT
+          // FAUX PIN DISSOLVING SHOTS
           //
           // get full width of scrollmagic element
           pinnedWidth = parseInt($(thisShotID).parent().css("padding-left")) 
@@ -376,7 +376,7 @@ Template.chaptershow.helpers({
               myScrollScene.on("start end", function (e) {
                 // we want next shot to slide behind current shot
                 $(thisShotID).css({zIndex: 2});
-                $(thisContentID).css({zIndex: 2});
+                $(thisContentID).css({left: 0, position:'fixed', zIndex: 2});
                 $(nextShotID).css({zIndex: 1});
                 $(nextContentID).css({left: 0, position:'fixed', zIndex: 1});
               });
@@ -385,7 +385,7 @@ Template.chaptershow.helpers({
               myScrollScene.on("enter leave", function (e) {
                 // back to your regularly scheduled programming
                 $(thisShotID).css({zIndex: 0});
-                $(thisContentID).css({zIndex: 0});
+                $(thisContentID).css({position:'relative', zIndex: 0});
                 $(nextShotID).css({zIndex: 0});
                 $(nextContentID).css({position:'relative', zIndex: 0});
               });
