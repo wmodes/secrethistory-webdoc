@@ -332,7 +332,7 @@ Template.chaptershow.helpers({
         if (fancyTrans.indexOf(transType) >= 0) {
           // if fancy, extend shot duration and make sure we pin
           thisShot.sticky = true;
-          // shotDuration for 2 shots + dissolve
+          // shotDuration for 2 shots + transition
           var pinDuration = thisShot.shotDuration * 2 ;
           var pinPushFollowers = true;
         } else {
@@ -354,80 +354,20 @@ Template.chaptershow.helpers({
           // FAUX PIN DISSOLVING SHOTS
           //
           // get full width of scrollmagic element
-          pinnedWidth = parseInt($(thisShotID).parent().css("padding-left")) 
-                        + parseInt($(thisShotID).parent().css("padding-right"))
-                        + $(thisShotID).parent().width();
-          var myScrollScene = new ScrollScene({
-            triggerHook: 0,
-            // faux pin starts as soon as we see this shot
-            triggerElement: thisShotID,
-            offset: 0,
-            // faux pin long enough to include this shot's duration
-            // plus dissolve + next shot's duration
-            //duration: (thisShot.shotDuration * 2 + 1) * vw + 'px'
-            duration: pinnedWidth + 'px'
-            // the faux pin doesn't actually expand the container the way 
-            // SM does so the results are a little strange
-          });
-          // We do this convoluted function declaration because we our 
-          // event handler needs to capture the current value of 
-          // thisContentID and nextContentID 
-          (function(thisShotID, thisContentID, nextShotID, nextContentID) {
-              myScrollScene.on("start end", function (e) {
-                // we want next shot to slide behind current shot
-                $(thisShotID).css({zIndex: 2});
-                $(thisContentID).css({left: 0, position:'fixed', zIndex: 2});
-                $(nextShotID).css({zIndex: 1});
-                $(nextContentID).css({left: 0, position:'fixed', zIndex: 1});
-              });
-          })(thisShotID, thisContentID, nextShotID, nextContentID);
-          (function(thisShotID, thisContentID, nextShotID, nextContentID) {
-              myScrollScene.on("enter leave", function (e) {
-                // back to your regularly scheduled programming
-                $(thisShotID).css({zIndex: 0});
-                $(thisContentID).css({position:'relative', zIndex: 0});
-                $(nextShotID).css({zIndex: 0});
-                $(nextContentID).css({position:'relative', zIndex: 0});
-              });
-          })(thisShotID, thisContentID, nextShotID, nextContentID);
-          myScrollScene.addTo(scrollControl);
-          if (debug) {
-            myScrollScene.addIndicators({
-              zindex: 100, 
-              suffix: 'faux-pin', 
-              indent: 100
-            });          
-          }
+          fauxPin(scrollControl, thisShotID, thisContentID, nextShotID, nextContentID);
         }
 
         // FANCY TRANSITIONS
         //
-        // Dissolve
-        if (transType == "dissolve") {
-          if (debug) console.log("Dissolving:"+thisContentID
-                       +" Trigger:"+nextShotID+" Offset:"+thisShot.shotDuration);
-          // set Tween
-          var dissolveTween = TweenMax.to($(thisContentID), 1, {autoAlpha: 0});
-          // dissolve this frame into next frame
-          var myScrollScene = new ScrollScene({
-            triggerElement: thisShotID,
-            triggerHook: 0,
-            // we don't start the dissolve until the duration of this 
-            // shot expires
-            offset: (thisShot.shotDuration * vw) + 'px',
-            // This sets the rapidity of the dissolve
-            duration: 1 * vw + 'px'
-            //duration: 1 * vw + 'px'
-          })
-            .setTween(dissolveTween)
-            .addTo(scrollControl);
-          if (debug) {
-            myScrollScene.addIndicators({
-              zindex: 100, 
-              suffix: "dissolve",
-              indent: 140
-            });          
-          }
+        switch (transType) {
+          case 'dissolve':
+            dissolve(scrollControl, thisShotID, thisContentID, thisShot.shotDuration);
+            break;
+          case 'fade':
+            //TODO: Make this function wait to execute until thisContentID is rendered
+            fade(scrollControl, thisShotID, thisContentID, nextShotID, nextContentID, 
+                 thisShot.shotDuration);
+            break;
         }
 
         // CONTENT
@@ -522,6 +462,137 @@ Template.chaptershow.helpers({
     $(ambientToggleID).click(function() {
       toggleAmbientAudio()
     });
+
+    // TRANSITIONS
+    //
+    // Faux Pin
+    function fauxPin(scrollControl, thisShotID, thisContentID, nextShotID, nextContentID) {
+      pinnedWidth = parseInt($(thisShotID).parent().css("padding-left")) 
+                    + parseInt($(thisShotID).parent().css("padding-right"))
+                    + $(thisShotID).parent().width();
+      var myScrollScene = new ScrollScene({
+        triggerHook: 0,
+        // faux pin starts as soon as we see this shot
+        triggerElement: thisShotID,
+        offset: 0,
+        // faux pin long enough to include this shot's duration
+        // plus transition + next shot's duration
+        //duration: (thisShot.shotDuration * 2 + 1) * vw + 'px'
+        duration: pinnedWidth + 'px'
+        // the faux pin doesn't actually expand the container the way 
+        // SM does so the results are a little strange
+      });
+      // We do this convoluted function declaration because we our 
+      // event handler needs to capture the current value of 
+      // thisContentID and nextContentID 
+      (function(thisShotID, thisContentID, nextShotID, nextContentID) {
+          myScrollScene.on("start end", function (e) {
+            // we want next shot to slide behind current shot
+            $(thisShotID).css({zIndex: 2});
+            $(thisContentID).css({left: 0, position:'fixed', zIndex: 2});
+            $(nextShotID).css({zIndex: 1});
+            $(nextContentID).css({left: 0, position:'fixed', zIndex: 1});
+          });
+      })(thisShotID, thisContentID, nextShotID, nextContentID);
+      (function(thisShotID, thisContentID, nextShotID, nextContentID) {
+          myScrollScene.on("enter leave", function (e) {
+            // back to your regularly scheduled programming
+            $(thisShotID).css({zIndex: 0});
+            $(thisContentID).css({position:'relative', zIndex: 0});
+            $(nextShotID).css({zIndex: 0});
+            $(nextContentID).css({position:'relative', zIndex: 0});
+          });
+      })(thisShotID, thisContentID, nextShotID, nextContentID);
+      myScrollScene.addTo(scrollControl);
+      if (debug) {
+        myScrollScene.addIndicators({
+          zindex: 100, 
+          suffix: 'faux-pin', 
+          indent: 100
+        });          
+      }
+    }
+
+    // Dissolve
+    function dissolve(scrollControl, thisShotID, thisContentID, duration) {
+      if (debug) console.log("Dissolving:"+thisContentID
+                   +" Trigger:"+nextShotID+" Offset:"+duration);
+      // set Tween
+      var myTween = TweenMax.to($(thisContentID), 1, {autoAlpha: 0});
+      // dissolve this frame into next frame
+      var myScrollScene = new ScrollScene({
+        triggerElement: thisShotID,
+        triggerHook: 0,
+        // we don't start the dissolve until the duration of this 
+        // shot expires
+        offset: (duration * vw) + 'px',
+        // This sets the rapidity of the dissolve
+        duration: 1 * vw + 'px'
+        //duration: 1 * vw + 'px'
+      })
+        .setTween(myTween)
+        .addTo(scrollControl);
+      if (debug) {
+        myScrollScene.addIndicators({
+          zindex: 100, 
+          suffix: "dissolve",
+          indent: 140
+        });          
+      }
+    }
+
+    // Fade
+    function fade(scrollControl, thisShotID, thisContentID, nextShotID, 
+                  nextContentID, duration) {
+      if (debug) console.log("Fade:"+thisContentID+" & "+nextContentID
+                   +" Trigger:"+nextShotID+" Offset:"+duration);
+      // set backgrounds
+      $(thisShotID).css({backgroundColor: 'black'});
+      $(nextShotID).css({backgroundColor: 'black'});
+      $(nextContentID).css({opacity:0});
+      // set Tween for fade to black from first element
+      var myTween = TweenMax.to($(thisContentID), 1, {autoAlpha: 0});
+      // dissolve this frame into next frame
+      var myScrollScene = new ScrollScene({
+        triggerElement: thisShotID,
+        triggerHook: 0,
+        // we don't start the dissolve until the duration of this 
+        // shot expires
+        offset: (duration * vw) + 'px',
+        // This sets the rapidity of the dissolve
+        duration: 0.5 * vw + 'px'
+      })
+        .setTween(myTween)
+        .addTo(scrollControl);
+      if (debug) {
+        myScrollScene.addIndicators({
+          zindex: 100, 
+          suffix: "fade1/2",
+          indent: 140
+        });          
+      }
+      // set Tween for fade from black to second element
+      var myTween = TweenMax.to($(nextContentID), 1, {opacity: 1});
+      // dissolve this frame into next frame
+      var myScrollScene = new ScrollScene({
+        triggerElement: thisShotID,
+        triggerHook: 0,
+        // we don't start the dissolve until the duration of this 
+        // shot expires
+        offset: ((duration + 0.5) * vw) + 'px',
+        // This sets the rapidity of the dissolve
+        duration: 0.5 * vw + 'px'
+      })
+        .setTween(myTween)
+        .addTo(scrollControl);
+      if (debug) {
+        myScrollScene.addIndicators({
+          zindex: 100, 
+          suffix: "fade2/2",
+          indent: 180
+        });          
+      }
+    }
 
     // AUDIO
     //
