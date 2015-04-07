@@ -18,6 +18,7 @@
 
   font-family: sans-serif;
   font-size: 14px;
+  background-color: black;
 }
 
 #doc-canvas #inner-wrapper {
@@ -41,7 +42,6 @@
 #doc-canvas #inner-wrapper, 
 #doc-canvas #table-wrapper {
   height: 100vh;
-  background-color: black;
   overflow: hidden;
 }
 

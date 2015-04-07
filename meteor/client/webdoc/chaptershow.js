@@ -390,8 +390,11 @@ Template.chaptershow.helpers({
             dissolve(scrollControl, thisShotID, thisContentID, thisShot.shotDuration);
             break;
           case 'fade':
-            //TODO: Make this function wait to execute until thisContentID is rendered
             fade(scrollControl, thisShotID, thisContentID, nextShotID, nextContentID, 
+                 thisShot.shotDuration);
+            break;
+          case 'flare':
+            flare(scrollControl, thisShotID, thisContentID, nextShotID, nextContentID, 
                  thisShot.shotDuration);
             break;
         }
@@ -610,19 +613,65 @@ Template.chaptershow.helpers({
         duration: 0.5 * vw + 'px'
       })
         .setTween(myTween)
-        /*.on("start end", function (e) {
-            // in this second half of the fade, we want the first frame to go away
-            $(thisShotID).css({visibility: 'hidden'});
-            $(thisContentID).css({left: 0, position:'fixed', zIndex: 2});
-            $(nextShotID).css({zIndex: 1});
-            $(nextContentID).css({left: 0, position:'fixed', zIndex: 1});
-          })*/
         .addTo(scrollControl);
-
       if (debug) {
         myScrollScene.addIndicators({
           zindex: 100, 
           suffix: "fade2/2",
+          indent: 180
+        });          
+      }
+    }
+
+    // Flare
+    function flare(scrollControl, thisShotID, thisContentID, nextShotID, 
+                  nextContentID, duration) {
+      if (debug) console.log("Flare:"+thisContentID+" & "+nextContentID
+                   +" Trigger:"+nextShotID+" Offset:"+duration);
+      // set backgrounds
+      //$(thisShotID).css({backgroundColor: 'white'});
+      $(nextShotID).css({backgroundColor: 'white'});
+      $(nextContentID).css({opacity:0});
+      // set Tween for fade to white from first element
+      //var myTween = TweenMax.to($(thisContentID), 1, {autoAlpha: 0});
+      var myTween = TweenMax.to($(thisContentID), 1, {opacity: 0});
+      // dissolve this frame into next frame
+      var myScrollScene = new ScrollScene({
+        triggerElement: thisShotID,
+        triggerHook: 0,
+        // we don't start the dissolve until the duration of this 
+        // shot expires
+        offset: (duration * vw) + 'px',
+        // This sets the rapidity of the dissolve
+        duration: 0.5 * vw + 'px'
+      })
+        .setTween(myTween)
+        .addTo(scrollControl);
+      if (debug) {
+        myScrollScene.addIndicators({
+          zindex: 100, 
+          suffix: "flare1/2",
+          indent: 140
+        });          
+      }
+      // set Tween for fade from white to second element
+      var myTween = TweenMax.to($(nextContentID), 1, {opacity: 1});
+      // dissolve this frame into next frame
+      var myScrollScene = new ScrollScene({
+        triggerElement: thisShotID,
+        triggerHook: 0,
+        // we don't start the dissolve until the duration of this 
+        // shot expires
+        offset: ((duration + 0.5) * vw) + 'px',
+        // This sets the rapidity of the dissolve
+        duration: 0.5 * vw + 'px'
+      })
+        .setTween(myTween)
+        .addTo(scrollControl);
+      if (debug) {
+        myScrollScene.addIndicators({
+          zindex: 100, 
+          suffix: "flare2/2",
           indent: 180
         });          
       }
