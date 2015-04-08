@@ -577,6 +577,7 @@ Template.chaptershow.helpers({
                    +" Trigger:"+nextShotID+" Offset:"+duration);
       // set backgrounds
       //$(thisShotID).css({backgroundColor: 'black'});
+      $(thisShotID).css({backgroundColor: 'black'});
       $(nextShotID).css({backgroundColor: 'black'});
       $(nextContentID).css({opacity:0});
       // set Tween for fade to black from first element
@@ -654,6 +655,9 @@ Template.chaptershow.helpers({
           indent: 140
         });          
       }
+      // set backgrounds
+      $(thisShotID).css({zIndex: 0});
+      $(thisShotID).css({'z-index': 0});
       // set Tween for fade from white to second element
       var myTween = TweenMax.to($(nextContentID), 1, {opacity: 1});
       // dissolve this frame into next frame
