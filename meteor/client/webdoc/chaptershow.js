@@ -462,6 +462,15 @@ Template.chaptershow.helpers({
       }
     }
 
+    // SET TOTAL WIDTH
+    //
+    //TODO: Add this to setSizing and call it from here
+    totalWidth = 0;
+    for (shotIndex = 0; shotIndex < 23; shotIndex++) { 
+      totalWidth += $('#table-'+shotIndex).width() 
+    };
+    $(docCanvasID).css({width: totalWidth+'px'});
+
     // ADD LINKS
     //
     var linkWrapper = linkWrapperDiv.replace("%id", IDnum);

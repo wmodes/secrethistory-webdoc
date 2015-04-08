@@ -238,9 +238,9 @@ Template.chaptereditform.rendered = function(){
                           "type": "number",
                           "minimum": 0,
                           "title": "Shot Duration",
-                          "description": "How long is shot? [winUnits, default: 0.5]",
+                          "description": "How long is shot? [winUnits, default: 0.3]",
                           "name": "shotDuration",
-                          "default": 0.5
+                          "default": 0.3
                         },
                         "sticky": {
                           "id": "sticky",
