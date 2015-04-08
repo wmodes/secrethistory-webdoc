@@ -575,11 +575,6 @@ Template.chaptershow.helpers({
                   nextContentID, duration) {
       if (debug) console.log("Fade:"+thisContentID+" & "+nextContentID
                    +" Trigger:"+nextShotID+" Offset:"+duration);
-      // set backgrounds
-      //$(thisShotID).css({backgroundColor: 'black'});
-      $(thisShotID).css({backgroundColor: 'black'});
-      $(nextShotID).css({backgroundColor: 'black'});
-      $(nextContentID).css({opacity:0});
       // set Tween for fade to black from first element
       var myTween = TweenMax.to($(thisContentID), 1, {autoAlpha: 0});
       // dissolve this frame into next frame
@@ -592,6 +587,14 @@ Template.chaptershow.helpers({
         // This sets the rapidity of the dissolve
         duration: 0.5 * vw + 'px'
       })
+        .on("start end", function (e) {
+          // set backgrounds
+          //$(thisShotID).css({backgroundColor: 'black'});
+          console.log("fade.on:thisShotID:"+thisShotID+" nextShotID:"+nextShotID);
+          $(thisShotID).css({backgroundColor: 'black'});
+          $(nextShotID).css({backgroundColor: 'black'});
+          $(nextContentID).css({opacity:0});
+        })
         .setTween(myTween)
         .addTo(scrollControl);
       if (debug) {
@@ -613,6 +616,10 @@ Template.chaptershow.helpers({
         // This sets the rapidity of the dissolve
         duration: 0.5 * vw + 'px'
       })
+        .on("start end", function (e) {
+          // set backgrounds
+          $(thisShotID).css({zIndex: 0});
+        })
         .setTween(myTween)
         .addTo(scrollControl);
       if (debug) {
@@ -629,10 +636,6 @@ Template.chaptershow.helpers({
                   nextContentID, duration) {
       if (debug) console.log("Flare:"+thisContentID+" & "+nextContentID
                    +" Trigger:"+nextShotID+" Offset:"+duration);
-      // set backgrounds
-      //$(thisShotID).css({backgroundColor: 'white'});
-      $(nextShotID).css({backgroundColor: 'white'});
-      $(nextContentID).css({opacity:0});
       // set Tween for fade to white from first element
       //var myTween = TweenMax.to($(thisContentID), 1, {autoAlpha: 0});
       var myTween = TweenMax.to($(thisContentID), 1, {opacity: 0});
@@ -645,7 +648,13 @@ Template.chaptershow.helpers({
         offset: (duration * vw) + 'px',
         // This sets the rapidity of the dissolve
         duration: 0.5 * vw + 'px'
-      })
+      });
+      myScrollScene.on("start end", function (e) {
+          // set backgrounds
+          //$(thisShotID).css({backgroundColor: 'white'});
+          $(nextShotID).css({backgroundColor: 'white'});
+          $(nextContentID).css({opacity:0});
+        })
         .setTween(myTween)
         .addTo(scrollControl);
       if (debug) {
@@ -655,9 +664,6 @@ Template.chaptershow.helpers({
           indent: 140
         });          
       }
-      // set backgrounds
-      $(thisShotID).css({zIndex: 0});
-      $(thisShotID).css({'z-index': 0});
       // set Tween for fade from white to second element
       var myTween = TweenMax.to($(nextContentID), 1, {opacity: 1});
       // dissolve this frame into next frame
