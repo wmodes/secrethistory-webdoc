@@ -2,7 +2,7 @@
  * Import Google fonts 
  */
 
-@import url(http://fonts.googleapis.com/css?family=Architects+Daughter);
+@import url(https://fonts.googleapis.com/css?family=Architects+Daughter);
 
 /* 
  * Basic div structure 
@@ -638,9 +638,9 @@ html ::-webkit-scrollbar-thumb:horizontal,
 .credits:before {
     font-family: 'Architects Daughter', cursive;
     font-weight: bolder;
+    font-size: 22pt;
     display: block;
     content: "Credits";
-    font-size: 22pt;
 }
 
 .credits a {
