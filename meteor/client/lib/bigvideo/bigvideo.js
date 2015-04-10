@@ -32,6 +32,7 @@
 			forceAutoplay:false,
 			controls:false,
 			doLoop:false,
+			loop:false,
 			container: element ? $(element) : $('body'),
 			shrinkable:false
 		};
@@ -226,12 +227,14 @@
 					player.volume(0);
 				});
 				doLoop = true;
+        loop = true;
 			} else {
 				container.find('.big-video-control-container').css('display','block');
 				player.ready(function(){
 					player.volume(defaultVolume);
 				});
 				doLoop = false;
+        loop = false;
 			}
 			container.find('.big-video-image').css('display','none');
 			vid.css('display','block');
@@ -281,11 +284,12 @@
 					controls:false,
 					autoplay:true,
 					preload:'auto',
-					techOrder:videoTechOrder
+					techOrder:videoTechOrder,
 				});
 
 				// add controls
-				if (settings.controls) initPlayControl();
+        // commented out by wmodes to disable controls
+				//if (settings.controls) initPlayControl();
 
 				// set initial state
 				updateSize();
@@ -326,7 +330,9 @@
 					vidDur = durMinutes+':'+durSeconds;
 				});
 
+        /*
 				player.on('ended', function() {
+          console.log("wmodes:doLoop:"+settings.doLoop);
 					if (settings.doLoop) {
 						player.currentTime(0);
 						player.play();
@@ -335,6 +341,7 @@
 						nextMedia();
 					}
 				});
+        */
 			}
 		};
 

@@ -161,6 +161,10 @@
             left 0.25s ease-in-out;
 }
 
+.burger img {
+    cursor: pointer;
+}
+
 #menuburger {
     top: 100px;
 }
@@ -203,6 +207,7 @@
     position: absolute;
     left: -28px;
     opacity: 0.33;
+    cursor: pointer;
     /* transitions */
         -webkit-transition: opacity 5s;
         -moz-transition: opacity 5s;

@@ -787,6 +787,8 @@ Template.chaptershow.helpers({
       // defaults are set above
       myVideoSettings = $.extend({}, bigVideoDefaults, {
         container: $(myContentID),
+        controls: false,
+        doLoop: false,
         doLoop: myLoop,
         loop: myLoop,
         id: "bigvideo-"+myIDnum
@@ -825,6 +827,14 @@ Template.chaptershow.helpers({
         .addTo(controller);
       if (debug) {
         myScrollScene.addIndicators({suffix: myIDnum});
+      }
+      $(myContentID+" .vjs-text-track-display").remove();
+      $(myContentID+" .vjs-big-play-button").remove();
+      $(myContentID+" .vjs-control-bar").remove();
+      $(myContentID+" .vjs-error-display").remove();
+      $(myContentID+" .vjs-caption-settings").remove();
+      if (myLoop) {
+        $(myContentID+" .vjs-tech").attr('loop', 'loop');
       }
     }
 
