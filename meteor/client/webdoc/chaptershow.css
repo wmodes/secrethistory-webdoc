@@ -1,5 +1,12 @@
+/* 
+ * Import Google fonts 
+ */
 
-/* Basic div structure */
+@import url(http://fonts.googleapis.com/css?family=Architects+Daughter);
+
+/* 
+ * Basic div structure 
+ */
 
 #doc-canvas {
   width: 100vw;
@@ -16,7 +23,7 @@
   overflow-x: scroll;
   overflow-y: hidden;
 
-  font-family: sans-serif;
+  font-family: 'Architects Daughter', cursive;
   font-size: 14px;
 }
 
@@ -79,14 +86,20 @@
     font-size: 14px;
 }
 
-/* Typography */
+/* 
+ * Typography 
+ */
 
 .webdoc h1, .webdoc h2, .webdoc h3, .webdoc h4, .webdoc h5 {
-    font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
+    /*font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";*/
+    font-family: 'Architects Daughter', cursive;
+    font-weight: bolder;
     color: white;
 }
 
-/* spinner */
+/* 
+ * Spinner 
+ */
 
 .spinner {
     top: 50vh;
@@ -228,7 +241,9 @@
 }
 
 
-/* big video */
+/* 
+ * BigVideo.js 
+ */
 
 .webdoc #big-video-wrap {
     position: relative !important;
@@ -272,7 +287,9 @@
     display: none !important;
 }
 
-/* audio player */
+/* 
+ * Audio player 
+ */
 
 .webdoc .audio {
     width: 1px !important;
@@ -402,7 +419,9 @@ html ::-webkit-scrollbar-thumb:horizontal,
     background: #6599bd;
 }
 
-/* Navigation Menu */
+/* 
+ * Navigation Menu 
+ */
 
 @media screen and (min-width: 2400) {
 	#navmenu .modal-dialog  {
@@ -464,7 +483,9 @@ html ::-webkit-scrollbar-thumb:horizontal,
     border: solid 1px #4f4404;
 }
 
-/* Scrollmagic */
+/* 
+ * Scrollmagic 
+ */
 
 .ScrollSceneIndicators {
     width: 100vw !important;
@@ -499,8 +520,11 @@ html ::-webkit-scrollbar-thumb:horizontal,
 
 .pullquote {
     display: block;
-    font-size: 18pt;
-    font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
+    font-size: 22pt;
+    font-weight: bolder;
+    line-height: 1.2;
+    /*font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";*/
+    font-family: 'Architects Daughter', cursive;
     padding: 10px 0 10px 0;
     -webkit-text-shadow: 0 0 5px rgba(0,0,0,0.75);
     -moz-text-shadow: 0 0 5px rgba(0,0,0,0.75);
@@ -517,12 +541,12 @@ html ::-webkit-scrollbar-thumb:horizontal,
 
 .pullquote.right {
     right: 2vw;
-    text-align: right;
+    text-align: center;
 }
 
 .pullquote.left {
     left: 2vw;
-    text-align: left;
+    text-align: center;
 }
 
 .pullquote.bottom, .pullquote.top {
@@ -592,7 +616,9 @@ html ::-webkit-scrollbar-thumb:horizontal,
     text-align: center;
 }
 
-/* Credits */
+/* 
+ * Credits 
+ */
 
 .credits {
     display: block;
@@ -610,9 +636,11 @@ html ::-webkit-scrollbar-thumb:horizontal,
 }
 
 .credits:before {
+    font-family: 'Architects Daughter', cursive;
+    font-weight: bolder;
     display: block;
     content: "Credits";
-    font-size: 16pt;
+    font-size: 22pt;
 }
 
 .credits a {

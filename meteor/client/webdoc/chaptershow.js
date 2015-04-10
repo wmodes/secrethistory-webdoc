@@ -466,7 +466,7 @@ Template.chaptershow.helpers({
     //
     //TODO: Add this to setSizing and call it from here
     totalWidth = 0;
-    for (shotIndex = 0; shotIndex < 23; shotIndex++) { 
+    for (shotIndex = 0; shotIndex < allShotIndex; shotIndex++) { 
       totalWidth += $('#table-'+shotIndex).width() 
     };
     $(docCanvasID).css({width: totalWidth+'px'});
