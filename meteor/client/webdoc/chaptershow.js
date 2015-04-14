@@ -81,6 +81,7 @@
 // TODO: Make all these user-servicable parts in the database, modifible through admin
 //
 var debug = false;
+var release = false;
 var placeholders = false;
 var stickyLength = 0.33;
 var mouseSpeed = 100;
@@ -359,7 +360,11 @@ Template.chaptershow.helpers({
           // if fancy, extend shot duration and make sure we pin
           thisShot.sticky = true;
           // shotDuration for 2 shots + transition
-          var pinDuration = thisShot.shotDuration * 2 ;
+          //TODO: Instead of duration*2, instead add next shot's duration
+          console.log(nextShot(scenes, sceneIndex, shots, shotIndex));
+          var pinDuration = thisShot.shotDuration 
+                            + nextShot(scenes, sceneIndex, 
+                                       shots, shotIndex).shotDuration;
           var pinPushFollowers = true;
         } else {
           var pinDuration = thisShot.shotDuration;
@@ -368,7 +373,6 @@ Template.chaptershow.helpers({
         // PIN SHOT, if needed
         //
         if (thisShot.sticky) {
-          console.log("Pinning shot "+thisShotID);
           pinShot(scrollControl, width, thisShotID, pinDuration, pinPushFollowers);
         }
         // Test again for fancy transition
@@ -401,8 +405,8 @@ Template.chaptershow.helpers({
 
         // CONTENT
         //
-        // just for kicks, we throw in a little content
-        if (debug) {
+        // we throw in a little content
+        if (!chapter.release && debug) {
           var content = "<div class='debug'>"
             + "Shot "+IDnum+"<br/>"
             + thisShot.shotContent+"<br/>"
@@ -473,9 +477,10 @@ Template.chaptershow.helpers({
 
     // ADD LINKS
     //
+    //TODO: If it is not already in links add "next" released chapter
     var linkWrapper = linkWrapperDiv.replace("%id", IDnum);
     $(thisContentID).append(linkWrapper);
-    for (linkIndex = 0; linkIndex < chapter.links.length; linkIndex++) {
+    for (linkIndex = chapter.links.length - 1; linkIndex >= 0; linkIndex--) {
       createLink(chapter.links[linkIndex], linkWrapperID, linkIndex);
     }
     $(linkWrapperID).append(linkTextDiv);
@@ -504,7 +509,8 @@ Template.chaptershow.helpers({
     // TRANSITIONS
     //
     // Faux Pin
-    function fauxPin(scrollControl, thisShotID, thisContentID, nextShotID, nextContentID) {
+    function fauxPin(scrollControl, thisShotID, thisContentID, 
+                     nextShotID, nextContentID) {
       pinnedWidth = parseInt($(thisShotID).parent().css("padding-left")) 
                     + parseInt($(thisShotID).parent().css("padding-right"))
                     + $(thisShotID).parent().width();
@@ -660,7 +666,7 @@ Template.chaptershow.helpers({
       });
       myScrollScene.on("start end", function (e) {
           // set backgrounds
-          //$(thisShotID).css({backgroundColor: 'white'});
+          $(thisShotID).css({backgroundColor: 'white'});
           $(nextShotID).css({backgroundColor: 'white'});
           $(nextContentID).css({opacity:0});
         })
@@ -685,6 +691,10 @@ Template.chaptershow.helpers({
         // This sets the rapidity of the dissolve
         duration: 0.5 * vw + 'px'
       })
+        .on("start end", function (e) {
+          // set backgrounds
+          $(thisShotID).css({zIndex: 0});
+        })
         .setTween(myTween)
         .addTo(scrollControl);
       if (debug) {
@@ -1098,6 +1108,15 @@ Template.chaptershow.helpers({
         return item;
       }
     };
+
+    // KINDA HACKY THINGS
+
+    function nextShot(scenes, sceneIndex, shots, shotIndex) {
+      if (shotIndex + 1 < shots.length) {
+        return shots[shotIndex + 1];
+      }
+      return scenes[sceneIndex + 1].shots[0];
+    }
 
     // RANDOM HELPERS
 

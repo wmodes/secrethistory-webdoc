@@ -235,6 +235,8 @@ div [data-schemapath$='sceneName']
 
 /* halvsies */
 div [data-schemapath$='debug'],
+div [data-schemapath$='release'],
+div [data-schemapath$='testing'],
 div [data-schemapath$='placeholders'],
 div [data-schemapath$='fadeIn'],
 div [data-schemapath$='visualType'],

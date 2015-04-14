@@ -85,6 +85,24 @@ Template.chaptereditform.rendered = function(){
                 }
               ]
             },
+            "release": {
+              "id": "release",
+              "type": "boolean",
+              "format": "checkbox",
+              "title": "Release",
+              "description": "Is this chapter finished and ready for release?",
+              "name": "release",
+              "default": "false"
+            },
+            "testing": {
+              "id": "testing",
+              "type": "boolean",
+              "format": "checkbox",
+              "title": "Testing",
+              "description": "Is this chapter only for testing purposes?",
+              "name": "testing",
+              "default": "false"
+            },
             "debug": {
               "id": "debug",
               "type": "boolean",
@@ -101,7 +119,7 @@ Template.chaptereditform.rendered = function(){
               "title": "Placeholders",
               "description": "If images or video are missing or blank, do we replace with placeholders?",
               "name": "placeholders",
-              "default": "false"
+              "default": "true"
             },
             "ambientAudio": {
               "type": "object",
@@ -670,6 +688,8 @@ Template.chaptereditform.rendered = function(){
             "description",
             "featureContent",
             "debug",
+            "release",
+            "testing",
             "placeholders",
             "ambientAudio",
             "scenes",

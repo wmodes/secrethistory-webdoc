@@ -20,6 +20,8 @@
   padding: 0;
   margin: 0;
 
+  /*background-color: black;*/
+
   overflow-x: scroll;
   overflow-y: hidden;
 
@@ -97,6 +99,10 @@
     color: white;
 }
 
+.link-text {
+    font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
+}
+
 /* 
  * Spinner 
  */
@@ -105,6 +111,52 @@
     top: 50vh;
     left: 50vw;
 }
+
+/* Stuff Specific to these test pages */
+
+.webdoc .debug {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    text-align: right;
+    font-size: 10px;
+    z-index: 100;
+    font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
+}
+
+.webdoc .shot {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 0;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 0;
+  margin: 0;
+}
+
+.webdoc #section1 {
+    background: #9a6642;
+}
+.webdoc #section2 {
+    background: #734c31;
+}
+.webdoc #section3 {
+    background: #ff0000;
+}
+.webdoc #section4 {
+    background: #6e6e6e;
+}
+.webdoc #section5 {
+    background: #6599bd;
+}
+
 
 /*
  * shared elements
@@ -375,50 +427,6 @@ html ::-webkit-scrollbar-thumb:horizontal,
     border-radius: 2px;
 }
 
-/* Stuff Specific to these test pages */
-
-.webdoc .debug {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    text-align: right;
-    font-size: 10px;
-    z-index: 100;
-}
-
-.webdoc .shot {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  padding: 0;
-  margin: 0;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  padding: 0;
-  margin: 0;
-}
-
-.webdoc #section1 {
-    background: #9a6642;
-}
-.webdoc #section2 {
-    background: #734c31;
-}
-.webdoc #section3 {
-    background: #ff0000;
-}
-.webdoc #section4 {
-    background: #6e6e6e;
-}
-.webdoc #section5 {
-    background: #6599bd;
-}
-
 /* 
  * Navigation Menu 
  */
@@ -504,11 +512,11 @@ html ::-webkit-scrollbar-thumb:horizontal,
  * Captions
  */
 
- .visual-element h1,
- .visual-element h2,
- .visual-element h3,
- .visual-element h4,
- .visual-element h5 {
+ #doc-canvas .visual-element h1,
+ #doc-canvas .visual-element h2,
+ #doc-canvas .visual-element h3,
+ #doc-canvas .visual-element h4,
+ #doc-canvas .visual-element h5 {
     -webkit-text-shadow: 0 0 5px rgba(0,0,0,0.75);
     -moz-text-shadow: 0 0 5px rgba(0,0,0,0.75);
     text-shadow: 0 0 5px rgba(0,0,0,0.75);
@@ -518,20 +526,20 @@ html ::-webkit-scrollbar-thumb:horizontal,
  * Pull quotes
  */
 
-.pullquote {
+#doc-canvas .pullquote {
     display: block;
-    font-size: 22pt;
-    font-weight: bolder;
-    line-height: 1.2;
-    /*font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";*/
-    font-family: 'Architects Daughter', cursive;
+    font-size: 18pt;
+    /*font-weight: bolder;
+    line-height: 1.2;*/
+    font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
+    /*font-family: 'Architects Daughter', cursive;*/
     padding: 10px 0 10px 0;
     -webkit-text-shadow: 0 0 5px rgba(0,0,0,0.75);
     -moz-text-shadow: 0 0 5px rgba(0,0,0,0.75);
     text-shadow: 0 0 5px rgba(0,0,0,0.75);
 }
 
-.pullquote.right, .pullquote.left {
+#doc-canvas .pullquote.right, .pullquote.left {
     position: absolute;
     max-width: 20vw;
     bottom: 20vh;
@@ -539,28 +547,28 @@ html ::-webkit-scrollbar-thumb:horizontal,
     border-bottom: solid 2px white;
 }
 
-.pullquote.right {
+#doc-canvas .pullquote.right {
     right: 2vw;
     text-align: center;
 }
 
-.pullquote.left {
+#doc-canvas .pullquote.left {
     left: 2vw;
     text-align: center;
 }
 
-.pullquote.bottom, .pullquote.top {
+#doc-canvas .pullquote.bottom, .pullquote.top {
     position: absolute;
     max-width: 40vw;
     left: 30vw;
 }
 
-.pullquote.top {
+#doc-canvas .pullquote.top {
     top: 2vh;
     text-align: center;
 }
 
-.pullquote.bottom {
+#doc-canvas .pullquote.bottom {
     bottom: 2vh;
     text-align: center;
 }
@@ -570,7 +578,7 @@ html ::-webkit-scrollbar-thumb:horizontal,
  * Textblock
  */
 
-.textblock {
+#doc-canvas .textblock {
     display: block;
     font-size: 16pt;
     font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
@@ -580,7 +588,8 @@ html ::-webkit-scrollbar-thumb:horizontal,
     text-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
-.textblock.right, .textblock.left {
+#doc-canvas .textblock.right, 
+#doc-canvas .textblock.left {
     position: absolute;
     max-width: 25vw;
     bottom: 10vh;
@@ -590,28 +599,28 @@ html ::-webkit-scrollbar-thumb:horizontal,
     */
 }
 
-.textblock.right {
+#doc-canvas .textblock.right {
     right: 2vw;
     text-align: right;
 }
 
-.textblock.left {
+#doc-canvas .textblock.left {
     left: 2vw;
     text-align: left;
 }
 
-.textblock.bottom, .textblock.top {
+#doc-canvas .textblock.bottom, .textblock.top {
     position: absolute;
     max-width: 60vw;
     left: 20vw;
 }
 
-.textblock.top {
+#doc-canvas .textblock.top {
     top: 2vh;
     text-align: center;
 }
 
-.textblock.bottom {
+#doc-canvas .textblock.bottom {
     bottom: 2vh;
     text-align: center;
 }
@@ -620,7 +629,7 @@ html ::-webkit-scrollbar-thumb:horizontal,
  * Credits 
  */
 
-.credits {
+#doc-canvas .credits {
     display: block;
     font-size: 10pt;
     font-family: "Helvetica LT", "Helvetica Neue LT", "Arial";
@@ -633,9 +642,10 @@ html ::-webkit-scrollbar-thumb:horizontal,
     -webkit-text-shadow: 0 0 2px rgba(0,0,0,0.5);
     -moz-text-shadow: 0 0 2px rgba(0,0,0,0.5);
     text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    z-index: 10;
 }
 
-.credits:before {
+#doc-canvas .credits:before {
     font-family: 'Architects Daughter', cursive;
     font-weight: bolder;
     font-size: 22pt;
@@ -643,16 +653,16 @@ html ::-webkit-scrollbar-thumb:horizontal,
     content: "Credits";
 }
 
-.credits a {
+#doc-canvas .credits a {
     color: white;
 }
 
-.credits a:hover {
+#doc-canvas .credits a:hover {
     text-decoration: none;
     border-bottom: 1px dotted white;
 }
 
-.credits p {
+#doc-canvas .credits p {
 }
 
 /*
@@ -671,7 +681,7 @@ html ::-webkit-scrollbar-thumb:horizontal,
     justify-content: center;
     justify-content: center;
     align-content: flex-start;
-    z-index: -9999;
+    z-index: 5;
     /*
     -webkit-column-width: 37vh;
     -moz-column-width: 37vh;
