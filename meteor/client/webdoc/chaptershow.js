@@ -352,7 +352,11 @@ Template.chaptershow.helpers({
           thisShot.sticky = false;
           // no fancy stuff this time
           transType = "push";
-        } 
+          // Adjust negative offset for faux pinned frames
+          var negOffset = thisShot.shotDuration;
+        } else {
+          var negOffset = 0;
+        }
 
         // Test for fancy transition
         var fancyTrans = ["cut", "dissolve", "fade", "flare", "focus"];
@@ -360,7 +364,7 @@ Template.chaptershow.helpers({
           // if fancy, extend shot duration and make sure we pin
           thisShot.sticky = true;
           // shotDuration for 2 shots + transition
-          //TODO: Instead of duration*2, instead add next shot's duration
+          // Instead of duration*2, instead add next shot's duration
           console.log(nextShot(scenes, sceneIndex, shots, shotIndex));
           var pinDuration = thisShot.shotDuration 
                             + nextShot(scenes, sceneIndex, 
@@ -441,7 +445,8 @@ Template.chaptershow.helpers({
             var audioWrapper = audioWrapperDiv.replace("%id", audioIDnum);
             $(thisContentID).append(audioWrapper);
             // set up audio elment
-            setAudioElement(scrollControl, thisAudio, audioID, thisShotID);
+            setAudioElement(scrollControl, thisAudio, audioID, 
+                            thisShotID, negOffset);
           }
         }
 
@@ -460,7 +465,8 @@ Template.chaptershow.helpers({
             var visualWrapper = visualWrapperDiv.replace("%id", visualIDnum);
             $(thisContentID).append(visualWrapper);
             // set up visual elment
-            setVisualElement(scrollControl, thisVisual, visualID, thisShotID);
+            setVisualElement(scrollControl, thisVisual, visualID, 
+                             thisShotID, negOffset);
           }
         }
       }
@@ -867,7 +873,8 @@ Template.chaptershow.helpers({
       ambientSound.play();
     }
 
-    function setAudioElement(scrollControl, myAudio, myContentID, myTriggerID) {
+    function setAudioElement(scrollControl, myAudio, myContentID, 
+                             myTriggerID, negOffset) {
       var mySource = audioDir+myAudio.audioContent;
       var myLoop = myAudio.audioLoop;
       var myOffset = myAudio.startTrigger;
@@ -886,7 +893,7 @@ Template.chaptershow.helpers({
       var myScrollScene = new ScrollScene({
         triggerElement: myTriggerID,
         triggerHook: 0,
-        offset: vw * myOffset,
+        offset: vw * (myOffset - negOffset),
         duration: vw * myDuration,
       })
         .on("start end", function (e) {
@@ -932,7 +939,8 @@ Template.chaptershow.helpers({
 
     // VISUAL ELEMENTS
 
-    function setVisualElement(scrollControl, myVisual, myVisualDivID, myTriggerID) {
+    function setVisualElement(scrollControl, myVisual, myVisualDivID, 
+                              myTriggerID, negOffset) {
       var myContent = myVisual.visualContent;
       var myType = myVisual.visualType;
       var myFullscreen = myVisual.fullscreen;
@@ -973,13 +981,15 @@ Template.chaptershow.helpers({
         // we only do this if we have something to do
         if (thisTrans.cssEnd) {
           // set up visual elment
-          setVisualTrans(scrollControl, thisTrans, visualID, thisShotID);
+          setVisualTrans(scrollControl, thisTrans, visualID, 
+                         thisShotID, negOffset);
         }
       }
 
     }
 
-    function setVisualTrans(scrollControl, myTrans, myContentID, myTriggerID) {
+    function setVisualTrans(scrollControl, myTrans, myContentID, 
+                            myTriggerID, negOffset) {
       // Trigger background visual start and end
       myOffset = myTrans.startTrigger;
       myDuration = myTrans.duration;
@@ -991,7 +1001,7 @@ Template.chaptershow.helpers({
       myScrollScene = new ScrollScene({
         triggerElement: myTriggerID,
         triggerHook: 0,
-        offset: vw * myOffset,
+        offset: vw * (myOffset - negOffset),
         duration: vw * myDuration,
         tweenChanges: true
       })
