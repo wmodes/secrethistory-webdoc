@@ -1020,7 +1020,7 @@ Template.chaptershow.helpers({
       var myChapterNum = link.chapterNumber;
       if (myPathNum && myChapterNum) {
         var linkChapter = getChapterCollection(myPathNum, myChapterNum);
-        if (linkChapter) {
+        if (linkChapter && linkChapter.release && !linkChapter.testing) {
           var linkPathName = linkChapter.pathName;
           var linkChapterName = linkChapter.chapterName;
           var linkDescription = linkChapter.description;
