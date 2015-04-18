@@ -98,7 +98,7 @@ var clickOnSource =  "/audio/link-rustyclick1.wav";
 var clickOffSource =  "/audio/link-rustyclick2.wav";
 var clickVolume = 0.25;
 
-var scrollImage = "/images/scrolldown.png";
+var scrollImage = "/images/scroll-instructions-by-hand.png";
 var spacerImage = "/images/spacer.png";
 
 var placeImage = "placeholder-title.jpg";
@@ -188,20 +188,8 @@ Template.chaptershow.helpers({
     $("html").addClass("fancyscroll");
     $("body").addClass("fancyscroll");
 
-    //Scroll page horizonally with mouse wheel
-    $(function() {
-      $("body").mousewheel(function(event, delta) {
-        this.scrollLeft -= (delta * mouseSpeed);
-        // ensures page won't scroll down
-        event.preventDefault();
-      });
-    });
-    
-    // Initialize ScrollMagic Controller
-    scrollControl = new ScrollMagic({
-      vertical: false,
-    });
-
+    // WINDOW SIZING
+    //
     // dynamic page sizing
     // TODO: Move into separate file?
 
@@ -219,8 +207,8 @@ Template.chaptershow.helpers({
       vUnit = "px";
     }
 
-    // Okay, now we start reading data and generating content
-
+    // DATA
+    // 
     // get a chapter from the database
     chapter = ChapterCollection.findOne({
       slug: slug
@@ -228,6 +216,13 @@ Template.chaptershow.helpers({
     //TODO: If we don't get it at first now what?
     debug = chapter.debug;
     placeholders = chapter.placeholders;
+
+    // SETUP STUFFS
+    //
+    // Initialize ScrollMagic Controller
+    scrollControl = new ScrollMagic({
+      vertical: false,
+    });
 
     // set window title
     document.title = "Secret History - " + chapter.pathName + " - " + chapter.chapterName;
@@ -247,6 +242,35 @@ Template.chaptershow.helpers({
 
     // Start ambient audio
     setAmbientAudio(chapter.ambientAudio);
+
+    // KEY & MOUSE CONTROLS
+    //
+    //Scroll page horizonally with mouse wheel
+    $(function() {
+      $("body").mousewheel(function(event, delta) {
+        this.scrollLeft -= (delta * mouseSpeed);
+        // ensures page won't scroll down
+        event.preventDefault();
+      });
+    });
+
+    // Capture arrow keys and scroll
+    document.onkeydown = function(e) {
+      switch (e.keyCode) {
+        case 37:
+          alert('left');
+          break;
+        case 38:
+          alert('up');
+          break;
+        case 39:
+          alert('right');
+          break;
+        case 40:
+          alert('down');
+          break;
+      }
+    };
 
     // FIRST PASS - create all containers and major DOM elements
     //
@@ -872,6 +896,9 @@ Template.chaptershow.helpers({
         loop: true,
         volume: myVolume
       })
+      ambientSound.on("end", function() {
+        this.play();
+      });
       ambientSound.play();
     }
 
@@ -927,6 +954,15 @@ Template.chaptershow.helpers({
       if (debug) {
         myScrollScene.addIndicators({suffix: myContentID, indent: 60 * indent});
       }
+      mySound.on("end", function() {
+          if (myLoop) {
+            this.play();
+          } else {
+            myScrollScene.destroy();
+            this.volume(0);
+            this.unload();
+          }
+      });
     }
 
     function createAudioPlayer(mySource, myLoop, myVolume) {
