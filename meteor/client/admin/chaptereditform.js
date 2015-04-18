@@ -149,11 +149,11 @@ Template.chaptereditform.rendered = function(){
                 "volume": {
                   "id": "volume",
                   "type": "number",
-                  "maximum": 1,
-                  "minimum": 0,
                   "title": "Volume",
                   "description": "Volume [0-1]",
                   "name": "start Volume",
+                  "minimum": 0,
+                  "maximum": 1,
                   "default": 1
                 }
               }
@@ -308,7 +308,17 @@ Template.chaptereditform.rendered = function(){
                               "title": "Loop",
                               "description": "Loop this video?",
                               "name": "Video Loop",
-                              "default": true
+                              "default": false
+                            },
+                            "volume": {
+                              "id": "volume",
+                              "type": "number",
+                              "title": "Volume",
+                              "description": "Volume of video [0-1]",
+                              "name": "Volume",
+                              "minimum": 0,
+                              "maximum": 1,
+                              "default": 1
                             },
                             "startTrigger": {
                               "id": "startTrigger",
@@ -389,11 +399,11 @@ Template.chaptereditform.rendered = function(){
                               "volume": {
                                 "id": "volume",
                                 "type": "number",
-                                "maximum": 1,
-                                "minimum": 0,
                                 "title": "Volume",
-                                "description": "Volume of this audio element [0-1]",
-                                "name": "start Volume",
+                                "description": "Volume of audio element [0-1]",
+                                "name": "Volume",
+                                "minimum": 0,
+                                "maximum": 1,
                                 "default": 1
                               },
                               "fadeIn": {

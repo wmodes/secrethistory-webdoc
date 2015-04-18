@@ -247,7 +247,9 @@ div [data-schemapath$='shotType'],
 div [data-schemapath$='shotDuration'],
 div [data-schemapath$='sticky'],
 div [data-schemapath$='startTrigger'],
-div [data-schemapath$='duration']
+div [data-schemapath$='duration'],
+div [data-schemapath$='videoLoop'],
+div [data-schemapath$='volume']
 {
     width: 50%;
     padding-right: 10px;

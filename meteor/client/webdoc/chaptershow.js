@@ -794,6 +794,7 @@ Template.chaptershow.helpers({
       var myOffset = thisShot.videoOptions.startTrigger;
       var myDuration = thisShot.videoOptions.duration;
       var myLoop = thisShot.videoOptions.videoLoop;
+      var myVolume = thisShot.videoOptions.volume;
       var myVideoBase = myContent.replace(vidDefault, "");
       if (debug) {
         console.log("full screen video: "
@@ -823,6 +824,7 @@ Template.chaptershow.helpers({
           //src: videoDir+myVideoBase+".ogv"}
       ]);
       myBigVideo.getPlayer().pause();
+      myBigVideo.getPlayer().volume(myVolume);
       // Trigger background video start and end (loop default)
       var myScrollScene = new ScrollScene({
         triggerHook: 0,
