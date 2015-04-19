@@ -599,7 +599,7 @@ Template.chaptershow.helpers({
         // shot expires
         offset: (duration * vw) + 'px',
         // This sets the rapidity of the dissolve
-        duration: 1 * vw + 'px'
+        duration: dissolveLength * vw + 'px'
         //duration: 1 * vw + 'px'
       })
         .setTween(myTween)
@@ -628,7 +628,7 @@ Template.chaptershow.helpers({
         // shot expires
         offset: (duration * vw) + 'px',
         // This sets the rapidity of the dissolve
-        duration: 0.5 * vw + 'px'
+        duration: (dissolveLength/2) * vw + 'px'
       })
         .on("start end", function (e) {
           // set backgrounds
@@ -658,9 +658,9 @@ Template.chaptershow.helpers({
         triggerHook: 0,
         // we don't start the dissolve until the duration of this 
         // shot expires
-        offset: ((duration + 0.5) * vw) + 'px',
+        offset: ((duration + (dissolveLength/2)) * vw) + 'px',
         // This sets the rapidity of the dissolve
-        duration: 0.5 * vw + 'px'
+        duration: (dissolveLength/2) * vw + 'px'
       })
         .on("start end", function (e) {
           // set backgrounds
@@ -694,7 +694,7 @@ Template.chaptershow.helpers({
         // shot expires
         offset: (duration * vw) + 'px',
         // This sets the rapidity of the dissolve
-        duration: 0.5 * vw + 'px'
+        duration: (dissolveLength/2) * vw + 'px'
       });
       myScrollScene.on("start end", function (e) {
           // this frame
@@ -721,9 +721,9 @@ Template.chaptershow.helpers({
         triggerHook: 0,
         // we don't start the dissolve until the duration of this 
         // shot expires
-        offset: ((duration + 0.5) * vw) + 'px',
+        offset: ((duration + (dissolveLength/2)) * vw) + 'px',
         // This sets the rapidity of the dissolve
-        duration: 0.5 * vw + 'px'
+        duration: (dissolveLength/2) * vw + 'px'
       })
         .on("start end", function (e) {
           // set backgrounds
