@@ -87,7 +87,10 @@ var stickyLength = 0.33;
 var mouseSpeed = 100;
 var audioOn = true;
 var ambientSound = {};
+var ambientSoundID = {};
 var ambientVolume = 0.5;
+var ambientFadeTime = 3000; // in ms
+var soundFadeTime = 1000; // in ms
 
 // file locations
 var imageDir = "/images/";
@@ -742,17 +745,16 @@ Template.chaptershow.helpers({
       if (audioOn) {
         $(ambientToggleID).removeClass('audio-on');
         audioOn = false;
-        ambientSound.fade(ambientVolume,0,3000,function() { ambientSound.pause() });
+        ambientSound.fade(ambientSound.volume(ambientSoundID), 0, ambientFadeTime, ambientSoundID);
       } else {
         $(ambientToggleID).addClass('audio-on');
         audioOn = true;
-        ambientSound.volume(0);
-        ambientSound.play();
-        ambientSound.fade(0,ambientVolume,3000);
+        //ambientSound.volume(0);
+        ambientSound.play(ambientSoundID);
+        ambientSound.fade(ambientSound.volume(ambientSoundID), ambientVolume, ambientFadeTime, ambientSoundID);
       }
     }
 
-    //TODO: pass myContentID to this func
     function setSizing(thisShot, myShotID, myContentID) {
       // TODO: Add db fields: advanced > height, width, and sticky length
       // for now, we will assume that each shot fills the viewport
@@ -885,21 +887,32 @@ Template.chaptershow.helpers({
     function setAmbientAudio(ambientAudio) {
       // Background audio player
       var mySource = audioDir+ambientAudio.audioContent;
-      var myVolume = ambientAudio.volume;
       // set a var usable elsewhere
-      ambientVolume = myVolume;
+      ambientVolume = ambientAudio.volume;
       // we are using howler.js for audio and set a var used elsewhere
       ambientSound = new Howl({
-        urls: [mySource],
+        src: [mySource],
         preload: true,
         autoplay: false,
         loop: true,
-        volume: myVolume
+        volume: ambientVolume
       })
-      ambientSound.on("end", function() {
-        this.play();
+      // the first time we play the sound, we collect the ID returned
+      ambientSoundID = ambientSound.play();
+      // Sound event Handlers
+      //
+      // set a handler for the faded callback which is called when a fade completes
+      // we only want to pause when we are fading *down* not up
+      ambientSound.on("faded", function() { 
+        if (!ambientSound.volume(ambientSoundID)) {
+          ambientSound.pause(ambientSoundID) 
+        }
       });
-      ambientSound.play();
+      // the following is a loop workaround for a bug in chrome 
+      // allegedly accounted for in howler 2.0.0-beta, the vers we are now using
+      //ambientSound.on("end", function() {
+        //this.play();
+      //});
     }
 
     function setAudioElement(scrollControl, myAudio, myContentID, 
@@ -916,7 +929,11 @@ Template.chaptershow.helpers({
           +" volume:"+myVolume+" fade:"+myFadein+" loop:"+myLoop
           +" source:"+mySource);
       }
-      var mySound = createAudioPlayer(mySource, myLoop, myVolume);
+      // create sound player and sound, saving the ID for later
+      var mySound = createAudioPlayer(mySource, myLoop, 0);
+      var mySoundID = mySound.play();
+      mySound.pause(mySoundID);
+      //
       // Trigger background audio start and end
       indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
       var myScrollScene = new ScrollScene({
@@ -926,13 +943,12 @@ Template.chaptershow.helpers({
         duration: vw * myDuration,
       })
         .on("start end", function (e) {
-          mySound.play();
           if (myFadein) {
-            mySound.volume(0);
-            mySound.play();
-            mySound.fade(0,myVolume,1000);
+            console.log("Fading in cuz myFadein is true");
+            mySound.play(mySoundID);
+            mySound.fade(mySound.volume(mySoundID), myVolume, soundFadeTime, mySoundID);
           } else {
-            mySound.play();
+            mySound.play(mySoundID);
           }
           //if (debug) {
             //console.log(myContentID+": Playing "+mySource+"   Hear it?");
@@ -941,11 +957,12 @@ Template.chaptershow.helpers({
         .on("enter leave", function (e) {
           //mySound.pause();
           if (myFadein) {
-            mySound.fade(myVolume,0,1000,function() { mySound.pause() });
+            console.log("Fading out cuz myFadein is true");
+            mySound.fade(mySound.volume(mySoundID), 0, soundFadeTime, mySoundID);
           } else {
-            mySound.pause();
+            mySound.pause(mySoundID);
           }
-          mySound.pause();
+          //mySound.pause();
           //if (debug) {
             //console.log(myContentID+": No longer playing "+mySource);
           //}
@@ -954,20 +971,36 @@ Template.chaptershow.helpers({
       if (debug) {
         myScrollScene.addIndicators({suffix: myContentID, indent: 60 * indent});
       }
+      // Sound event Handlers
+      //
+      // set a handler for the faded callback which is called when a fade completes
+      // we only want to pause when we are fading *down* not up
+      mySound.on("faded", function() { 
+        console.log("mySound.volume("+mySoundID+"):"+mySound.volume(mySoundID));
+        if (!mySound.volume(mySoundID)) {
+          console.log("Paused");
+          mySound.pause(mySoundID) 
+        } else {
+          mySound.play(mySoundID);
+        }
+      });
       mySound.on("end", function() {
-          if (myLoop) {
-            this.play();
-          } else {
+          if (!myLoop) {
             myScrollScene.destroy();
-            this.volume(0);
-            this.unload();
+            mySound.volume(mySoundID);
+            mySound.unload();
           }
+          // the following is a loop workaround for a bug in chrome 
+          // allegedly accounted for in howler 2.0.0-beta, the vers we are now using
+          //else {
+            //this.play();
+          //}
       });
     }
 
     function createAudioPlayer(mySource, myLoop, myVolume) {
       return new Howl({
-        urls: [mySource],
+        src: [mySource],
         preload: true,
         autoplay: false,
         loop: myLoop,
