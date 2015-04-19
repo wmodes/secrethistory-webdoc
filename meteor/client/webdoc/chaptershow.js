@@ -90,6 +90,8 @@ var ambientSoundID = {};
 var ambientVolume = 0.5;
 var ambientFadeTime = 3000; // in ms
 var soundFadeTime = 1000; // in ms
+var keyAdvanceSpeed = 10;
+var keyAdvance = 100;
 
 // file locations
 var imageDir = "/images/";
@@ -262,11 +264,22 @@ Template.chaptershow.helpers({
     // Capture arrow keys and scroll
     document.onkeydown = function(e) {
       switch (e.keyCode) {
-        case 37:      // left
         case 38:      // up
+        case 37:      // left
+          event.preventDefault();
+          // get current x position on page
+          var x = window.scrollX;
+          //$('html, body').animate({scrollLeft: x - keyAdvance}, keyAdvanceSpeed);
+          $('html, body').scrollLeft(x - keyAdvance);
           break;
-        case 39:      // right
         case 40:      // down
+        case 39:      // right
+        case 32:      // space
+          event.preventDefault();
+          // get current x position on page
+          var x = window.scrollX;
+          //$('html, body').animate({scrollLeft: x + keyAdvance}, keyAdvanceSpeed);
+          $('html, body').scrollLeft(x + keyAdvance);
           break;
       }
     };
