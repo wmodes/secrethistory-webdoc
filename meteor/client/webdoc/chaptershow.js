@@ -749,6 +749,8 @@ Template.chaptershow.helpers({
       } else {
         $(ambientToggleID).addClass('audio-on');
         audioOn = true;
+        //  we've given up pausing and just let it run at zero volume
+        // we've given up pausing and just let it run at zero volume
         //ambientSound.volume(0);
         //ambientSound.play(ambientSoundID);
         ambientSound.fade(ambientSound.volume(ambientSoundID), ambientVolume, ambientFadeTime, ambientSoundID);
@@ -948,7 +950,6 @@ Template.chaptershow.helpers({
       })
         .on("start end", function (e) {
           if (myFadein) {
-            console.log("Fading in cuz myFadein is true");
             mySound.play(mySoundID);
             mySound.fade(mySound.volume(mySoundID), myVolume, soundFadeTime, mySoundID);
           } else {
@@ -961,7 +962,6 @@ Template.chaptershow.helpers({
         .on("enter leave", function (e) {
           //mySound.pause();
           if (myFadein) {
-            console.log("Fading out cuz myFadein is true");
             mySound.fade(mySound.volume(mySoundID), 0, soundFadeTime, mySoundID);
           } else {
             mySound.pause(mySoundID);
@@ -980,9 +980,7 @@ Template.chaptershow.helpers({
       // set a handler for the faded callback which is called when a fade completes
       // we only want to pause when we are fading *down* not up
       mySound.on("faded", function() { 
-        console.log("mySound.volume("+mySoundID+"):"+mySound.volume(mySoundID));
         if (!mySound.volume(mySoundID)) {
-          console.log("Paused");
           mySound.pause(mySoundID) 
         } else {
           mySound.play(mySoundID);
