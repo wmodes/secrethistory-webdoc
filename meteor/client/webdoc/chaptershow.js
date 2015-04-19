@@ -46,8 +46,6 @@
 * FitText.js 1.2 - expands text to fit container used for titles.
 *     (c) 2011, Dave Rupert (http://daverupert.com) 
 *     License: WTFPL http://sam.zoy.org/wtfpl/
-* Backstretch v2.0.4 - for full width background images. 
-*     (c) 2013 Scott Robbin (http://srobbin.com/jquery-plugins/) MIT License
 * Bootstrap.js v3.1.0 - HTML, CSS, and JavaScript framework for developing responsive, 
 *     mobile web projects
 *     (c) 2011-2014 Twitter, Inc. MIT License 
@@ -119,6 +117,9 @@ var tableWrapperDiv = "<div id='table-%id' class='table-wrap'>";
 var shotWrapperDiv = "<div id='shot-%id' class='shot-wrap shot full'>";
 
 var contentWrapperDiv = "<div id='content-%id' class='content full'>";
+
+var imageDiv = "<img id='image-%id' class='image-cover' />";
+
 var ambientWrapperDiv = "<div id='ambient-wrapper' class='audio offstage'>";
 
 var titleWrapperDiv = "<div id='title-wrapper' class='chapter-title'>";
@@ -452,7 +453,7 @@ Template.chaptershow.helpers({
 
         // Background for this shot, stills or video
         if (thisShot.shotType == "still") {
-          setFullscreenImage(thisShot, thisContentID);
+          setFullscreenImage(thisShot, thisContentID, IDnum);
         } else if (thisShot.shotType == "video") {
           setFullscreenVideo(scrollControl, thisShot, thisContentID, IDnum);
         }
@@ -811,10 +812,15 @@ Template.chaptershow.helpers({
 
     // CREATE IMAGE AND VIDEO
 
-    function setFullscreenImage(thisShot, myContentID) {
-      $(myContentID).backstretch(imageDir+thisShot.shotContent);
-      //TODO:Next line is just a test
-      //$(myContentID).css("color", "white")
+    function setFullscreenImage(thisShot, myContentID, myIDnum) {
+
+      var myImageDiv = imageDiv.replace("%id", myIDnum);
+      var myImageID = "#image-" + myIDnum;
+      $(myContentID).append(myImageDiv);
+      $(myImageID).attr('src', imageDir+thisShot.shotContent);
+
+      // Replace backstretch for something simpler
+      //$(myContentID).backstretch(imageDir+thisShot.shotContent);
     }
 
     function setFullscreenVideo(controller, thisShot, myContentID, myIDnum) {
@@ -1036,9 +1042,11 @@ Template.chaptershow.helpers({
         myTarget.html(myContent);
       }
       if (myFullscreen) {
-        var parentID = myTarget.parent().attr('id');
-        var backgroundStyle = $('#'+parentID+" .backstretch").attr("style");
-        myTarget.attr("style", myTarget.attr("style") + "; " + backgroundStyle);
+        myTarget.addClass("image-cover");
+        // replace backstretch with something simpler
+        //var parentID = myTarget.parent().attr('id');
+        //var backgroundStyle = $('#'+parentID+" .backstretch").attr("style");
+        //myTarget.attr("style", myTarget.attr("style") + "; " + backgroundStyle);
       }
       myTarget.css("z-index", myZindex);
       // Add cssBase css to existing element style

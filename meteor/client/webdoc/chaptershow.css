@@ -293,6 +293,16 @@
 }
 
 
+/*
+ * Fullscreen Video
+ */
+
+.image-cover {
+  object-fit: cover;
+  height: 100vh;
+  width: 100vw;
+}
+
 /* 
  * BigVideo.js 
  */
@@ -301,6 +311,7 @@
     position: relative !important;
 }
 
+/*
 .big-video-vid {
     position: absolute;
     top: -50%;
@@ -319,20 +330,24 @@
 }
 .vjs-tech {
     position: relative !important;
-    /*
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 50%;
-    */
     min-width: 50%;
     min-height: 50%;
 }
+*/
 
- .vjs-poster,
- .vjs-text-track-display,
- .vjs-loading-spinner,
+.big-video-vid {
+}
+
+.vjs-tech {
+  object-fit: cover;
+  height: 100vh;
+  width: 100vw;
+}
+
+
+.vjs-poster,
+.vjs-text-track-display,
+.vjs-loading-spinner,
 .vjs-big-play-button,
 .vjs-control-bar,
 .vjs-error-display {
