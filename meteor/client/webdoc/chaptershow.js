@@ -82,6 +82,7 @@ var debug = false;
 var release = false;
 var placeholders = false;
 var stickyLength = 0.33;
+var dissolveLength = 0.5;
 var mouseSpeed = 100;
 var audioOn = true;
 var ambientSound = {};
@@ -261,17 +262,11 @@ Template.chaptershow.helpers({
     // Capture arrow keys and scroll
     document.onkeydown = function(e) {
       switch (e.keyCode) {
-        case 37:
-          alert('left');
+        case 37:      // left
+        case 38:      // up
           break;
-        case 38:
-          alert('up');
-          break;
-        case 39:
-          alert('right');
-          break;
-        case 40:
-          alert('down');
+        case 39:      // right
+        case 40:      // down
           break;
       }
     };
@@ -555,7 +550,6 @@ Template.chaptershow.helpers({
         offset: 0,
         // faux pin long enough to include this shot's duration
         // plus transition + next shot's duration
-        //duration: (thisShot.shotDuration * 2 + 1) * vw + 'px'
         duration: pinnedWidth + 'px'
         // the faux pin doesn't actually expand the container the way 
         // SM does so the results are a little strange
@@ -640,7 +634,10 @@ Template.chaptershow.helpers({
           // set backgrounds
           //$(thisShotID).css({backgroundColor: 'black'});
           console.log("fade.on:thisShotID:"+thisShotID+" nextShotID:"+nextShotID);
+          // this frame
           $(thisShotID).css({backgroundColor: 'black'});
+          $(thisShotID).css({visibility: 'inherit'});
+          // next frame
           $(nextShotID).css({backgroundColor: 'black'});
           $(nextContentID).css({opacity:0});
         })
@@ -667,7 +664,8 @@ Template.chaptershow.helpers({
       })
         .on("start end", function (e) {
           // set backgrounds
-          $(thisShotID).css({zIndex: 0});
+          //$(thisShotID).css({zIndex: 0});
+          $(thisShotID).css({visibility: 'hidden'});
         })
         .setTween(myTween)
         .addTo(scrollControl);
@@ -699,8 +697,10 @@ Template.chaptershow.helpers({
         duration: 0.5 * vw + 'px'
       });
       myScrollScene.on("start end", function (e) {
-          // set backgrounds
+          // this frame
           $(thisShotID).css({backgroundColor: 'white'});
+          $(thisShotID).css({visibility: 'inherit'});
+          // next frame
           $(nextShotID).css({backgroundColor: 'white'});
           $(nextContentID).css({opacity:0});
         })
@@ -727,7 +727,8 @@ Template.chaptershow.helpers({
       })
         .on("start end", function (e) {
           // set backgrounds
-          $(thisShotID).css({zIndex: 0});
+          //$(thisShotID).css({zIndex: 0});
+          $(thisShotID).css({visibility: 'hidden'});
         })
         .setTween(myTween)
         .addTo(scrollControl);
