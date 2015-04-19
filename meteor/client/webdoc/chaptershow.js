@@ -750,7 +750,7 @@ Template.chaptershow.helpers({
         $(ambientToggleID).addClass('audio-on');
         audioOn = true;
         //ambientSound.volume(0);
-        ambientSound.play(ambientSoundID);
+        //ambientSound.play(ambientSoundID);
         ambientSound.fade(ambientSound.volume(ambientSoundID), ambientVolume, ambientFadeTime, ambientSoundID);
       }
     }
@@ -903,11 +903,15 @@ Template.chaptershow.helpers({
       //
       // set a handler for the faded callback which is called when a fade completes
       // we only want to pause when we are fading *down* not up
+      /*
       ambientSound.on("faded", function() { 
         if (!ambientSound.volume(ambientSoundID)) {
           ambientSound.pause(ambientSoundID) 
+        } else {
+          ambientSound.play(ambientSoundID) 
         }
       });
+      */
       // the following is a loop workaround for a bug in chrome 
       // allegedly accounted for in howler 2.0.0-beta, the vers we are now using
       //ambientSound.on("end", function() {
