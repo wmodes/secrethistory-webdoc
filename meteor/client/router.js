@@ -3,6 +3,15 @@
  * Web Doc Routes
  */
 
+Router.route('/', {
+  path: '/',
+  template: 'landingpage',
+  onBeforeAction: function() {
+    console.log("root route");
+    this.next();
+  }
+});
+
 Router.route('/chapter/:pathSlug/:chapterSlug', {
   path: '/chapter/:pathSlug/:chapterSlug',
   template: 'chaptershow',

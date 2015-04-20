@@ -24,7 +24,7 @@
     height: auto;
 }
 
-.house-text {
+#house-canvas .house-text {
     margin: 200px auto auto auto;
     max-width: 650px;
     text-align: center;
@@ -32,7 +32,69 @@
     z-index: 10;
 }
 
-.house-text img {
+#house-canvas .house-text img {
     max-width: 650px;
     width: 100%;
+}
+
+@keyframes fadein{
+   from{opacity:0;}
+   to{opacity:1;}
+}
+
+#house-canvas .landing-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3100px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  background: #000 url("/images/shantyboat-lensblurred.jpg") no-repeat center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  animation: fadein 2s ease-in;
+}
+
+#house-canvas .landing-text {
+  margin-top: 1250px;
+  margin-bottom: auto;
+  max-width: 650px;
+  text-align: center;
+  color: #eee;
+  z-index: 10;
+}
+
+#house-canvas .landing-text h3 {
+  margin-top: -10px;
+  margin-bottom: 30px;
+}
+
+#house-canvas .landing-text .golink {
+  margin-top: 25px;
+  color: #fff;
+  font-weight: bold;
+}
+
+#house-canvas .landing-text .golink a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: dotted 1px #fff;
+}
+
+#house-canvas .landing-text img {
+    max-width: 650px;
+    width: 100%;
+}
+
+#house-canvas .landing-wrapper .background img {
+    position: absolute;
+    width: 1920px;
+    height: auto;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
