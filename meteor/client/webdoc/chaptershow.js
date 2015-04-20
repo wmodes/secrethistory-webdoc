@@ -957,8 +957,9 @@ Template.chaptershow.helpers({
       }
       // create sound player and sound, saving the ID for later
       var mySound = createAudioPlayer(mySource, myLoop, 0);
+      // We play() because we need to get the ID number from HowlerJS
+      // (since play() is assyncroness, we pause and reseek below)
       var mySoundID = mySound.play();
-      mySound.pause(mySoundID);
       //
       // Trigger background audio start and end
       indent = parseInt(myContentID.replace(/^.*\-/i, ""))+1;
@@ -995,6 +996,9 @@ Template.chaptershow.helpers({
       if (debug) {
         myScrollScene.addIndicators({suffix: myContentID, indent: 60 * indent});
       }
+      // We pause and reseek to wait for the trigger
+      mySound.pause(mySoundID);
+      mySound.seek(0, mySoundID);
       // Sound event Handlers
       //
       // set a handler for the faded callback which is called when a fade completes
