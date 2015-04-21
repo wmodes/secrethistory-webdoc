@@ -3,6 +3,9 @@
 
 Template.landingpage.rendered = function() {
 
+  // set window title
+  document.title = "Secret History of American River People";
+
   // Hide nav elements until revelaed
   $('#menuburger').css({opacity: 0});
   $('#mapburger').css({opacity: 0});
@@ -35,12 +38,17 @@ Template.landingpage.rendered = function() {
         $('#mapburger').animate({opacity: 1}, 1000, function() {
           $('#mapburger-hint').animate({opacity: 1}, 1000, function() {
             $('#ambientaudio').animate({opacity: 1}, 1000, function() {
-              $('#ambientaudio-hint').animate({opacity: 1}, 1000);
+              $('#ambientaudio-hint').animate({opacity: 1}, 1000, function() {
+                // fade 
+                $(".ambientaudio").removeClass("highlighted");
+                $(".burger").removeClass("highlighted");
+              })
             })
           })
         })
       })
     })
   });
+
 
 }
