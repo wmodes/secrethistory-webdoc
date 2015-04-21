@@ -24,6 +24,8 @@
   -o-background-size: cover;
   background-size: cover;
   animation: fadein 2s ease-in;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 #house-canvas .landing-text {

@@ -6,6 +6,9 @@ Template.landingpage.rendered = function() {
   // set window title
   document.title = "Secret History of American River People";
 
+  // Try to set scrollbar
+  $("html").addClass("fancyscroll");
+
   // Hide nav elements until revelaed
   $('#menuburger').css({opacity: 0});
   $('#mapburger').css({opacity: 0});
