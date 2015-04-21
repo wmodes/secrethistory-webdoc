@@ -1,0 +1,62 @@
+/* 
+ * Navigation Menu 
+ */
+
+@media screen and (min-width: 2400) {
+	#optmenu .modal-dialog  {
+        width: 1920px;
+        height: 1264px;
+    }
+    #optmenu #navwindow {
+        height: 1264px;
+    }
+}
+
+#optmenu .modal-dialog {
+    width: 80vw;
+    height: 90vh;
+    top: 5vh;
+    color: #4f4404;
+}
+
+#optmenu h1, #optmenu h2, #optmenu h3, 
+#optmenu h4, #optmenu h5 {
+    color: #4f4404;
+}
+
+#optmenu .modal-header {
+    border-bottom: 1px solid #4f4404;
+}
+
+#optmenu .modal-content {
+    background: black;
+    color: #eee;
+    height: 80vh;
+}
+
+#optmenu .modal-footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    border-top: 1px solid #4f4404;
+}
+
+#optmenu .closex {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#optmenu .closex a {
+    color: #4f4404;
+    background-color: #f6e4bf;
+    border: solid 1px #4f4404;
+    float: right;
+}
+
+#optmenu .closebutton a {
+    color: #4f4404;
+    background-color: #f6e4bf;
+    border: solid 1px #4f4404;
+}
+

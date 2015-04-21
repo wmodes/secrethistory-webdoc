@@ -1,0 +1,205 @@
+/* 
+ * Navigation Menu 
+ */
+
+@media screen and (min-width: 2400) {
+	#navmenu .modal-dialog  {
+    width: 1920px;
+    height: 1264px;
+  }
+  #navmenu #navwindow {
+    height: 1264px;
+  }
+}
+
+#navmenu .modal-dialog {
+  width: 80vw;
+  height: 90vh;
+  top: 5vh;
+  color: #4f4404;
+}
+
+#navmenu .modal-header {
+  border-bottom: 1px solid #4f4404;
+}
+
+#navmenu .modal-content {
+  height: 80vh;
+  color: #4f4404;
+  background-color: #f6e4bf;
+  padding: 10px;
+}
+
+#navmenu .modal-background {
+  background: url("/images/navmapbackground.jpg") no-repeat;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  border: solid 1px #4f4404;
+}
+
+/*
+ * Controls
+ */
+
+#navmenu .closex {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+#navmenu .closex a {
+  color: #4f4404;
+  background-color: #f6e4bf;
+  border: solid 1px #4f4404;
+  float: right;
+}
+
+#navmenu .closebutton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+#navmenu .closebutton a {
+  color: #4f4404;
+  background-color: #f6e4bf;
+  border: solid 1px #4f4404;
+}
+
+/*
+ * Title
+ */
+
+#navmenu .boxed {
+  color: #4f4404;
+  background-color: #f6e4bf;
+  padding: 10px;
+  text-align: center;
+}
+
+#navmenu .boxed .border {
+  border: solid 1px #4f4404;
+}
+
+#navmenu .boxed hr {
+  width: 100%;
+  height: 1px;
+  color: #4f4404;
+  background: #4f4404;
+  font-size: 0;
+  border: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#navmenu .title {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 400px;
+  height: auto;
+}
+
+/*
+ * Map Ke
+ */
+
+#navmenu .key {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: auto;
+  height: auto;
+  text-align: left;
+}
+
+#navmenu .key h1,
+#navmenu .key h2,
+#navmenu .key h3 {
+  text-align: center;
+}
+
+#navmenu .key .border {
+  padding: 5px;
+}
+
+#navmenu .key-element {
+  display: block;
+  width: 100%;
+}
+
+#navmenu .waypoint {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  background-size: cover;
+  background-position: center center;
+  vertical-align:middle;
+  margin: 3px;
+}
+
+#navmenu .waypoint.ready {
+  background-image: url('/images/waypoint-ready.png');
+}
+
+#navmenu .waypoint.ready:hover {
+  background-image: url('/images/waypoint-ready-hover.png');
+}
+
+#navmenu .waypoint.visited {
+  background-image: url('/images/waypoint-visited.png');
+}
+
+#navmenu .waypoint.visited:hover {
+  background-image: url('/images/waypoint-visited-hover.png');
+}
+
+#navmenu .waypoint.future {
+  background-image: url('/images/waypoint-future.png');
+}
+
+#navmenu .waypoint.future:hover {
+  background-image: url('/images/waypoint-future-hover.png');
+}
+
+/*
+ * Typography
+ */
+
+#navmenu .boxed {
+  color: #4f4404;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+#navmenu h1, #navmenu h2, #navmenu h3, 
+#navmenu h4, #navmenu h5 {
+  color: #4f4404;
+  text-transform: uppercase;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+#navmenu h1 {
+  font-size: 20px;
+  font-weight: 500;
+
+}
+
+#navmenu h2 {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+#navmenu h3 {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+#navmenu h4 {
+  font-size: 12px;
+  font-weight: normal;
+}
+
