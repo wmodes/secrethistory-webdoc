@@ -1,41 +1,8 @@
-#house-canvas {
-    background-color: #000000;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    z-index: -20;
-}
+/* 
+ * Import Google fonts 
+ */
 
-#house-canvas .background {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    z-index: -10;
-}
-
-#house-canvas .background img {
-    width: 100vw;
-    height: auto;
-}
-
-#house-canvas .house-text {
-    margin: 200px auto auto auto;
-    max-width: 650px;
-    text-align: center;
-    color: #ddd;
-    z-index: 10;
-}
-
-#house-canvas .house-text img {
-    max-width: 650px;
-    width: 100%;
-}
+@import url(https://fonts.googleapis.com/css?family=Architects+Daughter);
 
 @keyframes fadein{
    from{opacity:0;}
@@ -83,6 +50,9 @@
   color: #fff;
   text-decoration: none;
   border-bottom: dotted 1px #fff;
+  margin-left: 20px;
+  margin-right: 20px;
+  cursor: pointer;
 }
 
 #house-canvas .landing-text img {
