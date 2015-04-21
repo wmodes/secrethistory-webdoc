@@ -40,7 +40,7 @@ Template.landingpage.rendered = function() {
             $('#ambientaudio').animate({opacity: 1}, 1000, function() {
               $('#ambientaudio-hint').animate({opacity: 1}, 1000, function() {
                 // fade 
-                $(".ambientaudio").removeClass("highlighted");
+                $("#ambient-toggle").removeClass("highlighted");
                 $(".burger").removeClass("highlighted");
               })
             })
