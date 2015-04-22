@@ -162,6 +162,15 @@ bigVideoDefaults = {
 }
 vidDefault = ".mp4";
 
+
+
+
+Template.chaptershow.onCreated(function () {
+  // Use this.subscribe inside onCreated callback
+  this.subscribe('ChapterCollection');
+});
+
+
 Template.chaptershow.rendered = function() {
 
   routerParams = Router.current().params;

@@ -24,7 +24,7 @@
           <H2>and the stories within the archive</h2>
           <h4>An On-going Multi-year Multi-river Project</h4>
           <hr>
-          <h4><span id="numberofchapters">A Number Of</span> 
+          <h4><span id="numberofchapters">&nbsp;</span> 
             Chapters Currently Available</h4>
           <div><img src="/images/navmap-scale.png" width="80%"></div>
           <hr>
@@ -54,9 +54,18 @@
         </div>
       </div>
 
+      <div id="navmenu-waypoints"></div>
 
       </div>
     </div>
     </div>
     </div>
+
+
+    {{#if Template.subscriptionsReady}}
+        {{ addWaypoints }}
+    {{else}}
+        {{> spinner }}
+    {{/if}}
+
 </template>

@@ -7,7 +7,6 @@ Router.route('/', {
   path: '/',
   template: 'landingpage',
   onBeforeAction: function() {
-    console.log("root route");
     this.next();
   }
 });
@@ -93,13 +92,10 @@ Router.route('/admin/upload', {
 
 function isAuth(roles){
   if (roles) {
-    console.log("Roles defined");
     if (!Meteor.userId()) {
-      console.log("No user logged in, going to login screen");
       Router.current().render('login');
       return false;
     } else if (! Roles.userIsInRole(Meteor.user(), roles)) {
-      console.log("User role noe authed");
       Router.current().render('notauthorized')
       return false;
     }
