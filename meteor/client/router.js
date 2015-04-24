@@ -4,7 +4,7 @@
  */
 
 Router.route('/', {
-  path: '/',
+  name: 'landingpage',
   template: 'landingpage',
   onBeforeAction: function() {
     this.next();
@@ -12,7 +12,7 @@ Router.route('/', {
 });
 
 Router.route('/chapter/:pathSlug/:chapterSlug', {
-  path: '/chapter/:pathSlug/:chapterSlug',
+  name: 'chaptershow',
   template: 'chaptershow',
   //waitOn: function() {
     //return [Meteor.subscribe('users'),
@@ -20,6 +20,8 @@ Router.route('/chapter/:pathSlug/:chapterSlug', {
   //},
   onBeforeAction: function() {
     Session.set('currentRoute', 'chapter');
+    console.log("chaptershow route:");
+    console.log(this.params);
     this.next();
   }
 });
@@ -29,7 +31,7 @@ Router.route('/chapter/:pathSlug/:chapterSlug', {
  */
 
 Router.route('/login', {
-  path: '/login',
+  name: 'login',
   template: 'login',
   //waitOn: function() {
     //return Meteor.subscribe('users');
@@ -46,7 +48,7 @@ Router.route('/login', {
  */
 
 Router.route('/admin/chapter/:pathNum/:chapterNum', {
-  path: '/admin/chapter/:pathNum/:chapterNum',
+  name: 'chaptereditpage',
   template: 'chaptereditpage',
   //waitOn: function() {
     //return [Meteor.subscribe('users'),
@@ -61,7 +63,7 @@ Router.route('/admin/chapter/:pathNum/:chapterNum', {
 });
 
 Router.route('/admin/chapter', {
-  path: '/admin/chapter',
+  name: 'chaptereditblank',
   template: 'chaptereditpage',
   //waitOn: function() {
     //return Meteor.subscribe('users');
@@ -75,7 +77,7 @@ Router.route('/admin/chapter', {
 });
 
 Router.route('/admin/upload', {
-  path: '/admin/upload',
+  name: 'uploadpage',
   template: 'uploadpage',
   //waitOn: function() {
     //return [Meteor.subscribe('users'),

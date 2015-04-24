@@ -186,12 +186,12 @@
  */
 
 #navmenu .card {
-  width: 200px;
-  height: 300px;
+  width: 250px;
+  min-height: 350px;
   background-color: #f6e4bf;
   color: #4f4404;
   border: solid 1px #4f4404;
-  padding: 5px;
+  padding: 8px;
   visibility:hidden;
   opacity:0;
   /* radius */
@@ -199,12 +199,12 @@
     -moz-border-radius: 8px;
     border-radius: 8px;
   /* transitions */
-    -webkit-transition: opacity 0.5s linear,
-      visibility 0s linear 0.5s;
-    transition: opacity 0.5s linear,
-      visibility 0s linear 0.5s;
+    -webkit-transition: opacity 0.25s linear,
+      visibility 0s 0.25s linear;
+    transition: opacity 0.25s linear,
+      visibility 0s 0.25s linear;
   z-index: 10;
-  font-size: 11px;
+  font-size: 12px;
   overflow: hidden;
 }
 
@@ -212,7 +212,7 @@
   visibility:visible;
   opacity:1;
   -webkit-transition-delay: 0s;
-  transition-delay:0s;
+  transition-delay: 0s;
 }
 
 #navmenu .waypoint .card a {
@@ -220,22 +220,31 @@
   text-decoration: none;
 }
 
-#navmenu .waypoint .card a.link {
+#navmenu .waypoint .card .link {
+  cursor: pointer;
+}
+
+#navmenu .waypoint .card span.link {
   border-bottom: dotted 1px #4f4404;
 }
 
 #navmenu .card .image-wrap {
   width: 100%;
-  height: 100px;
+  height: 175px;
   padding: 3px;
-  overflow: hidden;
-  object-fit: cover;
+  background: url("/images/spacer.png") no-repeat center center; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  /*overflow: hidden;*/
 }
 
-#navmenu .card img {
-  object-fit: cover;
+/*#navmenu .card img {
   max-width: 100%;
-}
+  max-height: 100%;
+  width: auto;
+}*/
 
 /*
  * Typography

@@ -18,6 +18,7 @@ Template.navmenu.onRendered(function () {
 
   // Constants
   //
+  var spacerImage = "/images/spacer.png";
   var titleID = '#navmenu-title';
   var keyID = '#navmenu-key';
   var waypointWrapperID = '#navmenu-waypoints';
@@ -27,19 +28,21 @@ Template.navmenu.onRendered(function () {
   var cardHeight = 300;
 
   // Globals
+  // 
   var circleList = [];
   var newChapterArray = [];
 
-  // Render modal but hide it
-  $('#navmenu').modal('hide');
-
-  // Hide nav elements until revealaed
-  $('#mapburger').on("click", function() {
-    //renderNavmenu();
-  //}
+  // Show modal when mapburger is clicked
   //
-  //function renderNavmenu() {
+  $('#mapburger').on("click", function() {
     $('#navmenu').modal('show');
+  });
+
+  // Show map elements after modal is displayed
+  //
+  $('#navmenu').on("shown.bs.modal", function() {
+    //
+    // Do the following after the modal has rendered
     //
     // We only want to do this once, so if it's already been done. skip
     if (!circleList.length) {
@@ -51,6 +54,7 @@ Template.navmenu.onRendered(function () {
       // Go through each of the chapters
       // * Filter out incomplete or testing ones
       // * Clasify them
+      //
       var chapterCount = 0;
       for (var chapterIndex = 0; chapterIndex < chapterArray.length; chapterIndex++) {
         var thisChapter = chapterArray[chapterIndex];
@@ -77,126 +81,154 @@ Template.navmenu.onRendered(function () {
       }
       //
       // Update count on page
+      //
       $('#navmenu-title #numberofchapters').html(newChapterArray.length);
-
-      setTimeout(function() {
-        var navBox = {x: 0,
-                      y: 0,
-                      w: $(waypointWrapperID).width(),
-                      h: $(waypointWrapperID).height()
-        }
-        if (debug) {
-          console.log("navBox, as seen right now:");
-          console.log(navBox);
-        }
-        var titleBox = {x: $(titleID).position().left,
-                        y: $(titleID).position().top,
-                        w: $(titleID).width(),
-                        h: $(titleID).height()
-        }
-        if (debug) {
-          console.log("titleBox, as seen right now:");
-          console.log(titleBox);
-        }
-        var keyBox = {x: $(keyID).position().left,
-                      y: $(keyID).position().top,
-                      w: $(keyID).width(),
-                      h: $(keyID).height()
-        }
-        if (debug) {
-          console.log("keyBox, as seen right now:");
-          console.log(keyBox);
-        }
-
-        // Go through each of the chapters
-        // * Pick a random location for their icon
-        // TODO: Save these random locations to user storage for consistency
-        for (var chapterIndex = 0; chapterIndex < newChapterArray.length; chapterIndex++) {
-          var thisChapter = newChapterArray[chapterIndex];
-          // Pick coordinates
-          var thisCircle = pickCoordinate(navBox.w, navBox.h, roomyRadius, 
-                                          circleList, [titleBox, keyBox], navBox);
-          if (debug) console.log(thisCircle);
-          // save the coordinates
-          circleList.push(thisCircle);
-          if (debug) console.log("\tCoordinates:"+thisCircle.x+","+
-                                 thisCircle.y+" (r="+thisCircle.r+")");
-          createWaypoint(thisCircle.x, thisCircle.y, thisCircle.r, 
-                         chapterIndex, newChapterArray[chapterIndex], navBox);
-        }
-        console.log(circleList);
-
-      }, 1000);
-
+      //
+      // Construct objects to check for collisions
+      //
+      var navBox = {x: roomyRadius,
+                    y: roomyRadius,
+                    w: $(waypointWrapperID).width() - roomyRadius,
+                    h: $(waypointWrapperID).height() - roomyRadius
+      }
+      if (debug) {
+        console.log("navBox, as seen right now:");
+        console.log(navBox);
+      }
+      var titleBox = {x: $(titleID).position().left,
+                      y: $(titleID).position().top,
+                      w: $(titleID).width(),
+                      h: $(titleID).height()
+      }
+      if (debug) {
+        console.log("titleBox, as seen right now:");
+        console.log(titleBox);
+      }
+      var keyBox = {x: $(keyID).position().left,
+                    y: $(keyID).position().top,
+                    w: $(keyID).width(),
+                    h: $(keyID).height()
+      }
+      if (debug) {
+        console.log("keyBox, as seen right now:");
+        console.log(keyBox);
+      }
+      //
+      // Go through each of the chapters
+      // * Pick a random location for their icon
+      // * Place each of them
+      //
+      // TODO: Save these random locations to user storage for consistency
+      for (var chapterIndex = 0; chapterIndex < newChapterArray.length; chapterIndex++) {
+        var thisChapter = newChapterArray[chapterIndex];
+        // Pick coordinates
+        var thisCircle = pickCoordinate(navBox.w, navBox.h, roomyRadius, 
+                                        circleList, [titleBox, keyBox], navBox);
+        if (debug) console.log(thisCircle);
+        // save the coordinates
+        circleList.push(thisCircle);
+        if (debug) console.log("\tCoordinates:"+thisCircle.x+","+
+                               thisCircle.y+" (r="+thisCircle.r+")");
+        createWaypoint(thisCircle.x, thisCircle.y, thisCircle.r, 
+                       chapterIndex, newChapterArray[chapterIndex], navBox);
+      }
     }
-
   });
 
   function createWaypoint(x, y, r, index, myChapter, navBox) {
-    // construct ID
+    //
+    // construct IDs
+    //
     waypointID = "#waypoint-"+index;
     cardID = "#card-"+index;
+    cardImageID = "#card-image-"+index;
     // add div to navmenu
     $(waypointWrapperID).append("<div id='waypoint-"+index+"' "+
                                 "class='waypoint "+myChapter.type+"'>"+
                                 "<div id='card-"+index+"' "+
                                 "class='card "+myChapter.type+"'>");
+    //
     // apply position css
+    //
     $(waypointID).css({position: "absolute",
                            left: x - r, 
                            top: y - r});
     if (x <= navBox.w/2) {
+      // if waypoint is near the left, put the card to the right
       $(cardID).css({position: "absolute",
-                             left: r*2 + cardMargin, 
-                             top: r*2 - cardHeight/2});
+                     left: r*2 + cardMargin});
     } else {
+      // if waypoint is near the right, put the card to the left
       $(cardID).css({position: "absolute",
-                             right: r*2 + cardMargin, 
-                             top: r*2 - cardHeight/2});
+                     right: r*2 + cardMargin});
     }
+    if (y <= navBox.h/2) {
+      // if waypoint is near the top, shift the card down
+      //  FYI: middle = "top: r*2 - cardHeight*0.5})"
+      $(cardID).css({top: r - cardHeight*0.33});
+    } else {
+      // if waypoint is near the bottom, shift the card up
+      $(cardID).css({bottom: r - cardHeight*0.33});
+    }
+    //
     // Get thumbnail
+    //
     if (myChapter.featureContent) {
       // if we have a feature image, use its thumbnail
-      var chapterThumb = '/thumbs/'+myChapter.featureContent+'.jpg';
+      var chapterThumb = 'url("/thumbs/'+myChapter.featureContent+'.jpg")';
     } else if (myChapter.scenes[0].shots[0].shotContent) {
       // otherwise, use the thumbnail of the first shot
-      var chapterThumb = '/thumbs/'+myChapter.scenes[0].shots[0].shotContent+'.jpg';
+      var chapterThumb = 'url("/thumbs/'+myChapter.scenes[0].shots[0].shotContent+'.jpg")';
     } else {
       var chapterThumb = null;
     }
     if (chapterThumb) {
       cardImage =
-        "<div class='image-wrap'>\n"+
-        "<img src='"+chapterThumb+"' />\n"+
-        "</div>";
+        "<div id='card-image-"+index+"' class='image-wrap'></div>\n";
     } else {
       cardImage = "";
     }
-
-    console.log(myChapter);
+    //
+    // Format card contents
+    // 
     // Depending on type, the cards are formatted differently
     if (myChapter.type == "future") {
-      // put content in card
+      // No links
       $(cardID).append( 
-        "<h4>"+myChapter.pathName+"</h4>\n"+
+        "<h3>"+myChapter.pathName+"</h3>\n"+
           cardImage+
-        "<h3>"+myChapter.chapterName+"</h3>\n"+
+        "<h2>"+myChapter.chapterName+"</h2>\n"+
         "</a>"+
         "<p>" +myChapter.description+"</p>\n"+
         "<p><i>(Coming soon)</i></p>"
       );
     } else {
-      // put content in card
+      // With links
       $(cardID).append( 
-        "<a href='/chapter/"+myChapter.slug+"'>"+
-        "<h4>"+myChapter.pathName+"</h4>\n"+
-          cardImage+
-        "<h3>"+myChapter.chapterName+"</h3>\n"+
-        "</a>"+
+        "<div class='card-link-"+index+" link'>\n"+
+          "<h3>"+myChapter.pathName+"</h3>\n"+
+            cardImage+
+          "<h2>"+myChapter.chapterName+"</h2>\n"+
+        "</div>\n"+
         "<p>" +myChapter.description+"</p>\n"+
-        "<p><a class='link' href='/chapter/"+myChapter.slug+"'>link</a></p>"
+        "<p><span class='card-link-"+index+" link'>View chapter</span></p>\n"
       );
     }
+    //
+    // Add the card image as a background to the div
+    //
+    if (chapterThumb) {
+      $(cardImageID).css({backgroundImage: chapterThumb});
+    }
+    // 
+    // Connect up the links
+    //
+    (function(slug) {
+      $('.card-link-'+index).on('click', function() {
+        console.log("Click! "+slug);
+        document.location = "/chapter/" + slug;
+      });
+    })(myChapter.slug);
   }
 
   function hitsBorder(box, x, y, r) {

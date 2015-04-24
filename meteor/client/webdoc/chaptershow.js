@@ -1149,7 +1149,6 @@ Template.chaptershow.helpers({
           $(linkID).css('background-image', 'url('+linkThumb+')');
           $(linkID).on({
             click: function() {
-              console.log("link: /chapter/" + linkSlug);
               document.location = "/chapter/" + linkSlug;
             },
             mouseover: function() {

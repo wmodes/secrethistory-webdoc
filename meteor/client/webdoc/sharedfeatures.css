@@ -70,6 +70,7 @@
             left 0.25s ease-in-out;
 }
 
+#sharedfeatures .burger.highlighted .burger-square,
 #sharedfeatures .burger:hover .burger-square {
     left: 34px;
 }
