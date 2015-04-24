@@ -19,9 +19,31 @@ Router.route('/chapter/:pathSlug/:chapterSlug', {
             //Meteor.subscribe('ChapterCollection')];
   //},
   onBeforeAction: function() {
+    // if we came from an exhibit page, render the other pages as exhibit
+    console.log(document.referrer);
+    if (document.referrer.indexOf("/exhibit/") != -1 ||
+        document.referrer.indexOf("/starthere") != -1) {
+      window.location.replace('/exhibit/'+this.params.pathSlug+'/'+this.params.chapterSlug);
+    } else {
+      Session.set('currentRoute', 'chapter');
+      this.next();
+    }
+  }
+});
+
+Router.route('/starthere', {
+  name: 'exhibitstart',
+  template: 'exhibitstart',
+  onBeforeAction: function() {
+    this.next();
+  }
+});
+
+Router.route('/exhibit/:pathSlug/:chapterSlug', {
+  name: 'exhibitshow',
+  template: 'exhibitshow',
+  onBeforeAction: function() {
     Session.set('currentRoute', 'chapter');
-    console.log("chaptershow route:");
-    console.log(this.params);
     this.next();
   }
 });

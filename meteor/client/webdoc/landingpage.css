@@ -37,6 +37,18 @@
   z-index: 10;
 }
 
+#house-canvas .landing-text.exhibit {
+  max-width: 1000px;
+  font-size: 150%;
+}
+
+#house-canvas .landing-text h1,
+#house-canvas .landing-text h2,
+#house-canvas .landing-text h3,
+#house-canvas .landing-text h4 {
+  font-size: 150%;
+}
+
 #house-canvas .landing-text h3 {
   margin-top: -10px;
   margin-bottom: 30px;
@@ -58,7 +70,6 @@
 }
 
 #house-canvas .landing-text img {
-    max-width: 650px;
     width: 100%;
 }
 
