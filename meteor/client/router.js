@@ -11,6 +11,14 @@ Router.route('/', {
   }
 });
 
+Router.route('/chapter/', {
+  name: 'chapterdefault',
+  template: 'landingpage',
+  onBeforeAction: function() {
+    this.next();
+  }
+});
+
 Router.route('/chapter/:pathSlug/:chapterSlug', {
   name: 'chaptershow',
   template: 'chaptershow',
@@ -31,6 +39,8 @@ Router.route('/chapter/:pathSlug/:chapterSlug', {
   }
 });
 
+//TODO: Instead of this, use parameters appended to tags in chaptershow
+/*
 Router.route('/starthere', {
   name: 'exhibitstart',
   template: 'exhibitstart',
@@ -47,6 +57,7 @@ Router.route('/exhibit/:pathSlug/:chapterSlug', {
     this.next();
   }
 });
+*/
 
 /*
  * Authentication Routes

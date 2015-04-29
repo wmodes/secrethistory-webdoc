@@ -1,7 +1,23 @@
 
 // Secret History of American River People
 
+Template.landingpage.helpers({
+
+  isExhibit: function() {
+    return (/(exhibit|kiosk)/.test(Router.current().params.query.mode));
+  }
+
+});
+
 Template.landingpage.rendered = function() {
+
+  // Constants
+  firstPageSlug = "introduction/point-of-view";
+
+  // Paremeters and query
+  var routerQuery = Router.current().params.query;
+  var queryParams = UI._globalHelpers.obj2query(routerQuery);
+                                    
 
   // set window title
   document.title = "Secret History of American River People";
@@ -32,6 +48,12 @@ Template.landingpage.rendered = function() {
                   .animate({marginTop: textDest}, scrollDuration, "easeOutCubic");
       });
   });
+
+  (function(firstPageSlug, queryParams) {
+    $('#begin').on("click", function() {
+      document.location = "/chapter/" + firstPageSlug + queryParams;
+    });
+  })(firstPageSlug, queryParams);
 
   // TODO: Move this to a sharedelements helper
   // Reveal nav elements and give hints

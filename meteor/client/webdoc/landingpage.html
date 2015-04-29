@@ -4,24 +4,50 @@
 <div id="outer-wrapper">
 
   <div class="landing-wrapper">
-    <div class="landing-text">
-        <img src="/images/secret-history-title-white-on-transparent.png" />
 
-        <h3>An Artist’s Journey Through the History of a River</h3>
+    {{#unless isExhibit}}
 
-        <p>This website takes advantage of the features of newer browsers using HTML5 
-        and CSS3. 
-        We recommend Google Chrome or Safari.
-        Due to the multimedia nature of the work, a highspeed internet connection is also recommended. 
-        It is not currently available for mobile devices. 
-        </p>
+      <div class="landing-text">
+          <img src="/images/secret-history-title-white-on-transparent.png" />
 
-        <div class="golink">
-          <a id='hint'>Hint</a>
-          <a href="/chapter/introduction/point-of-view" id='begin'>Begin</a>
-        </div>
+          <h3>An Artist’s Journey Through the History of a River</h3>
 
-    </div>
+          <p>This website takes advantage of the features of newer browsers using HTML5 
+          and CSS3. 
+          We recommend Google Chrome or Safari.
+          Due to the multimedia nature of the work, a highspeed internet connection is also recommended. 
+          It is not currently available for mobile devices. 
+          </p>
+
+          <div class="golink">
+            <a id='hint'>Hint</a>
+            <a id='begin'>Begin</a>
+          </div>
+
+      </div>
+      
+    {{else}}
+
+      <div class="landing-text exhibit">
+          <img src="/images/secret-history-title-white-on-transparent.png" />
+
+          <h3>An Artist’s Journey Through the History of a River</h3>
+
+          <p>This is an interactive web documentary in which you control the speed and the 
+          path through the experience.  
+          Touch the screen to navigate the site, using a right-to-left swipe 
+          motion to advance the story. Touch to activate interactive elements in 
+          the story.  At the end of each chapter, you are offered related 
+          chapters to explore.</p>
+
+          <div class="golink">
+            <a id='hint'>More Hints</a>
+            <a id='begin'>Begin Story</a>
+          </div>
+
+      </div>
+
+    {{/unless}}
 
     <div class="background">
         <img src="/images/shantyboat-lensblurred.jpg" />

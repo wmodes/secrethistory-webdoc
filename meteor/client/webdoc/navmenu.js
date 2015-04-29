@@ -1,7 +1,19 @@
-
 // Secret History of American River People
-//
-//
+// Navmenu Renderer
+
+// Version 0.9
+
+/*
+ 
+   Copyright (c) 2015 Wes Modes (http://modes.io)
+   This content is released under the GNU General Public License, 
+   version 3 (GPL-3.0). More info at 
+   http://opensource.org/licenses/GPL-3.0
+
+   See package license information in license.js
+
+*/
+
 
 Template.navmenu.onCreated(function () {
   // Use this.subscribe inside onCreated callback
@@ -9,12 +21,24 @@ Template.navmenu.onCreated(function () {
 });
 
 
+
+
 //Template.navmenu.rendered = function() {
 
 
 Template.navmenu.onRendered(function () {
 
-  var debug = true;
+  var debug = false;
+
+  // Paremeters and query
+  routerParams = Router.current().params;
+  if (!routerParams.pathSlug || routerParams.chapterSlug) {
+    var slug = "";
+  } else {
+    var slug = routerParams.pathSlug+'/'+routerParams.chapterSlug;
+  }
+  var routerQuery = Router.current().params.query;
+  var queryParams = UI._globalHelpers.obj2query(routerQuery);
 
   // Constants
   //
@@ -132,6 +156,11 @@ Template.navmenu.onRendered(function () {
         createWaypoint(thisCircle.x, thisCircle.y, thisCircle.r, 
                        chapterIndex, newChapterArray[chapterIndex], navBox);
       }
+      //
+      // add a link back to this page
+      $(titleID).on('click', function() {
+        document.location = "/chapter/" + slug + queryParams;
+      });
     }
   });
 
@@ -223,12 +252,12 @@ Template.navmenu.onRendered(function () {
     // 
     // Connect up the links
     //
-    (function(slug) {
+    (function(slug, queryParams) {
       $('.card-link-'+index).on('click', function() {
         console.log("Click! "+slug);
-        document.location = "/chapter/" + slug;
+        document.location = "/chapter/" + slug + queryParams;
       });
-    })(myChapter.slug);
+    })(myChapter.slug, queryParams);
   }
 
   function hitsBorder(box, x, y, r) {
